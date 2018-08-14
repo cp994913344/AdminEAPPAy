@@ -1,0 +1,98 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+    <h5 class="modal-title"></h5>
+</div>
+
+<div class="modal-body">
+    <form id="${htmlPrefix}_form" name="${htmlPrefix}_form" class="form-horizontal">
+        <input type='hidden' value="${r'${CSRFToken}'}" id='csrftoken'>
+        <div class="box-body">
+            <#list 0..colsNum-1 as index>
+            <div class="col-md-${12/colsNum}">
+            <#list fields as field>
+                <#if field_index%colsNum=index>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">${field.labelName}<#if field.validateType??&&field.validateType?contains("notEmpty")><span style="color:red">*</span></#if></label>
+                    <div class="<#if field.tagType="datepicker">input-group </#if>col-sm-8">
+                        <#if field.tagType="hidden">
+                        <input readonly="readonly" type="hidden" id="${field.columnName}" name="${field.columnName}" >
+                        <#elseif field.tagType="textarea">
+                        <textarea readonly="readonly" name="${field.columnName}" id="${field.columnName}" placeholder="请填写${field.labelName}" class="form-control"></textarea>
+                        <#elseif field.tagType="datepicker">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input readonly="readonly" type="text" placeholder="请填写${field.labelName}" name="${field.columnName}" id="${field.columnName}" data-flag="datepicker" class="form-control" data-format="yyyy-mm-dd">
+                        <#elseif field.tagType="dictSelector">
+                        <select name="${field.columnName}" id="${field.columnName}" data-code="${field.dictCode}"  data-flag="dictSelector" data-placeholder="请选择${field.labelName}" class="form-control select2" style="width:100%" data-blank="true"></select>
+                        <#elseif field.tagType="urlSelector">
+                        <select name="${field.columnName}" id="${field.columnName}" data-src="${field.dictCode}" data-flag="urlSelector" data-placeholder="请选择${field.labelName}" class="form-control select2" style="width:100%" data-blank="true"></select>
+                        <#elseif field.tagType="normalSelector">
+                        <select name="${field.columnName}" id="${field.columnName}" data-placeholder="请选择${field.labelName}" class="form-control select2" style="width:100%" data-blank="true">
+                            <option></option>
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                        <#elseif field.tagType="radio">
+                            <#if !field.dictCode??>
+                        <label class="control-label"> <input type="radio" name="${field.columnName}"  value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="radio" name="${field.columnName}"  value="0"> 否</label>
+                            <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
+                        <input type="radio" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
+                            <#else>
+                        <input type="radio" name="${field.columnName}" data-flag="dictSelector" data-code="${field.dictCode}">
+                            </#if>
+                        <#elseif field.tagType="icheck-radio">
+                           <#if !field.dictCode??>
+                        <label class="control-label"> <input type="radio" name="${field.columnName}"  value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="radio" name="${field.columnName}"  value="0"> 否</label>
+                            <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
+                        <input type="radio" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
+                            <#else>
+                        <input type="radio" name="${field.columnName}" data-flag="dictSelector" data-code="${field.dictCode}">
+                            </#if>
+                        <#elseif field.tagType="checkbox">
+                            <#if !field.dictCode??>
+                        <label class="control-label"> <input type="checkbox" name="${field.columnName}"lang=""  value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="checkbox" name="${field.columnName}"  value="0"> 否</label>
+                            <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
+                        <input type="checkbox" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
+                            <#else>
+                        <input type="checkbox" name="${field.columnName}" data-flag="dictSelector" data-code="${field.dictCode}">
+                            </#if>
+                        <#elseif field.tagType="icheck-checkbox">
+                             <#if !field.dictCode??>
+                        <label class="control-label"> <input type="checkbox" name="${field.columnName}"lang=""  value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="checkbox" name="${field.columnName}"  value="0"> 否</label>
+                            <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
+                        <input type="checkbox" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
+                            <#else>
+                        <input type="checkbox" name="${field.columnName}" data-flag="dictSelector" data-code="${field.dictCode}">
+                            </#if>
+                        <#else>
+                        <input readonly="readonly" type="text" class="form-control" id="${field.columnName}" name="${field.columnName}" placeholder="请填写${field.labelName}">
+                        </#if>
+                    </div>
+                </div>
+                </#if>
+            </#list>
+            </div>
+            </#list>
+        </div>
+    </form>
+</div>
+<script>
+    var form;
+    var id="${r'${id?default(0)}'}";
+    $(function(){
+        //初始化表单
+        form=$("#${htmlPrefix}_form").form();
+        //初始化控件
+        form.initComponent();
+        //编辑回填
+        if(id!=0){
+            ajaxPost(basePath+"/${htmlPrefix}/get/"+id,null,function(data){
+                form.initFormData(data);
+            })
+        }
+    });
+
+</script>

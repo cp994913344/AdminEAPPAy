@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queryContext xmlns="http://www.example.org/query" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/query query.xsd">
+<!--本xml片段为代码生成器生成，时间：2017-10-26 19:18:09-->
+<query id="UserT" key="id" tableName="用户测试列表" className="com.cnpc.demos.entity.UserT" widthType="px">
+        <column key="rowIndex" header="序号" width="80"/>
+        <column key="name" header="姓名" classType="String" allowSort="true" width="150"/>
+        <column key="code" header="编码" classType="String" allowSort="true" width="150"/>
+        <column key="gender" header="性别" classType="String" allowSort="true" width="150"/>
+        <column key="birthday" header="生日" classType="Date" allowSort="true" dateFormat="yyyy-mm-dd" operator="between" width="150"/>
+        <column key="nation.name" header="民族" classType="String" allowSort="true" width="150"/>
+        <column key="education" header="学历" classType="String" allowSort="true" width="150"/>
+        <column key="salary" header="工资" classType="Double" allowSort="true" width="150"/>
+        <column key="department" header="所在组织" classType="String" allowSort="true" width="150"/>
+        <column key="email" header="邮箱" classType="String" allowSort="true" width="150"/>
+        <column key="remark" header="备注" classType="String" align="left" allowSort="false" width="150"/>
+        <column key="enable" header="是否启用" classType="Boolean" allowSort="true" width="150"/>
+</query>
+</queryContext>
