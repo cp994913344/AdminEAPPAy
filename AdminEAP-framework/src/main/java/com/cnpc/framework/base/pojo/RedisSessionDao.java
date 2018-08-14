@@ -1,12 +1,15 @@
 package com.cnpc.framework.base.pojo;
 
 
-import com.cnpc.framework.base.dao.RedisDao;
-import com.cnpc.framework.base.entity.BaseEntity;
-import com.cnpc.framework.constant.RedisConstant;
-import com.cnpc.framework.utils.StrUtil;
-import org.apache.http.HttpRequest;
-import org.apache.shiro.SecurityUtils;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
@@ -17,14 +20,9 @@ import org.springframework.util.SerializationUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import com.cnpc.framework.base.dao.RedisDao;
+import com.cnpc.framework.constant.RedisConstant;
+import com.cnpc.framework.utils.StrUtil;
 
 /**
  * Created by billJiang on 2017/4/13.
