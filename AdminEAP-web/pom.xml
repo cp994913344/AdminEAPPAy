@@ -280,16 +280,6 @@
 		    <artifactId>core</artifactId>
 		    <version>3.3.2</version>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-vipclient</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-pandora</artifactId>
-            <version>1.2</version>
-        </dependency>
     </dependencies>
 
     <build>
