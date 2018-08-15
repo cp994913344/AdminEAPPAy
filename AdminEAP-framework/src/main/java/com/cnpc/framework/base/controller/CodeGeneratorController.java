@@ -116,8 +116,8 @@ public class CodeGeneratorController {
                 + File.separator + "views" + File.separator + htmlDir;
         String javaPath = realPath.replaceAll("webapp", "java") + File.separator
                 + setting.getNameSpace().replace(".", File.separator);
-        setting.setHtmlPath(htmlPath);
-        setting.setJavaPath(javaPath);
+        setting.setHtmlPath(htmlPath.replace(File.separator, "/"));
+        setting.setJavaPath(javaPath.replace(File.separator, "/"));
 
         //要编辑的属性列表
         Class<?> clazz = Class.forName(setting.getClassName());

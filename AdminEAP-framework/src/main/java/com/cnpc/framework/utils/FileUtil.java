@@ -112,6 +112,9 @@ public class FileUtil {
         int bytesum = 0;
         int byteread = 0;
         byte[] buffer = new byte[1024];
+        if(!file.exists()){
+            file.createNewFile();
+        }
         FileOutputStream fs = new FileOutputStream(file);
         while ((byteread = inStream.read(buffer)) != -1) {
             bytesum += byteread; //字节数 文件大小
