@@ -1,12 +1,13 @@
 package com.cnpc.framework.base.service;
 
-import com.cnpc.framework.base.pojo.PageInfo;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.type.Type;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.type.Type;
+
+import com.cnpc.framework.base.pojo.PageInfo;
 
 public interface BaseService {
 
@@ -354,6 +355,14 @@ public interface BaseService {
      */
 
     <T> T getCacheByKey(String key, Class clazz);
+    
+    <T> List<T> find(String hql,Class<T> clazz);
+    
+    <T> T get(String hql, Map<String, Object> params, Class<T> clazz);
+    
+    <T> T get(String hql, Class<T> clazz);
+
+    <T> List<T> find(String hql, Map<String, Object> params, int page, int rows, Class<T> clazz);
 
 
 }

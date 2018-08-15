@@ -1,11 +1,11 @@
 package com.cnpc.framework.activiti.entity;
 
-import com.cnpc.framework.annotation.Header;
-import com.cnpc.framework.base.entity.BaseEntity;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import com.cnpc.framework.annotation.Header;
+import com.cnpc.framework.base.entity.BaseEntity;
 
 /**
  * Created by billJiang on 2017/6/5.

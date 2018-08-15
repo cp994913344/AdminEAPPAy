@@ -1,12 +1,12 @@
 package com.cnpc.framework.base.service;
 
-import com.cnpc.framework.base.pojo.PageInfo;
-import com.cnpc.framework.base.pojo.ScheduleJob;
-import com.cnpc.framework.query.entity.Query;
-import com.cnpc.framework.query.entity.QueryCondition;
+import java.util.List;
+
 import org.quartz.SchedulerException;
 
-import java.util.List;
+import com.cnpc.framework.base.pojo.PageInfo;
+import com.cnpc.framework.base.pojo.ScheduleJob;
+import com.cnpc.framework.query.entity.QueryCondition;
 
 public interface JobService {
 

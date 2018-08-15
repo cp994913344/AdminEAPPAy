@@ -1,5 +1,5 @@
-<script type="text/javascript" src="${basePath}/resources/common/libs/avatar/swfobject.js"></script>
-<script type="text/javascript" src="${basePath}/resources/common/libs/avatar/fullAvatarEditor.js"></script>
+<script type="text/javascript" src="/resources/common/libs/avatar/swfobject.js"></script>
+<script type="text/javascript" src="/resources/common/libs/avatar/fullAvatarEditor.js"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
 	<h5 class="modal-title">新增用户</h5>
@@ -7,7 +7,7 @@
 
 <div class="modal-body">
 		<div class="box-body">
-			<input type="hidden" value="${userId?default('')}" name="userId" id="userId"/>
+			<input type="hidden" value="0" name="userId" id="userId"/>
 			<div style="width: 680px;height:360px;margin: 0 auto;">
 				<div>
 					<p id="swfContainer">
@@ -22,14 +22,11 @@
 	</div>
 </div>
 <script>
-
-	if (navigator.userAgent.indexOf('Firefox') >= 0){
-		avatarPath='';
-	}
+    var avatarPath='';
 	swfobject.addDomLoadEvent(function () {
 		var swf = new fullAvatarEditor("swfContainer", {
 					id: 'swfUploader',
-					upload_url: basePath+'/file/avatarUpload?userId='+$("#userId").val(),
+					upload_url: basePath+'/userinfo/nbox/updateAvatar?access_token=46add83583b45b54e8eed0a79bbd5777&userId='+$("#userId").val(),
 					src_url:avatarPath,
 					src_upload:0,
 					src_size:"5MB",
@@ -88,5 +85,5 @@
 					}
 				}
 		);
-	});
+    });
 </script>

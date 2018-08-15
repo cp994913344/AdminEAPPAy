@@ -1,20 +1,22 @@
 package com.cnpc.framework.base.controller;
 
-import com.cnpc.framework.base.entity.Org;
-import com.cnpc.framework.base.pojo.Result;
-import com.cnpc.framework.base.pojo.TreeNode;
-import com.cnpc.framework.base.service.OrgService;
-import com.cnpc.framework.constant.RedisConstant;
-import com.cnpc.framework.utils.StrUtil;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import com.cnpc.framework.base.entity.Org;
+import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.framework.base.pojo.TreeNode;
+import com.cnpc.framework.base.service.OrgService;
+import com.cnpc.framework.constant.RedisConstant;
+import com.cnpc.framework.utils.StrUtil;
 
 /**
  * Created by billJiang on 2017/6/19.

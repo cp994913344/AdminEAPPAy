@@ -32,6 +32,7 @@
     </bean>
     <!--redis管理session-->
     <bean id="webSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+    <!--<bean id="webSessionManager" class="com.cnpc.framework.filter.MyWebSessionManager">-->
         <property name="sessionDAO" ref="redisSessionDao"/>
         <property name="deleteInvalidSessions" value="true"/>
         <property name="globalSessionTimeout" value="${shiro.session.timeout}"/>
@@ -72,8 +73,13 @@
         <property name="filters">
             <map>
                 <entry key="logout" value-ref="systemLogoutFilter"/>
+                <entry key="nbox" value-ref="OAuthFilter"/>
             </map>
         </property>
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionClass" />
+    </bean>
+
+    <bean id="filterChainDefinitionClass" class="com.cnpc.framework.filter.ShirofilterChainDefinitions" scope="singleton">
         <property name="filterChainDefinitions">
             <value>
                 <!--/=anon-->
@@ -82,19 +88,28 @@
                 /register=anon
                 /oauth/**=anon
                 /resources/**=anon
+                /wechat/callback=anon
+<!--                 支付宝支付回掉 -->
+                /aliPayCallBack/receiveNotify=anon
+<!--                 Android获取版本号-Nbox -->
+				/androidversion/nbox/getVersionByCode=anon
+<!--                 商品定位信息-Nbox -->
+				/warehouseproductposition/location=anon
+				/warehouseproductposition/nbox/findNboxLocationList=anon
+				/warehouseproductposition/nbox/findRangeNboxLocation=anon
+				
+                /*/nbox/**=nbox,authc
                 /**=authc
-                <!--/=anon-->
-                <!--/main=anon-->
-                <!--/index=anon-->
-                <!-- /*=anon -->
             </value>
         </property>
     </bean>
 
+
     <bean id="systemLogoutFilter" class="com.cnpc.framework.filter.SystemLogoutFilter">
         <property name="redirectUrl" value="/login"/>
     </bean>
-
+ 	<!-- Nbox接口过滤器-->
+	<bean id="OAuthFilter" class="com.cnpc.framework.filter.OAuthAdviceFilter"/>
     <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <!-- 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证 -->

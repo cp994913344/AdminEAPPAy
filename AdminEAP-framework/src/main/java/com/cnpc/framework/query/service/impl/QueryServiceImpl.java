@@ -1,5 +1,19 @@
 package com.cnpc.framework.query.service.impl;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.base.pojo.PageInfo;
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
@@ -11,24 +25,10 @@ import com.cnpc.framework.query.service.QueryService;
 import com.cnpc.framework.query.util.ExportUtil;
 import com.cnpc.framework.query.util.QueryUtil;
 import com.cnpc.framework.utils.StrUtil;
+
 import jxl.Workbook;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
-import org.apache.shiro.SecurityUtils;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.type.Type;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpSession;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service("queryService")
 public class QueryServiceImpl extends BaseServiceImpl implements QueryService {

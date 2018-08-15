@@ -1,10 +1,10 @@
 package com.cnpc.framework.utils;
 
-import com.cnpc.framework.base.pojo.TreeNode;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.cnpc.framework.base.pojo.TreeNode;
 
 /**
  * Created by billJiang on 2017/2/12.

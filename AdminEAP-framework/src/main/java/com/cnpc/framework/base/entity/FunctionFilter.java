@@ -1,12 +1,11 @@
 package com.cnpc.framework.base.entity;
 
-import com.cnpc.framework.annotation.Header;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.io.Serializable;
+
+import com.cnpc.framework.annotation.Header;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by billJiang on 2017/1/3.

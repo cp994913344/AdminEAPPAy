@@ -1,15 +1,13 @@
 package com.cnpc.framework.conf;
 
-import com.cnpc.framework.oauth.common.CustomOAuthService;
-import com.cnpc.framework.oauth.common.OAuthTypes;
-import com.cnpc.framework.oauth.github.GithubApi;
-import com.cnpc.framework.utils.PropertiesUtil;
 import org.scribe.builder.ServiceBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
+import com.cnpc.framework.oauth.common.CustomOAuthService;
+import com.cnpc.framework.oauth.common.OAuthTypes;
+import com.cnpc.framework.oauth.github.GithubApi;
 
 /**
  * Created by billJiang on 2017/1/15.

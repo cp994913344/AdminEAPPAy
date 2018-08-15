@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.cnpc.framework.base.pojo.PageInfo;
-import com.cnpc.framework.utils.StrUtil;
 
 public class QueryCondition {
 

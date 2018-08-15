@@ -1,5 +1,15 @@
 package com.cnpc.framework.activiti.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Service;
+
 import com.cnpc.framework.activiti.entity.DelegateHistory;
 import com.cnpc.framework.activiti.entity.DelegateInfo;
 import com.cnpc.framework.activiti.entity.Module;
@@ -9,14 +19,6 @@ import com.cnpc.framework.activiti.service.TaskPageService;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.framework.utils.StrUtil;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by billJiang on 2017/7/1.

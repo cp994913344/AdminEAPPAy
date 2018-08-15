@@ -1,9 +1,11 @@
 package com.cnpc.framework.oauth.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import com.cnpc.framework.base.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_user_oauth")

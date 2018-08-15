@@ -1,5 +1,7 @@
 package com.cnpc.framework.base.service;
 
+import java.util.List;
+
 import com.cnpc.framework.base.entity.User;
 import com.cnpc.framework.base.entity.UserAvatar;
 
@@ -38,4 +40,6 @@ public interface UserService extends BaseService {
     void deleteAuthInRedis(String userId);
 
     String getUserNamesByUserIds(String userIds);
+    
+    List findUserMobiles();
 }

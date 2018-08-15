@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -199,5 +200,12 @@ public class UserController {
             map.put("name",names);
             return map;
 
+    }
+    
+    @RequestMapping(value = "/mobiles", method = RequestMethod.POST)
+    @ResponseBody
+    public List findUserMobiles() {
+        
+        return userService.findUserMobiles();
     }
 }

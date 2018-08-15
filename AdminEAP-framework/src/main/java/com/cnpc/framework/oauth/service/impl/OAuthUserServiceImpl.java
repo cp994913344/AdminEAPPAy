@@ -1,12 +1,13 @@
 package com.cnpc.framework.oauth.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.framework.oauth.entity.OAuthUser;
 import com.cnpc.framework.oauth.service.OAuthUserService;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by billJiang on 2017/1/15.

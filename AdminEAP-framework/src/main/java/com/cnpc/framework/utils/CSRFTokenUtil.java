@@ -1,7 +1,8 @@
 package com.cnpc.framework.utils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class CSRFTokenUtil {
 

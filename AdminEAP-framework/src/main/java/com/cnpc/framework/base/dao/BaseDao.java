@@ -311,5 +311,13 @@ public interface BaseDao {
     List findByExample(Object example, String condition, boolean enableLike);
 
     Object getMaxByExample(Object exampleEntity, String maxProperty, String condition, boolean enableLike);
+    
+    <T> List<T> find(String hql,Class<T> clazz);
+    
+    <T> T get(String hql, Map<String, Object> params, Class<T> clazz);
+    
+    <T> T get(String hql, Class<T> clazz);
 
+    <T> List<T> find(String hql, Map<String, Object> params, int page, int rows, Class<T> clazz);
+    
 }

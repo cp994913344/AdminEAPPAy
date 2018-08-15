@@ -1,15 +1,13 @@
 package com.cnpc.framework.base.service.impl;
 
-import com.cnpc.framework.base.service.CodeGeneratorService;
-import com.cnpc.framework.utils.CodeUtil;
-import com.cnpc.framework.utils.StrUtil;
+import java.lang.reflect.Method;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import com.cnpc.framework.base.service.CodeGeneratorService;
+import com.cnpc.framework.utils.CodeUtil;
 
 /**
  * Created by billJiang on 2017/2/6.

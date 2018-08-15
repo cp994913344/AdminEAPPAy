@@ -1,5 +1,29 @@
 package com.cnpc.framework.base.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.annotation.Header;
 import com.cnpc.framework.base.entity.Function;
@@ -11,24 +35,9 @@ import com.cnpc.framework.query.entity.Query;
 import com.cnpc.framework.query.pojo.QueryDefinition;
 import com.cnpc.framework.utils.DateUtil;
 import com.cnpc.framework.utils.FreeMarkerUtil;
-import com.cnpc.framework.utils.PingYinUtil;
 import com.cnpc.framework.utils.StrUtil;
-import freemarker.template.TemplateException;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.servlet.http.HttpServletRequest;
-import java.io.*;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import freemarker.template.TemplateException;
 
 /**
  * Created by billJiang on 2017/2/6.
@@ -161,6 +170,13 @@ public class CodeGeneratorController {
             BufferedWriter output;
             String s;
             String s1 = new String();
+            //验证文件夹
+            String Folder = xmlPath.substring(0, xmlPath.lastIndexOf("/"));
+            File Folderfile = new File(Folder);
+            if (!Folderfile.exists()) {
+             // 创建文件夹
+                Folderfile.mkdirs();
+            }
             if (!file.exists()) {
                 file.createNewFile();
                 OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
@@ -401,7 +417,7 @@ public class CodeGeneratorController {
                     //实现
                     setting.setTitle(setting.getModelName()+"服务实现");
                     fileName=setting.getJavaPrefix()+"ServiceImpl.java";
-                    FreeMarkerUtil.generateFile("serviceImpl.html",setting.getJavaPath()+File.separator+"service"+File.separator+fileName,setting);
+                    FreeMarkerUtil.generateFile("serviceImpl.html",setting.getJavaPath()+File.separator+"service"+File.separator+"impl"+File.separator+fileName,setting);
                 }
             }
         }

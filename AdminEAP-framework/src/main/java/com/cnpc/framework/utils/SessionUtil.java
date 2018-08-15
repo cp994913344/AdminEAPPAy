@@ -4,8 +4,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import java.util.Map;
-
 
 /**
  * SessionUtil session 工具类

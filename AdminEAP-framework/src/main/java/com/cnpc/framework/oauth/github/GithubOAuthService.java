@@ -1,14 +1,19 @@
 package com.cnpc.framework.oauth.github;
 
+import org.scribe.builder.api.DefaultApi20;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verb;
+import org.scribe.oauth.OAuth20ServiceImpl;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONPath;
 import com.cnpc.framework.oauth.common.CustomOAuthService;
 import com.cnpc.framework.oauth.common.OAuthTypes;
 import com.cnpc.framework.oauth.entity.OAuthUser;
 import com.cnpc.framework.utils.PropertiesUtil;
-import org.scribe.builder.api.DefaultApi20;
-import org.scribe.model.*;
-import org.scribe.oauth.OAuth20ServiceImpl;
 
 /**
  * Created by billJiang on 2017/1/15.

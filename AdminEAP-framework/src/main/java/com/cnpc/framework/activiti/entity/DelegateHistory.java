@@ -1,14 +1,15 @@
 package com.cnpc.framework.activiti.entity;
 
-import com.cnpc.framework.annotation.Header;
-import com.cnpc.framework.base.entity.BaseEntity;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.cnpc.framework.annotation.Header;
+import com.cnpc.framework.base.entity.BaseEntity;
 
 /**
  * Created by billJiang on 2017/7/1.

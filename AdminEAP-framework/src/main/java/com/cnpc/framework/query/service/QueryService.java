@@ -1,10 +1,10 @@
 package com.cnpc.framework.query.service;
 
-import com.cnpc.framework.base.service.BaseService;
-import com.cnpc.framework.query.entity.QueryConfig;
-
 import java.util.List;
 import java.util.Map;
+
+import com.cnpc.framework.base.service.BaseService;
+import com.cnpc.framework.query.entity.QueryConfig;
 
 public interface QueryService extends BaseService {
 

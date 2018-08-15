@@ -1,12 +1,8 @@
 package com.cnpc.framework.activiti.service;
 
 import com.cnpc.framework.activiti.entity.DelegateInfo;
-import com.cnpc.framework.activiti.pojo.TaskVo;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.BaseService;
-import org.activiti.engine.impl.persistence.entity.TaskEntity;
-
-import java.util.List;
 
 /**
  * Created by billJiang on 2017/7/1.

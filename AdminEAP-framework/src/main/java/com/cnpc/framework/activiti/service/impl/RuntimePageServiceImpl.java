@@ -1,16 +1,19 @@
 package com.cnpc.framework.activiti.service.impl;
 
-import com.cnpc.framework.activiti.pojo.ActivityVo;
-import com.cnpc.framework.activiti.pojo.Constants;
-import com.cnpc.framework.activiti.pojo.ProcessInstanceVo;
-import com.cnpc.framework.activiti.service.IdentityPageService;
-import com.cnpc.framework.activiti.service.RuntimePageService;
-import com.cnpc.framework.base.pojo.PageInfo;
-import com.cnpc.framework.base.pojo.Result;
-import com.cnpc.framework.base.service.impl.BaseServiceImpl;
-import com.cnpc.framework.query.entity.QueryCondition;
-import com.cnpc.framework.utils.StrUtil;
-import org.activiti.engine.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.activiti.engine.FormService;
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.form.FormType;
@@ -21,20 +24,21 @@ import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.FormServiceImpl;
 import org.activiti.engine.impl.RuntimeServiceImpl;
 import org.activiti.engine.impl.bpmn.parser.BpmnParse;
-import org.activiti.engine.impl.context.Context;
-import org.activiti.engine.impl.el.FixedValue;
-import org.activiti.engine.impl.el.JuelExpression;
 import org.activiti.engine.impl.el.UelExpressionCondition;
-import org.activiti.engine.impl.form.*;
+import org.activiti.engine.impl.form.BooleanFormType;
+import org.activiti.engine.impl.form.DateFormType;
+import org.activiti.engine.impl.form.DefaultStartFormHandler;
+import org.activiti.engine.impl.form.DoubleFormType;
+import org.activiti.engine.impl.form.EnumFormType;
+import org.activiti.engine.impl.form.FormPropertyHandler;
+import org.activiti.engine.impl.form.LongFormType;
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandContext;
-import org.activiti.engine.impl.juel.TreeValueExpression;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmActivity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
-import org.activiti.engine.impl.scripting.ScriptingEngines;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -46,8 +50,16 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.*;
+import com.cnpc.framework.activiti.pojo.ActivityVo;
+import com.cnpc.framework.activiti.pojo.Constants;
+import com.cnpc.framework.activiti.pojo.ProcessInstanceVo;
+import com.cnpc.framework.activiti.service.IdentityPageService;
+import com.cnpc.framework.activiti.service.RuntimePageService;
+import com.cnpc.framework.base.pojo.PageInfo;
+import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.framework.base.service.impl.BaseServiceImpl;
+import com.cnpc.framework.query.entity.QueryCondition;
+import com.cnpc.framework.utils.StrUtil;
 
 /**
  * Created by billJiang on 2017/6/21.

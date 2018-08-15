@@ -1,12 +1,13 @@
 package com.cnpc.framework.activiti.service;
 
-import com.cnpc.framework.base.pojo.PageInfo;
-import com.cnpc.framework.base.service.BaseService;
-import com.cnpc.framework.query.entity.QueryCondition;
+import java.util.List;
+
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 
-import java.util.List;
+import com.cnpc.framework.base.pojo.PageInfo;
+import com.cnpc.framework.base.service.BaseService;
+import com.cnpc.framework.query.entity.QueryCondition;
 
 /**
  * Created by billJiang on 2017/6/16.

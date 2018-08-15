@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.cnpc.framework.base.pojo.PageInfo;
-import com.cnpc.framework.base.pojo.QuartzJobFactory;
-import com.cnpc.framework.base.pojo.ScheduleJob;
-import com.cnpc.framework.base.service.JobService;
-import com.cnpc.framework.query.entity.Query;
-import com.cnpc.framework.query.entity.QueryCondition;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
@@ -29,6 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
+import com.cnpc.framework.base.pojo.PageInfo;
+import com.cnpc.framework.base.pojo.QuartzJobFactory;
+import com.cnpc.framework.base.pojo.ScheduleJob;
+import com.cnpc.framework.base.service.JobService;
+import com.cnpc.framework.query.entity.QueryCondition;
 import com.cnpc.framework.utils.StrUtil;
 
 

@@ -1,11 +1,10 @@
 package com.cnpc.framework.base.service;
 
-import com.cnpc.framework.base.entity.Dict;
+import java.util.List;
+
 import com.cnpc.framework.base.entity.Org;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.pojo.TreeNode;
-
-import java.util.List;
 
 public interface OrgService extends BaseService {
 

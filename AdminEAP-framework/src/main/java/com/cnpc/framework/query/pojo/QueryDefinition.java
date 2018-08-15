@@ -1,20 +1,21 @@
 package com.cnpc.framework.query.pojo;
 
-import com.cnpc.framework.query.entity.Query;
-import com.cnpc.framework.query.entity.QueryContext;
-import com.cnpc.framework.utils.ConfigurationUtil;
-import org.apache.log4j.Logger;
-import org.springframework.core.io.Resource;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.springframework.core.io.Resource;
+
+import com.cnpc.framework.query.entity.Query;
+import com.cnpc.framework.query.entity.QueryContext;
+import com.cnpc.framework.utils.ConfigurationUtil;
+
 public class QueryDefinition {
 
-    public static final String DEFAULT_CONFIG_LOCATION = "query/*.xml";
+    public static final String DEFAULT_CONFIG_LOCATION = "query/**/*.xml";
 
     static final Logger log = Logger.getLogger(QueryDefinition.class);
 

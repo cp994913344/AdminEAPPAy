@@ -12,7 +12,21 @@
     <artifactId>AdminEAP-web</artifactId>
     <name>AdminEAP-web</name>
     <packaging>war</packaging>
-
+    
+	<repositories>
+		<repository>
+			<id>yiside</id>
+			<name>Yiside Repostiory</name>
+			<url>http://maven.yiside.cn:8081/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
     <dependencies>
         <dependency>
             <groupId>com.cnpc</groupId>
@@ -214,6 +228,67 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.1.6</version>
+        </dependency>
+        <dependency>
+		<!--  阿里云短信sdk -->
+	    <groupId>com.aliyun</groupId>
+		    <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-core -->
+		<dependency>
+		    <groupId>com.aliyun</groupId>
+		    <artifactId>aliyun-java-sdk-core</artifactId>
+		    <version>3.2.2</version>
+		</dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-green</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+		<!-- 		微信支付 -->
+		<dependency>
+		    <groupId>com.github.wxpay</groupId>
+		    <artifactId>wxpay-sdk</artifactId>
+		    <version>0.0.3</version>
+		</dependency>
+		<dependency>
+		  <groupId>aliyun.alipay.sdk</groupId>
+		  <artifactId>alipay-sdk-java</artifactId>
+		  <version>1.1.1</version>
+		  <classifier>source</classifier>
+		</dependency>
+		<dependency>
+		  <groupId>aliyun.alipay.sdk</groupId>
+		  <artifactId>alipay-sdk-java</artifactId>
+		  <version>1.1.1</version>
+		</dependency>	
+		<dependency>
+		  <groupId>aliyun.alipay.logging</groupId>
+		  <artifactId>alipay-logging-java</artifactId>
+		  <version>1.1.1</version>
+		  <classifier>sources</classifier>
+		</dependency>		
+		<dependency>
+		  <groupId>aliyun.alipay.logging</groupId>
+		  <artifactId>alipay-logging-java</artifactId>
+		  <version>1.1.1</version>
+		</dependency>
+		<!--二维码识别  -->
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>3.3.2</version>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-vipclient</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-pandora</artifactId>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 

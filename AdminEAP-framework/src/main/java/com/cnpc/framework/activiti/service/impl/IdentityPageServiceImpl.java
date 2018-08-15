@@ -1,14 +1,12 @@
 package com.cnpc.framework.activiti.service.impl;
 
-import com.cnpc.framework.activiti.service.IdentityPageService;
-import com.cnpc.framework.base.pojo.PageInfo;
-import com.cnpc.framework.base.service.impl.BaseServiceImpl;
-import com.cnpc.framework.query.entity.QueryCondition;
-import com.cnpc.framework.utils.StrUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.NativeGroupQuery;
 import org.activiti.engine.identity.User;
@@ -19,10 +17,11 @@ import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.cnpc.framework.activiti.service.IdentityPageService;
+import com.cnpc.framework.base.pojo.PageInfo;
+import com.cnpc.framework.base.service.impl.BaseServiceImpl;
+import com.cnpc.framework.query.entity.QueryCondition;
+import com.cnpc.framework.utils.StrUtil;
 
 /**
  * Created by billJiang on 2017/6/16.
