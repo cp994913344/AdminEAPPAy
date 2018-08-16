@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queryContext xmlns="http://www.example.org/query" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/query query.xsd">
+<!--本xml片段为代码生成器生成，时间：2018-08-15 18:07:55-->
+<query id="packmail_client" key="id" tableName="客户管理列表" className="com.cnpc.packmall.center.entity.Client" widthType="px">
+        <column key="rowIndex" header="序号" width="80"/>
+        <column key="clientCode" header="编码" classType="String" allowSort="true" width="150"/>
+        <column key="clientName" header="姓名/企业名称" classType="String" allowSort="true" width="150"/>
+        <column key="clientType" header="性质" classType="String" allowSort="true" width="150"/>
+        <column key="clientPhone" header="联系方式" classType="String" allowSort="true" width="150"/>
+        <column key="clientStatus" header="状态" classType="Integer" allowSort="true" width="150"/>
+        <column key="headImageId" header="头像url" classType="String" allowSort="true" width="150"/>
+</query>
+</queryContext>

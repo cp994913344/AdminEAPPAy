@@ -1,0 +1,156 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+    <h5 class="modal-title"></h5>
+</div>
+
+<div class="modal-body">
+    <form id="sku_form" name="sku_form" class="form-horizontal">
+        <input type="hidden" name="id">
+        <input type="hidden" name="version">
+        <input type="hidden" name="createDateTime" data-flag="date" data-format="yyyy-mm-dd hh:ii:ss">
+        <input type="hidden" name="deleted" value="0">
+        <input type='hidden' value="${CSRFToken}" id='csrftoken'>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">sku编码<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="skuCode" name="skuCode" placeholder="请填写sku编码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">sku型号<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="skuModel" name="skuModel" placeholder="请填写sku型号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">sku尺寸<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="skuSize" name="skuSize" placeholder="请填写sku尺寸">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">颜色<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="skuColor" name="skuColor" placeholder="请填写颜色">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">规格<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="skuType" name="skuType" placeholder="请填写规格">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">质量<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="skuQuality" name="skuQuality" placeholder="请填写质量">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">价格<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="skuPrice" name="skuPrice" placeholder="请填写价格">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">sku状态<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="skuStatus" name="skuStatus" placeholder="请填写sku状态">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer text-right">
+            <button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+            <button type="submit" class="btn btn-primary" data-btn-type="save">提交</button>
+        </div>
+    </form>
+</div>
+<script>
+    var form;
+    var id="${id?default(0)}";
+    $(function(){
+        //初始化表单
+        form=$("#sku_form").form();
+        //数据校验
+        $("#sku_form").bootstrapValidator({
+            message : '请输入有效值',
+            feedbackIcons : {
+                valid : 'glyphicon glyphicon-ok',
+                invalid : 'glyphicon glyphicon-remove',
+                validating : 'glyphicon glyphicon-refresh'
+            },
+            submitHandler : function() {
+                modals.confirm('确认保存？', function() {
+                    var sku = form.getFormSimpleData();
+                    ajaxPost(basePath+'/sku/save',sku, function(data) {
+                        if(data.success){
+                            if(id!="0"){
+                                modals.hideWin(winId);
+                                skuTable.reloadRowData(id);
+                            }else{
+                                modals.hideWin(winId);
+                                skuTable.reloadData();
+                            }
+                        }
+                    });
+                });
+            },
+            fields : {
+                "skuCode":{
+                    validators:{
+                        notEmpty:{message:'sku编码不能为空'}
+                    }
+                },
+                "skuModel":{
+                    validators:{
+                        notEmpty:{message:'sku型号不能为空'}
+                    }
+                },
+                "skuSize":{
+                    validators:{
+                        notEmpty:{message:'sku尺寸不能为空'}
+                    }
+                },
+                "skuColor":{
+                    validators:{
+                        notEmpty:{message:'颜色不能为空'}
+                    }
+                },
+                "skuType":{
+                    validators:{
+                        notEmpty:{message:'规格不能为空'}
+                    }
+                },
+                "skuQuality":{
+                    validators:{
+                        notEmpty:{message:'质量不能为空'}
+                    }
+                },
+                "skuPrice":{
+                    validators:{
+                        notEmpty:{message:'价格不能为空'},
+numeric:{message:'价格是数字类型'}
+                    }
+                },
+                "skuStatus":{
+                    validators:{
+                        notEmpty:{message:'sku状态不能为空'},
+integer:{message:'请填写整数'}
+                    }
+                }
+            }
+        });
+        //初始化控件
+        form.initComponent();
+        //编辑回填
+        if(id!=0){
+            ajaxPost(basePath+"/sku/get/"+id,null,function(data){
+                form.initFormData(data);
+            })
+        }
+    });
+
+</script>

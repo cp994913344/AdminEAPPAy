@@ -1,0 +1,254 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+    <h5 class="modal-title"></h5>
+</div>
+
+<div class="modal-body">
+    <form id="invoicenormal_form" name="invoicenormal_form" class="form-horizontal">
+        <input type="hidden" name="id">
+        <input type="hidden" name="version">
+        <input type="hidden" name="createDateTime" data-flag="date" data-format="yyyy-mm-dd hh:ii:ss">
+        <input type="hidden" name="deleted" value="0">
+        <input type='hidden' value="${CSRFToken}" id='csrftoken'>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">invoice编码<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoiceCode" name="invoiceCode" placeholder="请填写invoice编码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">发票抬头<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoiceTaxpayer" name="invoiceTaxpayer" placeholder="请填写发票抬头">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">纳税人识别号<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoiceTaxpayerNum" name="invoiceTaxpayerNum" placeholder="请填写纳税人识别号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">开户银行<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="depositBank" name="depositBank" placeholder="请填写开户银行">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">银行账户<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="bankAccount" name="bankAccount" placeholder="请填写银行账户">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">开票地址<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoiceAddress" name="invoiceAddress" placeholder="请填写开票地址">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">开票电话<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoicePhone" name="invoicePhone" placeholder="请填写开票电话">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">发票金额<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoicePrice" name="invoicePrice" placeholder="请填写发票金额">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">收件人<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="recipient" name="recipient" placeholder="请填写收件人">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">联系人电话<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="recipientPhone" name="recipientPhone" placeholder="请填写联系人电话">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">城市编号<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="areaCode" name="areaCode" placeholder="请填写城市编号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">收货地址<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="shippingAddress" name="shippingAddress" placeholder="请填写收货地址">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">发票内容<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoiceContent" name="invoiceContent" placeholder="请填写发票内容">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">特殊要求<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="specialRequirements" name="specialRequirements" placeholder="请填写特殊要求">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">发票代码<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoice_mark" name="invoice_mark" placeholder="请填写发票代码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">发票号<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="invoiceNum" name="invoiceNum" placeholder="请填写发票号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">快递单号<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="courierNum" name="courierNum" placeholder="请填写快递单号">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer text-right">
+            <button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+            <button type="submit" class="btn btn-primary" data-btn-type="save">提交</button>
+        </div>
+    </form>
+</div>
+<script>
+    var form;
+    var id="${id?default(0)}";
+    $(function(){
+        //初始化表单
+        form=$("#invoicenormal_form").form();
+        //数据校验
+        $("#invoicenormal_form").bootstrapValidator({
+            message : '请输入有效值',
+            feedbackIcons : {
+                valid : 'glyphicon glyphicon-ok',
+                invalid : 'glyphicon glyphicon-remove',
+                validating : 'glyphicon glyphicon-refresh'
+            },
+            submitHandler : function() {
+                modals.confirm('确认保存？', function() {
+                    var invoicenormal = form.getFormSimpleData();
+                    ajaxPost(basePath+'/invoicenormal/save',invoicenormal, function(data) {
+                        if(data.success){
+                            if(id!="0"){
+                                modals.hideWin(winId);
+                                invoicenormalTable.reloadRowData(id);
+                            }else{
+                                modals.hideWin(winId);
+                                invoicenormalTable.reloadData();
+                            }
+                        }
+                    });
+                });
+            },
+            fields : {
+                "invoiceCode":{
+                    validators:{
+                        notEmpty:{message:'invoice编码不能为空'}
+                    }
+                },
+                "invoiceTaxpayer":{
+                    validators:{
+                        notEmpty:{message:'发票抬头不能为空'}
+                    }
+                },
+                "invoiceTaxpayerNum":{
+                    validators:{
+                        notEmpty:{message:'纳税人识别号不能为空'}
+                    }
+                },
+                "depositBank":{
+                    validators:{
+                        notEmpty:{message:'开户银行不能为空'}
+                    }
+                },
+                "bankAccount":{
+                    validators:{
+                        notEmpty:{message:'银行账户不能为空'}
+                    }
+                },
+                "invoiceAddress":{
+                    validators:{
+                        notEmpty:{message:'开票地址不能为空'}
+                    }
+                },
+                "invoicePhone":{
+                    validators:{
+                        notEmpty:{message:'开票电话不能为空'}
+                    }
+                },
+                "invoicePrice":{
+                    validators:{
+                        notEmpty:{message:'发票金额不能为空'},
+numeric:{message:'发票金额是数字类型'}
+                    }
+                },
+                "recipient":{
+                    validators:{
+                        notEmpty:{message:'收件人不能为空'}
+                    }
+                },
+                "recipientPhone":{
+                    validators:{
+                        notEmpty:{message:'联系人电话不能为空'}
+                    }
+                },
+                "areaCode":{
+                    validators:{
+                        notEmpty:{message:'城市编号不能为空'}
+                    }
+                },
+                "shippingAddress":{
+                    validators:{
+                        notEmpty:{message:'收货地址不能为空'}
+                    }
+                },
+                "invoiceContent":{
+                    validators:{
+                        notEmpty:{message:'发票内容不能为空'}
+                    }
+                },
+                "specialRequirements":{
+                    validators:{
+                        notEmpty:{message:'特殊要求不能为空'}
+                    }
+                },
+                "invoice_mark":{
+                    validators:{
+                        notEmpty:{message:'发票代码不能为空'}
+                    }
+                },
+                "invoiceNum":{
+                    validators:{
+                        notEmpty:{message:'发票号不能为空'}
+                    }
+                },
+                "courierNum":{
+                    validators:{
+                        notEmpty:{message:'快递单号不能为空'}
+                    }
+                }
+            }
+        });
+        //初始化控件
+        form.initComponent();
+        //编辑回填
+        if(id!=0){
+            ajaxPost(basePath+"/invoicenormal/get/"+id,null,function(data){
+                form.initFormData(data);
+            })
+        }
+    });
+
+</script>
