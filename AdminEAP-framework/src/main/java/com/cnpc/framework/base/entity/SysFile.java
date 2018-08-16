@@ -1,10 +1,10 @@
 package com.cnpc.framework.base.entity;
 
-import com.cnpc.framework.annotation.Header;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import com.cnpc.framework.annotation.Header;
 
 /**
  * Created by billJiang on 2017/3/5.

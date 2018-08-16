@@ -1,13 +1,14 @@
 package com.cnpc.framework.query.filter;
 
-import com.cnpc.framework.exception.QueryException;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
-
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+
+import com.cnpc.framework.exception.QueryException;
 
 public class ConditionOperator {
     private final String operator;

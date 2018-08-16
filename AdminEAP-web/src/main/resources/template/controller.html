@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+<#if javaTypes?contains("service")>
+import ${nameSpace}.service.${javaPrefix}Service;
+<#else>
 import com.cnpc.framework.base.service.BaseService;
+</#if>
 import com.cnpc.framework.annotation.RefreshCSRFToken;
 import com.cnpc.framework.annotation.VerifyCSRFToken;
 import com.cnpc.framework.base.pojo.Result;
@@ -115,7 +119,7 @@ public class ${javaPrefix}Controller {
     public Result delete(@PathVariable("id") String id){
         ${javaPrefix} ${htmlPrefix}=this.get(id);
         try{
-            baseService.delete(${htmlPrefix});
+        	<#if javaTypes?contains("service")>${htmlPrefix}Service<#else>baseService</#if>.delete(${htmlPrefix});
             return new Result();
         }
         catch(Exception e){

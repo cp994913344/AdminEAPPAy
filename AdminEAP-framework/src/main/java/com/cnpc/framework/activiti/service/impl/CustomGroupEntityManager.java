@@ -1,13 +1,13 @@
 package com.cnpc.framework.activiti.service.impl;
 
-import com.cnpc.framework.activiti.service.IdentityPageService;
-import org.activiti.engine.identity.Group;
-import org.activiti.engine.identity.User;
-import org.activiti.engine.impl.persistence.entity.GroupEntityManager;
-import org.activiti.engine.impl.persistence.entity.UserEntityManager;
+import java.util.List;
 
 import javax.annotation.Resource;
-import java.util.List;
+
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.impl.persistence.entity.GroupEntityManager;
+
+import com.cnpc.framework.activiti.service.IdentityPageService;
 
 /**
  * Created by billJiang on 2017/6/18.

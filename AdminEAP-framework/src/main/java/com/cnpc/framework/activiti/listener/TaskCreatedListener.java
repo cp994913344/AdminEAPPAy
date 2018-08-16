@@ -1,19 +1,20 @@
 package com.cnpc.framework.activiti.listener;
 
-import com.cnpc.framework.activiti.service.DelegateService;
-import com.cnpc.framework.activiti.service.TaskPageService;
-import com.cnpc.framework.utils.StrUtil;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.delegate.event.ActivitiEvent;
 import org.activiti.engine.delegate.event.impl.ActivitiEntityEventImpl;
-import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
-import java.util.Set;
+import com.cnpc.framework.activiti.service.DelegateService;
+import com.cnpc.framework.activiti.service.TaskPageService;
+import com.cnpc.framework.utils.StrUtil;
 
 /**
  * Created by billJiang on 2017/7/1.

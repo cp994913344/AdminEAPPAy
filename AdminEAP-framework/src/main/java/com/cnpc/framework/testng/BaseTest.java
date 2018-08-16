@@ -1,20 +1,21 @@
 package com.cnpc.framework.testng;
 
 
-import com.cnpc.framework.base.pojo.CsvPOJO;
-import com.cnpc.framework.base.pojo.CsvRow;
-import com.cnpc.framework.utils.CsvUtil;
-import com.cnpc.framework.utils.DateUtil;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.cnpc.framework.base.pojo.CsvPOJO;
+import com.cnpc.framework.base.pojo.CsvRow;
+import com.cnpc.framework.utils.CsvUtil;
+import com.cnpc.framework.utils.DateUtil;
 
 /**
  * Created by cnpc on 2016/10/22.

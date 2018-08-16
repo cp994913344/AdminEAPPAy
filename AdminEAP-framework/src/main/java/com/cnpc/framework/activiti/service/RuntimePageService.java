@@ -1,15 +1,16 @@
 package com.cnpc.framework.activiti.service;
 
+import java.util.List;
+import java.util.Map;
+
+import org.activiti.engine.form.FormProperty;
+import org.activiti.engine.runtime.ProcessInstance;
+
 import com.cnpc.framework.activiti.pojo.ActivityVo;
 import com.cnpc.framework.activiti.pojo.ProcessInstanceVo;
 import com.cnpc.framework.base.pojo.PageInfo;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.query.entity.QueryCondition;
-import org.activiti.engine.form.FormProperty;
-import org.activiti.engine.runtime.ProcessInstance;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by billJiang on 2017/6/21.

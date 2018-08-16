@@ -1,12 +1,17 @@
 package com.cnpc.framework.base.service.impl;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.stereotype.Service;
+
 import com.cnpc.framework.base.entity.Role;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.RoleService;
 import com.cnpc.framework.constant.RedisConstant;
-import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service("roleService")
 public class RoleServiceImpl extends BaseServiceImpl implements RoleService {

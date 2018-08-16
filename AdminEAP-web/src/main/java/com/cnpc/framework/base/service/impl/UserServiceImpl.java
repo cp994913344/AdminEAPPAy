@@ -91,6 +91,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         List list = this.findMapBySql(buf.toString());
         return StrUtil.mapToStr(list, "name");
     }
+    
+    @Override
+    public List findUserMobiles() {
+        StringBuffer buf = new StringBuffer();
+        buf.append("select id,mobile as name from tbl_user where deleted=0 and mobile is not null");
+        List list = this.findMapBySql(buf.toString());
+        return list;
+    }
 
 
 }

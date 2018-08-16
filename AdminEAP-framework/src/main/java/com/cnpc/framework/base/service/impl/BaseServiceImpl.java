@@ -6,12 +6,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.cnpc.framework.base.dao.RedisDao;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.type.Type;
 import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.dao.BaseDao;
+import com.cnpc.framework.base.dao.RedisDao;
 import com.cnpc.framework.base.pojo.PageInfo;
 import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.framework.utils.StrUtil;
@@ -295,5 +295,29 @@ public class BaseServiceImpl implements BaseService {
 
     public List findMapBySql(String sql, Map<String, Object> params, int page, int rows, Class clazz) {
         return baseDao.findMapBySql(sql, params, page, rows, clazz);
+    }
+    
+    @Override
+    public <T> T get(String hql, Map<String, Object> params, Class<T> clazz) {
+
+        return baseDao.get(hql, params, clazz);
+    }
+    
+    @Override
+    public <T> T get(String hql, Class<T> clazz) {
+
+        return baseDao.get(hql, clazz);
+    }
+    
+    
+    @Override
+    public <T> List<T> find(String hql, Class<T> clazz) {
+        return baseDao.find(hql, clazz);
+    }
+    
+    @Override
+    public <T> List<T> find(String hql, Map<String, Object> params, int page, int rows,Class<T> clazz) {
+
+        return baseDao.find(hql, params, page, rows ,clazz);
     }
 }

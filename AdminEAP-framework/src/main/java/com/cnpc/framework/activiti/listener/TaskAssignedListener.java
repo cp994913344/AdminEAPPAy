@@ -1,9 +1,10 @@
 package com.cnpc.framework.activiti.listener;
 
-import com.cnpc.framework.activiti.service.DelegateService;
+import javax.annotation.Resource;
+
 import org.activiti.engine.delegate.event.ActivitiEvent;
 
-import javax.annotation.Resource;
+import com.cnpc.framework.activiti.service.DelegateService;
 
 /**
  * Created by billJiang on 2017/7/1.

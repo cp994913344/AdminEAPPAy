@@ -1,10 +1,10 @@
 package com.cnpc.framework.base.service;
 
+import java.util.List;
+
 import com.cnpc.framework.base.entity.FunctionFilter;
 import com.cnpc.framework.base.entity.RoleFunction;
 import com.cnpc.framework.base.pojo.Result;
-
-import java.util.List;
 
 public interface RoleFunctionService extends BaseService {
 

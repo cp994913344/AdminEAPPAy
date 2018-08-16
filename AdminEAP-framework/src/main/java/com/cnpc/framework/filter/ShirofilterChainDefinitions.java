@@ -4,10 +4,6 @@ import org.apache.shiro.config.Ini;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.FactoryBean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by billJiang on 2017/5/5.
  * e-mail:475572229@qq.com  qq:475572229

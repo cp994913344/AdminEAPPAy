@@ -1,5 +1,17 @@
 package com.cnpc.framework.base.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.cnpc.framework.base.dao.RedisDao;
 import com.cnpc.framework.base.entity.Function;
 import com.cnpc.framework.base.entity.FunctionFilter;
@@ -8,11 +20,6 @@ import com.cnpc.framework.base.pojo.TreeNode;
 import com.cnpc.framework.base.service.FunctionService;
 import com.cnpc.framework.constant.RedisConstant;
 import com.cnpc.framework.utils.TreeUtil;
-import org.apache.shiro.SecurityUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.*;
 
 @Service("functionService")
 public class FunctionServiceImpl extends BaseServiceImpl implements FunctionService {

@@ -1,7 +1,8 @@
 package com.cnpc.framework.message;
 
-import com.cnpc.framework.message.entity.SimpleMail;
-import com.cnpc.framework.utils.PropertiesUtil;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -9,9 +10,9 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+
+import com.cnpc.framework.message.entity.SimpleMail;
+import com.cnpc.framework.utils.PropertiesUtil;
 
 /**
  * 简单邮件发送器

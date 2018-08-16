@@ -1,13 +1,19 @@
 package com.cnpc.framework.activiti.controller;
 
-import com.cnpc.framework.activiti.pojo.ModelVo;
-import com.cnpc.framework.base.pojo.Result;
-import com.cnpc.framework.utils.FileUtil;
-import com.cnpc.framework.utils.PropertiesUtil;
-import com.cnpc.framework.utils.StrUtil;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipInputStream;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -30,13 +36,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipInputStream;
+import com.cnpc.framework.activiti.pojo.ModelVo;
+import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.framework.utils.FileUtil;
+import com.cnpc.framework.utils.PropertiesUtil;
+import com.cnpc.framework.utils.StrUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Created by billJiang on 2017/6/3.

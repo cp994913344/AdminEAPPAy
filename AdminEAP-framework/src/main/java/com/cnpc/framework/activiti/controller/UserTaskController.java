@@ -1,28 +1,33 @@
 package com.cnpc.framework.activiti.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.activiti.engine.FormService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.form.FormProperty;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.cnpc.framework.activiti.pojo.Constants;
 import com.cnpc.framework.activiti.service.IdentityPageService;
 import com.cnpc.framework.activiti.service.RuntimePageService;
 import com.cnpc.framework.activiti.service.TaskPageService;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.utils.StrUtil;
-import org.activiti.engine.FormService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.form.FormProperty;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.DelegationState;
-import org.activiti.engine.task.Task;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by billJiang on 2017/6/21.

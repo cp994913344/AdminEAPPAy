@@ -1,5 +1,11 @@
 package com.cnpc.framework.base.service.impl;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.base.pojo.TreeNode;
@@ -7,11 +13,6 @@ import com.cnpc.framework.base.service.DictService;
 import com.cnpc.framework.constant.RedisConstant;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.framework.utils.TreeUtil;
-import org.springframework.stereotype.Service;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service("dictService")
 public class DictServiceImpl extends BaseServiceImpl implements DictService {

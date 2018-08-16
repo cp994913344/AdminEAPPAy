@@ -1,23 +1,19 @@
 package com.cnpc.framework.activiti.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.identity.User;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
+
 import com.cnpc.framework.activiti.pojo.TaskDoneVo;
 import com.cnpc.framework.activiti.pojo.TaskVo;
 import com.cnpc.framework.base.pojo.PageInfo;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.framework.query.entity.QueryCondition;
-import com.cnpc.framework.utils.StrUtil;
-import org.activiti.engine.form.FormProperty;
-import org.activiti.engine.history.HistoricProcessInstance;
-import org.activiti.engine.history.HistoricTaskInstance;
-import org.activiti.engine.identity.User;
-import org.activiti.engine.impl.persistence.entity.TaskEntity;
-import org.activiti.engine.task.Task;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by billJiang on 2017/6/21.

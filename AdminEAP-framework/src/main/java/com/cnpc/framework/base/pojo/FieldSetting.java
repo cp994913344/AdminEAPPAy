@@ -1,14 +1,15 @@
 package com.cnpc.framework.base.pojo;
 
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import javax.persistence.Column;
+
 import com.cnpc.framework.annotation.Header;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.PingYinUtil;
 import com.cnpc.framework.utils.StrUtil;
-
-import javax.persistence.Column;
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.util.Date;
 
 public class FieldSetting {
     private Integer rowIndex;

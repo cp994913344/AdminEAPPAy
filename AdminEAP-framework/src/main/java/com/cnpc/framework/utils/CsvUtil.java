@@ -1,16 +1,17 @@
 package com.cnpc.framework.utils;
 
-import com.cnpc.framework.base.pojo.CsvPOJO;
-import com.cnpc.framework.base.pojo.CsvRow;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.core.io.Resource;
 import org.supercsv.io.CsvMapReader;
 import org.supercsv.io.ICsvMapReader;
 import org.supercsv.prefs.CsvPreference;
 
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.cnpc.framework.base.pojo.CsvPOJO;
+import com.cnpc.framework.base.pojo.CsvRow;
 
 /**
  * cnpc http://blog.csdn.net/jrn1012

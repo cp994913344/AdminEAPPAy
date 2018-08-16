@@ -1,11 +1,11 @@
 package com.cnpc.framework.oauth.common;
 
-import com.cnpc.framework.oauth.entity.OAuthUser;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
-import org.scribe.oauth.OAuth20ServiceImpl;
 import org.scribe.oauth.OAuthService;
+
+import com.cnpc.framework.oauth.entity.OAuthUser;
 
 /**
  * Created by billJiang on 2017/1/15.

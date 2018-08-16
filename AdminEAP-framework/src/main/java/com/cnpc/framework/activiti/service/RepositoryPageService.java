@@ -1,13 +1,13 @@
 package com.cnpc.framework.activiti.service;
 
+import java.util.List;
+
+import org.activiti.engine.repository.Model;
+
 import com.cnpc.framework.activiti.pojo.ProcessDefVo;
 import com.cnpc.framework.base.pojo.PageInfo;
 import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.framework.query.entity.QueryCondition;
-import org.activiti.engine.repository.Model;
-import org.activiti.engine.repository.ProcessDefinition;
-
-import java.util.List;
 
 /**
  * Created by billJiang on 2017/6/8.

@@ -1,12 +1,11 @@
 package com.cnpc.framework.activiti.listener;
 
-import com.cnpc.framework.utils.SpringContextUtil;
+import java.util.Map;
+
 import org.activiti.engine.delegate.event.ActivitiEvent;
 import org.activiti.engine.delegate.event.ActivitiEventListener;
-import org.activiti.engine.delegate.event.ActivitiEventType;
-import org.activiti.engine.delegate.event.impl.ActivitiEventImpl;
 
-import java.util.Map;
+import com.cnpc.framework.utils.SpringContextUtil;
 
 /**
  * Created by billJiang on 2017/7/1.

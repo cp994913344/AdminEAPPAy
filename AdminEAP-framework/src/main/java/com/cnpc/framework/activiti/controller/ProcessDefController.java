@@ -1,15 +1,12 @@
 package com.cnpc.framework.activiti.controller;
 
-import com.cnpc.framework.base.pojo.Result;
-import com.cnpc.framework.constant.RedisConstant;
-import com.cnpc.framework.utils.FileUtil;
-import com.cnpc.framework.utils.PropertiesUtil;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.editor.language.json.converter.BpmnJsonConverter;
+import java.io.File;
+import java.io.InputStream;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -21,12 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.framework.utils.FileUtil;
+import com.cnpc.framework.utils.PropertiesUtil;
 
 /**
  * Created by billJiang on 2017/6/7.

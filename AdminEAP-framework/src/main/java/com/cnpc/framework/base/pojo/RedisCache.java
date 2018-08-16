@@ -1,6 +1,12 @@
 package com.cnpc.framework.base.pojo;
 
-import com.cnpc.framework.base.dao.RedisDao;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
@@ -8,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.SerializationUtils;
 
-import java.util.*;
+import com.cnpc.framework.base.dao.RedisDao;
 
 /**
  * Created by billJiang on 2017/4/15.

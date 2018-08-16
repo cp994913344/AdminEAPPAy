@@ -1,12 +1,11 @@
 package com.cnpc.framework.filter;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
 import org.apache.shiro.session.SessionException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
-import org.springframework.stereotype.Service;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 
 /**
  * Created by billJiang on 2017/4/15.

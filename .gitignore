@@ -8,3 +8,5 @@
 /AdminEAP-web/.classpath
 /AdminEAP-web/.project
 /AdminEAP-web/target
+/AdminEAP-framework/bin
+/AdminEAP-web/bin

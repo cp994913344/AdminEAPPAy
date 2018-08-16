@@ -1,22 +1,33 @@
 package com.cnpc.framework.query.util;
 
-import com.cnpc.framework.exception.QueryException;
-import com.cnpc.framework.query.entity.Column;
-import com.cnpc.framework.query.entity.Query;
-import com.cnpc.framework.query.entity.QueryCondition;
-import com.cnpc.framework.utils.*;
-import jxl.format.Alignment;
-import jxl.format.Border;
-import jxl.format.BorderLineStyle;
-import jxl.write.*;
-import jxl.write.Number;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.cnpc.framework.exception.QueryException;
+import com.cnpc.framework.query.entity.Column;
+import com.cnpc.framework.query.entity.Query;
+import com.cnpc.framework.query.entity.QueryCondition;
+import com.cnpc.framework.utils.DateUtil;
+import com.cnpc.framework.utils.JXLExcelUtil;
+import com.cnpc.framework.utils.ObjectUtil;
+import com.cnpc.framework.utils.PropertiesUtil;
+import com.cnpc.framework.utils.StrUtil;
+
+import jxl.format.Alignment;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.NumberFormat;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WriteException;
 
 /**
  * Created by billJiang on 2017/1/22.

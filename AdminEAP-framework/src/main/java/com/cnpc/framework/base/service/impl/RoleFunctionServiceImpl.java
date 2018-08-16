@@ -1,16 +1,17 @@
 package com.cnpc.framework.base.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
 import com.cnpc.framework.base.entity.FunctionFilter;
 import com.cnpc.framework.base.entity.RoleFunction;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.RoleFunctionService;
 import com.cnpc.framework.constant.RedisConstant;
 import com.cnpc.framework.utils.StrUtil;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by billJiang on 2017/1/3.

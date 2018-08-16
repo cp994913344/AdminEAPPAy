@@ -1,7 +1,6 @@
 package com.cnpc.framework.base.pojo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by billJiang on 2017/3/7.

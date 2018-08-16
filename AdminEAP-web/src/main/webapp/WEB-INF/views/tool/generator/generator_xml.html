@@ -29,7 +29,7 @@
         var xmlfile="";
         if(arr.length>4){
             xmlfile=arr[arr.length-3];
-            $("#xmlfile").val(xmlfile+".xml");
+            $("#xmlfile").val(arr[arr.length-3]+"/"+arr[arr.length-1]+".xml");
         }
         ajaxPost(basePath+"/generator/getXMLContent",{queryId:queryId,className:className,modelName:modelName},function(data){
             if(data.success){

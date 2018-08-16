@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Created by billJiang on 2017/6/4.
  * e-mail:475572229@qq.com  qq:475572229

@@ -1,9 +1,13 @@
 package com.cnpc.framework.activiti.controller;
 
-import com.cnpc.framework.base.pojo.Result;
-import com.cnpc.framework.utils.DateUtil;
-import com.cnpc.framework.utils.FileUtil;
-import com.cnpc.framework.utils.PropertiesUtil;
+import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
@@ -26,13 +30,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.framework.utils.DateUtil;
+import com.cnpc.framework.utils.FileUtil;
+import com.cnpc.framework.utils.PropertiesUtil;
 
 /**
  * Created by billJiang on 2017/6/21.

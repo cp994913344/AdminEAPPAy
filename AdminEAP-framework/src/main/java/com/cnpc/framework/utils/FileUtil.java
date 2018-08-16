@@ -1,11 +1,16 @@
 package com.cnpc.framework.utils;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.*;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import javax.imageio.ImageIO;
 
 /**
  * Created by cnpc on 2016/12/9.
@@ -107,6 +112,9 @@ public class FileUtil {
         int bytesum = 0;
         int byteread = 0;
         byte[] buffer = new byte[1024];
+        if(!file.exists()){
+            file.createNewFile();
+        }
         FileOutputStream fs = new FileOutputStream(file);
         while ((byteread = inStream.read(buffer)) != -1) {
             bytesum += byteread; //字节数 文件大小
@@ -180,5 +188,18 @@ public class FileUtil {
         }catch (IOException ex){
             return null;
         }
+    }
+    public static String getImageStr(String imgFile) {
+        InputStream inputStream = null;
+        byte[] data = null;
+        try {
+            inputStream = new FileInputStream(imgFile);
+            data = new byte[inputStream.available()];
+            inputStream.read(data);
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Base64.getEncoder().encodeToString(data);
     }
 }

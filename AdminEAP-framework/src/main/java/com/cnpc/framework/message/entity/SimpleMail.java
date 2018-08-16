@@ -1,10 +1,10 @@
 package com.cnpc.framework.message.entity;
 
-import com.cnpc.framework.base.entity.BaseEntity;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import com.cnpc.framework.base.entity.BaseEntity;
 
 /**
  * Created by billJiang on 2016/12/27.

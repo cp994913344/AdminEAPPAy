@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.cnpc.framework.constant.RedisConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +15,7 @@ import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.pojo.TreeNode;
 import com.cnpc.framework.base.service.DictService;
+import com.cnpc.framework.constant.RedisConstant;
 import com.cnpc.framework.utils.StrUtil;
 
 @Controller

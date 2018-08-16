@@ -1,10 +1,20 @@
 package com.cnpc.framework.activiti.service.impl;
 
-import org.activiti.bpmn.model.*;
+import java.util.List;
+
+import org.activiti.bpmn.model.Activity;
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.bpmn.model.CallActivity;
+import org.activiti.bpmn.model.FlowElement;
+import org.activiti.bpmn.model.FlowElementsContainer;
+import org.activiti.bpmn.model.FlowNode;
+import org.activiti.bpmn.model.Gateway;
+import org.activiti.bpmn.model.GraphicInfo;
+import org.activiti.bpmn.model.MultiInstanceLoopCharacteristics;
+import org.activiti.bpmn.model.SequenceFlow;
+import org.activiti.bpmn.model.SubProcess;
 import org.activiti.image.impl.DefaultProcessDiagramCanvas;
 import org.activiti.image.impl.DefaultProcessDiagramGenerator;
-
-import java.util.List;
 
 /**
  * Created by billJiang on 2017/6/22.

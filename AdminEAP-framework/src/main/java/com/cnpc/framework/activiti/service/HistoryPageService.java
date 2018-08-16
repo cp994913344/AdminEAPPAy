@@ -1,7 +1,6 @@
 package com.cnpc.framework.activiti.service;
 
 import com.cnpc.framework.base.service.BaseService;
-import com.cnpc.framework.testng.BaseTest;
 
 /**
  * Created by billJiang on 2017/6/21.

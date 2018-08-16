@@ -1,7 +1,13 @@
 package com.cnpc.framework.base.service.impl;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSON;
-import com.cnpc.framework.base.dao.RedisDao;
 import com.cnpc.framework.base.entity.Org;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.pojo.TreeNode;
@@ -9,12 +15,6 @@ import com.cnpc.framework.base.service.OrgService;
 import com.cnpc.framework.constant.RedisConstant;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.framework.utils.TreeUtil;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service("orgService")
 public class OrgServiceImpl extends BaseServiceImpl implements OrgService {

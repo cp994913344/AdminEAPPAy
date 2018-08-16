@@ -109,6 +109,11 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 			<tx:method name="start*" propagation="REQUIRED" />
 			<tx:method name="batch*" propagation="REQUIRED" />
 
+			<tx:method name="trigger*" propagation="REQUIRED" />
+			<tx:method name="resume*" propagation="REQUIRED" />
+			<tx:method name="reschedule*" propagation="REQUIRED" />
+			<tx:method name="pause*" propagation="REQUIRED" />
+			
 			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
 			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
 			<tx:method name="find*" propagation="REQUIRED" read-only="true" />

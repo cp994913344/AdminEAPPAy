@@ -1,15 +1,17 @@
 package com.cnpc.framework.base.pojo;
 
-import com.cnpc.framework.base.dao.RedisDao;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import javax.annotation.Resource;
+
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import com.cnpc.framework.base.dao.RedisDao;
 
 /**
  * Created by billJiang on 2017/4/15.

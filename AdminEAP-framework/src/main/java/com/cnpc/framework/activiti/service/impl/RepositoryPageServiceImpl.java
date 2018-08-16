@@ -1,11 +1,8 @@
 package com.cnpc.framework.activiti.service.impl;
 
-import com.cnpc.framework.activiti.pojo.ProcessDefVo;
-import com.cnpc.framework.activiti.service.RepositoryPageService;
-import com.cnpc.framework.base.pojo.PageInfo;
-import com.cnpc.framework.base.service.impl.BaseServiceImpl;
-import com.cnpc.framework.query.entity.QueryCondition;
-import com.cnpc.framework.utils.StrUtil;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Model;
@@ -16,8 +13,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.cnpc.framework.activiti.pojo.ProcessDefVo;
+import com.cnpc.framework.activiti.service.RepositoryPageService;
+import com.cnpc.framework.base.pojo.PageInfo;
+import com.cnpc.framework.base.service.impl.BaseServiceImpl;
+import com.cnpc.framework.query.entity.QueryCondition;
+import com.cnpc.framework.utils.StrUtil;
 
 /**
  * Created by billJiang on 2017/6/8.

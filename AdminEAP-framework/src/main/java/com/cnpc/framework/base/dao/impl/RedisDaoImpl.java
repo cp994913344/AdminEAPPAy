@@ -1,8 +1,12 @@
 package com.cnpc.framework.base.dao.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.cnpc.framework.base.dao.RedisDao;
-import com.cnpc.framework.utils.StrUtil;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -10,11 +14,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.alibaba.fastjson.JSON;
+import com.cnpc.framework.base.dao.RedisDao;
+import com.cnpc.framework.utils.StrUtil;
 
 /**
  * Created by billJiang on 2017/4/10.
