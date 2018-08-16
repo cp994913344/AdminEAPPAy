@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queryContext xmlns="http://www.example.org/query" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/query query.xsd">
+<!--本xml片段为代码生成器生成，时间：2018-08-16 16:41:12-->
+<query id="order_order_detail" key="id" tableName="订单详情列表" className="com.cnpc.packmall.order.entity.OrderDetail" widthType="px">
+        <column key="rowIndex" header="序号" width="80"/>
+        <column key="orderId" header="订单id" classType="String" allowSort="true" width="150"/>
+        <column key="productId" header="商品id" classType="String" allowSort="true" width="150"/>
+        <column key="skuId" header="SKUid" classType="String" allowSort="true" width="150"/>
+        <column key="skumsg" header="SKU信息" classType="String" allowSort="true" width="150"/>
+        <column key="productName" header="商品名称" classType="String" allowSort="true" width="150"/>
+        <column key="number" header="商品数量" classType="Integer" allowSort="true" width="150"/>
+        <column key="price" header="商品单价" classType="BigDecimal" allowSort="true" width="150"/>
+        <column key="totalPrice" header="总价格" classType="BigDecimal" allowSort="true" width="150"/>
+</query>
+</queryContext>

@@ -26,18 +26,28 @@
     var modelName="${modelName}";
     $(function(){
         var arr=className.split("\.");
-        var xmlfile="";
-        if(arr.length>4){
-            xmlfile=arr[arr.length-3];
-            $("#xmlfile").val(arr[arr.length-3]+"/"+arr[arr.length-1]+".xml");
-        }
+        
+        var xmlfile=xmlfilename(arr);
+        $("#xmlfile").val(xmlfile);
         ajaxPost(basePath+"/generator/getXMLContent",{queryId:queryId,className:className,modelName:modelName},function(data){
             if(data.success){
                 $("#xmlContent").val(data.message);
             }
         });
     })
-
+    function xmlfilename(str){
+    	var _xmlfile="";
+    	str.forEach(function(obj){
+        	if(obj!="com"&&obj!="cnpc"&&obj!="entity"){
+        		var _obj=obj.replace(/([A-Z])/g,"_$1").toLowerCase()+"/";
+        		if(_obj.substr(0,1)=="_"){
+        			_obj=_obj.substr(1,_obj.length);
+        		}
+        		_xmlfile+=_obj;
+        	}
+        })
+    	return _xmlfile.substr(0,_xmlfile.length-1)+".xml";
+    }
     //生成xml配置
     function startGenerate(){
         var xmlContent=$("#xmlContent").val();
