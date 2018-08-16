@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queryContext xmlns="http://www.example.org/query" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/query query.xsd">
+<!--本xml片段为代码生成器生成，时间：2018-08-16 14:35:29-->
+<query id="packmail_invoice_normal" key="id" tableName="发票管理（增普）列表" className="com.cnpc.packmall.invoice.entity.InvoiceNormal" widthType="px">
+        <column key="rowIndex" header="序号" width="80"/>
+        <column key="invoiceCode" header="invoice编码" classType="String" allowSort="true" width="150"/>
+        <column key="taxpayerType" header="抬头类型" classType="Integer" allowSort="true" width="150"/>
+        <column key="invoiceTaxpayer" header="发票抬头" classType="String" allowSort="true" width="150"/>
+        <column key="invoiceTaxpayerNum" header="纳税人识别号" classType="String" allowSort="true" width="150"/>
+        <column key="invoicePrice" header="发票金额" classType="BigDecimal" allowSort="true" width="150"/>
+        <column key="invoiceAddress" header="开票地址" classType="String" allowSort="true" width="150"/>
+        <column key="invoicePhone" header="开票电话" classType="String" allowSort="true" width="150"/>
+        <column key="recipient" header="收件人" classType="String" allowSort="true" width="150"/>
+        <column key="recipientPhone" header="联系人电话" classType="String" allowSort="true" width="150"/>
+        <column key="areaCode" header="城市编号" classType="String" allowSort="true" width="150"/>
+        <column key="shippingAddress" header="收货地址" classType="String" allowSort="true" width="150"/>
+        <column key="invoiceContent" header="发票内容" classType="Integer" allowSort="true" width="150"/>
+        <column key="remark" header="备注" classType="String" allowSort="true" width="150"/>
+        <column key="invoice_mark" header="发票代码" classType="String" allowSort="true" width="150"/>
+        <column key="invoiceNum" header="发票号" classType="String" allowSort="true" width="150"/>
+        <column key="courierNo" header="快递单号" classType="String" allowSort="true" width="150"/>
+</query>
+</queryContext>
