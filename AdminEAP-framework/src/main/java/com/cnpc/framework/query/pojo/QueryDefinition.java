@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class QueryDefinition {
 
-    public static final String DEFAULT_CONFIG_LOCATION = "query/*.xml";
+    public static final String DEFAULT_CONFIG_LOCATION = "query/**/*.xml";
 
     static final Logger log = Logger.getLogger(QueryDefinition.class);
 
