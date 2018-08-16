@@ -28,7 +28,7 @@ import com.cnpc.packmall.center.entity.Client;
 * 2018-08-16 10:21:17由代码生成器自动生成
 */
 @Controller
-@RequestMapping("/client")
+@RequestMapping("/packmail/client")
 public class ClientController {
 
     @Resource
