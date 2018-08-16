@@ -24,36 +24,35 @@ public class InvoiceNormal extends BaseEntity{
     @Column(name="invoice_code",length = 20)
     private String invoiceCode;
 
+    /**
+     * 1企业单位 2 个人
+     */
+    @Header(name="抬头类型")
+    @Column(name="taxpayer_type",length = 4)
+    private Integer taxpayerType;
+
     @Header(name="发票抬头")
-    @Column(name="invoice_taxpayer")
+    @Column(name="invoice_taxpayer",length = 100)
     private String invoiceTaxpayer;
 
     @Header(name="纳税人识别号")
-    @Column(name="invoice_taxpayer_num")
+    @Column(name="invoice_taxpayer_num",length = 18)
     private String invoiceTaxpayerNum;
 
-    @Header(name="开户银行")
-    @Column(name="deposit_bank",length = 50)
-    private String depositBank;
-
-    @Header(name="银行账户")
-    @Column(name="bank_account",length = 50)
-    private String bankAccount;
+    @Header(name="发票金额")
+    @Column(name = "invoice_price")
+    private BigDecimal invoicePrice;
 
     @Header(name="开票地址")
-    @Column(name="invoice_address")
+    @Column(name="invoice_address",length = 100)
     private String invoiceAddress;
 
     @Header(name="开票电话")
     @Column(name="invoice_phone",length = 11)
     private String invoicePhone;
 
-    @Header(name="发票金额")
-    @Column(name = "invoice_price")
-    private BigDecimal invoicePrice;
-
     @Header(name="收件人")
-    @Column(name = "recipient")
+    @Column(name = "recipient",length = 16)
     private String recipient;
 
     @Header(name="联系人电话")
@@ -68,13 +67,16 @@ public class InvoiceNormal extends BaseEntity{
     @Column(name="shipping_addresss")
     private String shippingAddress;
 
+    /**
+     *  1 商品明细 2 商品类别
+     */
     @Header(name="发票内容")
-    @Column(name="invoice_content")
-    private String invoiceContent;
+    @Column(name="invoice_content",length = 4 )
+    private Integer invoiceContent;
 
-    @Header(name="特殊要求")
-    @Column(name="special_requirements")
-   private String specialRequirements;
+    @Header(name="备注")
+    @Column(name="remark",length = 120)
+    private String remark;
 
    @Header(name="发票代码")
    @Column(name="invoice_mark")
@@ -85,12 +87,15 @@ public class InvoiceNormal extends BaseEntity{
     private String invoiceNum;
 
     @Header(name="快递单号")
-    @Column(name="courier_num")
-    private String courierNum;
-
+    @Column(name="courier_no")
+    private String courierNo;
 
     public void setInvoiceCode(String invoiceCode) {
         this.invoiceCode = invoiceCode;
+    }
+
+    public void setTaxpayerType(Integer taxpayerType) {
+        this.taxpayerType = taxpayerType;
     }
 
     public void setInvoiceTaxpayer(String invoiceTaxpayer) {
@@ -101,12 +106,8 @@ public class InvoiceNormal extends BaseEntity{
         this.invoiceTaxpayerNum = invoiceTaxpayerNum;
     }
 
-    public void setDepositBank(String depositBank) {
-        this.depositBank = depositBank;
-    }
-
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setInvoicePrice(BigDecimal invoicePrice) {
+        this.invoicePrice = invoicePrice;
     }
 
     public void setInvoiceAddress(String invoiceAddress) {
@@ -115,10 +116,6 @@ public class InvoiceNormal extends BaseEntity{
 
     public void setInvoicePhone(String invoicePhone) {
         this.invoicePhone = invoicePhone;
-    }
-
-    public void setInvoicePrice(BigDecimal invoicePrice) {
-        this.invoicePrice = invoicePrice;
     }
 
     public void setRecipient(String recipient) {
@@ -137,12 +134,12 @@ public class InvoiceNormal extends BaseEntity{
         this.shippingAddress = shippingAddress;
     }
 
-    public void setInvoiceContent(String invoiceContent) {
+    public void setInvoiceContent(Integer invoiceContent) {
         this.invoiceContent = invoiceContent;
     }
 
-    public void setSpecialRequirements(String specialRequirements) {
-        this.specialRequirements = specialRequirements;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public void setInvoice_mark(String invoice_mark) {
@@ -153,13 +150,17 @@ public class InvoiceNormal extends BaseEntity{
         this.invoiceNum = invoiceNum;
     }
 
-    public void setCourierNum(String courierNum) {
-        this.courierNum = courierNum;
+    public void setCourierNo(String courierNo) {
+        this.courierNo = courierNo;
     }
 
     public String getInvoiceCode() {
 
         return invoiceCode;
+    }
+
+    public Integer getTaxpayerType() {
+        return taxpayerType;
     }
 
     public String getInvoiceTaxpayer() {
@@ -170,12 +171,8 @@ public class InvoiceNormal extends BaseEntity{
         return invoiceTaxpayerNum;
     }
 
-    public String getDepositBank() {
-        return depositBank;
-    }
-
-    public String getBankAccount() {
-        return bankAccount;
+    public BigDecimal getInvoicePrice() {
+        return invoicePrice;
     }
 
     public String getInvoiceAddress() {
@@ -184,10 +181,6 @@ public class InvoiceNormal extends BaseEntity{
 
     public String getInvoicePhone() {
         return invoicePhone;
-    }
-
-    public BigDecimal getInvoicePrice() {
-        return invoicePrice;
     }
 
     public String getRecipient() {
@@ -206,12 +199,12 @@ public class InvoiceNormal extends BaseEntity{
         return shippingAddress;
     }
 
-    public String getInvoiceContent() {
+    public Integer getInvoiceContent() {
         return invoiceContent;
     }
 
-    public String getSpecialRequirements() {
-        return specialRequirements;
+    public String getRemark() {
+        return remark;
     }
 
     public String getInvoice_mark() {
@@ -222,7 +215,7 @@ public class InvoiceNormal extends BaseEntity{
         return invoiceNum;
     }
 
-    public String getCourierNum() {
-        return courierNum;
+    public String getCourierNo() {
+        return courierNo;
     }
 }
