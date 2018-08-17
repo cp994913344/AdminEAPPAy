@@ -1,0 +1,67 @@
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div style="height: 70px;">
+                        <span style="font-size: 20px;">发票代码:</span>
+                        <input type="search" placeholder="请输入发票代码" name="invoiceMark" class="form-control"  operator="like" likeoption="true">
+                    </div>
+                    <div>
+                        <span style="font-size: 20px;">发票号:</span>
+                        <input type="search" placeholder="请输入发票号"  name="invoiceNo" class="form-control"  operator="like" likeoption="true">
+                    </div>
+                    <div>
+                        <span style="font-size: 20px;">快递单号:</span>
+                        <input type="search" placeholder="请输入快递单号"  name="courierNo" class="form-control"  operator="like" likeoption="true">
+                    </div>
+
+
+                    <div>
+                        <div   style="font-size: 15px;">
+                            <button type="button" class="btn btn-default" onclick="clickCancle()">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="clickConfirm()">确认</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var invoiceId = '${invoiceId}';
+
+    function clickConfirm(){
+
+        var invoiceMark = $("input[name='invoiceMark']").val();
+        var invoiceNo = $("input[name='invoiceNo']").val();
+        var courierNo = $("input[name='courierNo']").val();
+        if(invoiceMark==null||invoiceMark.trim().length==0){
+            modals.warn("请输入发票代码");
+            return;
+        }
+        if(invoiceNo==null||invoiceNo.trim().length==0){
+            modals.warn("请输入发票号");
+            return;
+        }
+        if(courierNo==null||courierNo.trim().length==0){
+            modals.warn("请输入快递单号");
+            return;
+        }
+        ajaxPost(basePath + "/packmall/invoicenormal/saveChangeStatusData",{"invoiceId":invoiceId,"invoiceMark":invoiceMark,"invoiceNo":invoiceNo,"courierNo":courierNo}, function (data) {
+            if (data==true)  {
+                changeStatusAfter(invoiceMark,invoiceNo,courierNo);
+                modals.closeWin("INVOICENORMALSTATUSCHANGE");
+            }else {
+                modals.info("保存失败！");
+            }
+        });
+    }
+
+    function clickCancle(){
+        modals.closeWin("INVOICENORMALSTATUSCHANGE");
+    }
+
+</script>

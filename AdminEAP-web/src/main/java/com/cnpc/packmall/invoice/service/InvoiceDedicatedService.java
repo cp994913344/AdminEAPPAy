@@ -9,4 +9,13 @@ import com.cnpc.framework.base.service.BaseService;
 */
 public interface InvoiceDedicatedService extends BaseService {
 
+    /**
+     *  保存状态变更数据
+     * @param invoiceId
+     * @param invoiceMark
+     * @param invoiceNo
+     * @param courierNo
+     * @return
+     */
+    boolean saveInvoiceStatusChangeData(String invoiceId,String invoiceMark,String invoiceNo,String courierNo);
 }

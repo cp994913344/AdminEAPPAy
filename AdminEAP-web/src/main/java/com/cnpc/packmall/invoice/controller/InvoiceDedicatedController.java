@@ -5,10 +5,8 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import com.alibaba.fastjson.JSON;
-import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
-import org.springframework.beans.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +25,7 @@ import com.cnpc.packmall.invoice.entity.InvoiceDedicated;
 * 2018-08-16 14:37:56由代码生成器自动生成
 */
 @Controller
-@RequestMapping("/packmail/invoicededicated")
+@RequestMapping("/packmall/invoicededicated")
 public class InvoiceDedicatedController {
 
     @Resource
@@ -35,20 +33,35 @@ public class InvoiceDedicatedController {
 
     @RequestMapping(value="/list",method = RequestMethod.GET)
     public String list(){
-        return "packmail/invoice/invoicededicated_list";
+        return "packmall/invoice/invoicededicated_list";
+    }
+
+    @RequestMapping(value="/toStatusChange",method = RequestMethod.GET)
+    public String toStatusChange(String invoiceId,HttpServletRequest request){
+        request.setAttribute("invoiceId",invoiceId);
+        return "packmall/invoice/invoicededicated_status_change";
+    }
+
+    @RequestMapping(value="/saveChangeStatusData",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean saveChangeStatusData(String invoiceId,String invoiceMark,String invoiceNo,String courierNo){
+        if(StringUtils.isEmpty(invoiceId)||StringUtils.isEmpty(invoiceMark)||StringUtils.isEmpty(invoiceNo)||StringUtils.isEmpty(courierNo)){
+            return false;
+        }
+        return invoicededicatedService.saveInvoiceStatusChangeData( invoiceId, invoiceMark, invoiceNo, courierNo);
     }
 
     @RefreshCSRFToken
     @RequestMapping(value="/edit",method = RequestMethod.GET)
     public String edit(String id,HttpServletRequest request){
         request.setAttribute("id", id);
-        return "packmail/invoice/invoicededicated_edit";
+        return "packmall/invoice/invoicededicated_edit";
     }
 
     @RequestMapping(value="/detail",method = RequestMethod.GET)
     public String detail(String id,HttpServletRequest request){
         request.setAttribute("id", id);
-        return "packmail/invoice/invoicededicated_detail";
+        return "packmall/invoice/invoicededicated_detail";
     }
 
     @RequestMapping(value="/get/{id}",method = RequestMethod.POST)

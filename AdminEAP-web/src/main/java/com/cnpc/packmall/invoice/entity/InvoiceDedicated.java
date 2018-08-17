@@ -24,7 +24,7 @@ public class InvoiceDedicated extends BaseEntity {
     @Column(name="invoice_code",length = 20)
     private String invoiceCode;
 
-    @Header(name="抬头类型 纳税人")
+    @Header(name="发票抬头")
     @Column(name="invoice_taxpayer",length = 100)
     private String invoiceTaxpayer;
 
@@ -81,15 +81,22 @@ public class InvoiceDedicated extends BaseEntity {
 
     @Header(name="发票代码")
     @Column(name="invoice_mark")
-    private String invoice_mark;
+    private String invoiceMark;
 
     @Header(name="发票号")
-    @Column(name="invoice_num")
-    private String invoiceNum;
+    @Column(name="invoice_no")
+    private String invoiceNo;
 
     @Header(name="快递单号")
     @Column(name="courier_no")
     private String courierNo;
+
+    /**
+     *  1 未邮寄 2 已邮寄
+     */
+    @Header(name="发票状态")
+    @Column(name="invoice_status",length = 4 )
+    private Integer invoiceStatus;
 
     public void setInvoiceCode(String invoiceCode) {
         this.invoiceCode = invoiceCode;
@@ -147,13 +154,7 @@ public class InvoiceDedicated extends BaseEntity {
         this.remark = remark;
     }
 
-    public void setInvoice_mark(String invoice_mark) {
-        this.invoice_mark = invoice_mark;
-    }
 
-    public void setInvoiceNum(String invoiceNum) {
-        this.invoiceNum = invoiceNum;
-    }
 
     public void setCourierNo(String courierNo) {
         this.courierNo = courierNo;
@@ -216,15 +217,36 @@ public class InvoiceDedicated extends BaseEntity {
         return remark;
     }
 
-    public String getInvoice_mark() {
-        return invoice_mark;
-    }
 
-    public String getInvoiceNum() {
-        return invoiceNum;
-    }
 
     public String getCourierNo() {
         return courierNo;
+    }
+
+    public void setInvoiceStatus(Integer invoiceStatus) {
+        this.invoiceStatus = invoiceStatus;
+    }
+
+    public Integer getInvoiceStatus() {
+
+        return invoiceStatus;
+    }
+
+    public void setInvoiceMark(String invoiceMark) {
+        this.invoiceMark = invoiceMark;
+    }
+
+    public String getInvoiceMark() {
+
+        return invoiceMark;
+    }
+
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
+    }
+
+    public String getInvoiceNo() {
+
+        return invoiceNo;
     }
 }

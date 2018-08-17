@@ -43,13 +43,6 @@ public class InvoiceNormal extends BaseEntity{
     @Column(name = "invoice_price")
     private BigDecimal invoicePrice;
 
-    @Header(name="开票地址")
-    @Column(name="invoice_address",length = 100)
-    private String invoiceAddress;
-
-    @Header(name="开票电话")
-    @Column(name="invoice_phone",length = 11)
-    private String invoicePhone;
 
     @Header(name="收件人")
     @Column(name = "recipient",length = 16)
@@ -80,15 +73,22 @@ public class InvoiceNormal extends BaseEntity{
 
    @Header(name="发票代码")
    @Column(name="invoice_mark")
-    private String invoice_mark;
+    private String invoiceMark;
 
     @Header(name="发票号")
-    @Column(name="invoice_num")
-    private String invoiceNum;
+    @Column(name="invoice_no")
+    private String invoiceNo;
 
     @Header(name="快递单号")
     @Column(name="courier_no")
     private String courierNo;
+
+    /**
+     *  1 未邮寄 2 已邮寄
+     */
+    @Header(name="发票状态")
+    @Column(name="invoice_status",length = 4 )
+    private Integer invoiceStatus;
 
     public void setInvoiceCode(String invoiceCode) {
         this.invoiceCode = invoiceCode;
@@ -108,14 +108,6 @@ public class InvoiceNormal extends BaseEntity{
 
     public void setInvoicePrice(BigDecimal invoicePrice) {
         this.invoicePrice = invoicePrice;
-    }
-
-    public void setInvoiceAddress(String invoiceAddress) {
-        this.invoiceAddress = invoiceAddress;
-    }
-
-    public void setInvoicePhone(String invoicePhone) {
-        this.invoicePhone = invoicePhone;
     }
 
     public void setRecipient(String recipient) {
@@ -140,14 +132,6 @@ public class InvoiceNormal extends BaseEntity{
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public void setInvoice_mark(String invoice_mark) {
-        this.invoice_mark = invoice_mark;
-    }
-
-    public void setInvoiceNum(String invoiceNum) {
-        this.invoiceNum = invoiceNum;
     }
 
     public void setCourierNo(String courierNo) {
@@ -175,14 +159,6 @@ public class InvoiceNormal extends BaseEntity{
         return invoicePrice;
     }
 
-    public String getInvoiceAddress() {
-        return invoiceAddress;
-    }
-
-    public String getInvoicePhone() {
-        return invoicePhone;
-    }
-
     public String getRecipient() {
         return recipient;
     }
@@ -207,15 +183,34 @@ public class InvoiceNormal extends BaseEntity{
         return remark;
     }
 
-    public String getInvoice_mark() {
-        return invoice_mark;
-    }
-
-    public String getInvoiceNum() {
-        return invoiceNum;
-    }
-
     public String getCourierNo() {
         return courierNo;
+    }
+
+    public void setInvoiceStatus(Integer invoiceStatus) {
+        this.invoiceStatus = invoiceStatus;
+    }
+
+    public Integer getInvoiceStatus() {
+
+        return invoiceStatus;
+    }
+
+    public void setInvoiceMark(String invoiceMark) {
+        this.invoiceMark = invoiceMark;
+    }
+
+    public String getInvoiceMark() {
+
+        return invoiceMark;
+    }
+
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
+    }
+
+    public String getInvoiceNo() {
+
+        return invoiceNo;
     }
 }

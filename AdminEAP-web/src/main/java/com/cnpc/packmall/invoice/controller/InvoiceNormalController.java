@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ import com.cnpc.packmall.invoice.entity.InvoiceNormal;
 * 2018-08-16 14:37:42由代码生成器自动生成
 */
 @Controller
-@RequestMapping("/packmail/invoicenormal")
+    @RequestMapping("/packmall/invoicenormal")
 public class InvoiceNormalController {
 
     @Resource
@@ -37,6 +38,22 @@ public class InvoiceNormalController {
     public String list(){
         return "packmall/invoice/invoicenormal_list";
     }
+
+    @RequestMapping(value="/toStatusChange",method = RequestMethod.GET)
+    public String toStatusChange(String invoiceId,HttpServletRequest request){
+        request.setAttribute("invoiceId",invoiceId);
+        return "packmall/invoice/invoicenormal_status_change";
+    }
+
+    @RequestMapping(value="/saveChangeStatusData",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean saveChangeStatusData(String invoiceId,String invoiceMark,String invoiceNo,String courierNo){
+        if(StringUtils.isEmpty(invoiceId)||StringUtils.isEmpty(invoiceMark)||StringUtils.isEmpty(invoiceNo)||StringUtils.isEmpty(courierNo)){
+            return false;
+        }
+        return invoicenormalService.saveInvoiceStatusChangeData( invoiceId, invoiceMark, invoiceNo, courierNo);
+    }
+
 
     @RefreshCSRFToken
     @RequestMapping(value="/edit",method = RequestMethod.GET)
