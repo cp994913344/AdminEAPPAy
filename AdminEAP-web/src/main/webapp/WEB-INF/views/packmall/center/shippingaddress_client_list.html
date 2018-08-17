@@ -1,0 +1,42 @@
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div style="height: 70px;">
+                        <span style="font-size: 20px;">默认收货地址</span>
+                        <div id="addressDefaultDiv" style="font-size: 15px;"></div>
+                    </div>
+                    <div>
+                        <span style="font-size: 20px;">其他收货地址</span>
+                        <div id="addressOthers"  style="font-size: 15px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var clientId = '${clientId}';
+    $(function (){
+        if(clientId){
+            ajaxPost(basePath + "/packmall/shippingaddress/getByClientId",{"clientId":clientId}, function (data) {
+                if (data.list)  {
+                    var list = data.list;
+                    var len = data.list.length;
+                    for(var i=0;i<len;i++){
+                        if(list[i].shippingDefault==1){
+                            $("#addressDefaultDiv").append("<br><span>"+list[i].shippingName+"-"+list[i].shippingPhone+"-"+list[i].areaCode+list[i].shippingAddress);
+                        }else if(list[i].shippingDefault==2){
+                            $("#addressOthers").append("<br><span>"+list[i].shippingName+"-"+list[i].shippingPhone+"-"+list[i].areaCode+list[i].shippingAddress);
+                        }
+                    }
+                }else {
+                    modals.info("还没有添加收货地址！");
+                }
+            });
+        }
+    })
+</script>

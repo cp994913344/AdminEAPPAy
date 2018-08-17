@@ -1,9 +1,15 @@
 package com.cnpc.packmall.center.service.impl;
 
+import com.cnpc.packmall.center.entity.ShippingAddress;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.packmall.center.service.ShippingAddressService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
 * 收货地址服务实现
@@ -13,5 +19,19 @@ import com.cnpc.packmall.center.service.ShippingAddressService;
 @Service("shippingaddressService")
 public class ShippingAddressServiceImpl extends BaseServiceImpl implements ShippingAddressService {
 
-
+    /**
+     * 根据客户id 查询客户的收货地址
+     * @param clientId
+     * @return
+     */
+    @Override
+    public List<ShippingAddress> findByClientId(String clientId){
+        if(StringUtils.isEmpty(clientId)){
+            return null;
+        }
+        String hql = "from ShippingAddress where clientId = :clientId";
+        Map<String,Object> params = new HashMap<>(4);
+        params.put("clientId",clientId);
+        return this.baseDao.find(hql,params);
+    }
 }

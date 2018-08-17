@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
+import com.cnpc.packmall.center.entity.Client;
 import com.cnpc.packmall.center.service.ClientService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +22,6 @@ import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.framework.annotation.RefreshCSRFToken;
 import com.cnpc.framework.annotation.VerifyCSRFToken;
 import com.cnpc.framework.base.pojo.Result;
-import com.cnpc.packmall.center.entity.Client;
 
 /**
 * 客户管理管理控制器
@@ -28,7 +29,7 @@ import com.cnpc.packmall.center.entity.Client;
 * 2018-08-16 10:21:17由代码生成器自动生成
 */
 @Controller
-@RequestMapping("/packmail/client")
+@RequestMapping("/packmall/client")
 public class ClientController {
 
     @Resource
@@ -39,12 +40,22 @@ public class ClientController {
         return "packmall/center/client_list";
     }
 
-    @RefreshCSRFToken
-    @RequestMapping(value="/edit",method = RequestMethod.GET)
-    public String edit(String id,HttpServletRequest request){
-        request.setAttribute("id", id);
-        return "packmall/center/client_edit";
+    @RequestMapping(value="/updateDeleted",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean updateDeleted(String id){
+        if(StringUtils.isEmpty(id)){
+            return false;
+        }
+        return clientService.updateDeleted(id);
     }
+
+    @RequestMapping(value="/toHeadImgHtml",method = RequestMethod.GET)
+    public String toHeadImgHtml(String clientId,HttpServletRequest request){
+        request.setAttribute("clientId",clientId);
+        return "packmall/center/client_headImg_view";
+    }
+
+
 
     @RequestMapping(value="/detail",method = RequestMethod.GET)
     public String detail(String id,HttpServletRequest request){

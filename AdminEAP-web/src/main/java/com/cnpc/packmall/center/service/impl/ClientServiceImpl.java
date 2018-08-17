@@ -1,5 +1,6 @@
 package com.cnpc.packmall.center.service.impl;
 
+import com.cnpc.packmall.center.entity.Client;
 import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
@@ -13,5 +14,23 @@ import com.cnpc.packmall.center.service.ClientService;
 @Service("clientService")
 public class ClientServiceImpl extends BaseServiceImpl implements ClientService {
 
-
+    /**
+     *  修改客户禁用
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean updateDeleted(String id) {
+        Client client = this.baseDao.get(Client.class,id);
+        if(client!=null){
+            if(client.getDeleted()==1){
+                client.setDeleted(0);
+            }else{
+                client.setDeleted(1);
+            }
+            this.baseDao.update(client);
+            return true;
+        }
+        return false;
+    }
 }

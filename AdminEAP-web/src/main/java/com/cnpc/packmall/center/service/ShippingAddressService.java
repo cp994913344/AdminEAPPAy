@@ -1,6 +1,9 @@
 package com.cnpc.packmall.center.service;
 
 import com.cnpc.framework.base.service.BaseService;
+import com.cnpc.packmall.center.entity.ShippingAddress;
+
+import java.util.List;
 
 /**
 * 收货地址服务接口
@@ -9,4 +12,10 @@ import com.cnpc.framework.base.service.BaseService;
 */
 public interface ShippingAddressService extends BaseService {
 
+    /**
+     * 根据客户id 查询客户的收货地址
+     * @param clientId
+     * @return
+     */
+    public List<ShippingAddress> findByClientId(String clientId);
 }

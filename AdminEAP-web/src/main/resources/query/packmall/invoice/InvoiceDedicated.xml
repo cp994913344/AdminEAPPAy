@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queryContext xmlns="http://www.example.org/query" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/query query.xsd">
 <!--本xml片段为代码生成器生成，时间：2018-08-16 14:35:13-->
-<query id="packmail_invoice_dedicated" key="id" tableName="发票管理（增专）列表" className="com.cnpc.packmall.invoice.entity.InvoiceDedicated" widthType="px">
+<query id="packmall_invoice_dedicated" key="id" tableName="发票管理（增专）列表" className="com.cnpc.packmall.invoice.entity.InvoiceDedicated" widthType="px">
         <column key="rowIndex" header="序号" width="80"/>
-        <column key="invoiceCode" header="invoice编码" classType="String" allowSort="true" width="150"/>
-        <column key="invoiceTaxpayer" header="抬头类型 纳税人" classType="String" allowSort="true" width="150"/>
-        <column key="invoiceTaxpayerNum" header="纳税人识别号" classType="String" allowSort="true" width="150"/>
+        <column key="invoiceCode" header="编码" classType="String" allowSort="true" width="150"/>
+        <column key="invoiceTaxpayer" header="抬头类型" classType="String" allowSort="true" width="150"/>
+        <column key="invoiceTaxpayerNum" header="纳税人识别号" classType="String" allowSort="true" width="200"/>
         <column key="depositBank" header="开户银行" classType="String" allowSort="true" width="150"/>
         <column key="bankAccount" header="银行账户" classType="String" allowSort="true" width="150"/>
         <column key="invoiceAddress" header="开票地址" classType="String" allowSort="true" width="150"/>

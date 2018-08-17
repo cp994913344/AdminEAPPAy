@@ -17,7 +17,7 @@ import java.math.BigDecimal;
  * @create 2018-08-15 19:25
  **/
 @Entity
-@Table(name="TB_PACKMAIL_INVOICE_NORMAL")
+@Table(name="TB_PACKMALL_INVOICE_NORMAL")
 public class InvoiceNormal extends BaseEntity{
 
     @Header(name="invoice编码")

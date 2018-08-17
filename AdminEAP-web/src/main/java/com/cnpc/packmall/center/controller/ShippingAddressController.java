@@ -1,6 +1,9 @@
 package com.cnpc.packmall.center.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
+import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.center.service.ShippingAddressService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -20,7 +24,6 @@ import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.framework.annotation.RefreshCSRFToken;
 import com.cnpc.framework.annotation.VerifyCSRFToken;
 import com.cnpc.framework.base.pojo.Result;
-import com.cnpc.packmall.center.entity.ShippingAddress;
 
 /**
 * 收货地址管理控制器
@@ -28,15 +31,30 @@ import com.cnpc.packmall.center.entity.ShippingAddress;
 * 2018-08-16 10:50:26由代码生成器自动生成
 */
 @Controller
-@RequestMapping("/shippingaddress")
+@RequestMapping("/packmall/shippingaddress")
 public class ShippingAddressController {
 
     @Resource
     private ShippingAddressService shippingaddressService;
 
-    @RequestMapping(value="/list",method = RequestMethod.GET)
-    public String list(){
-        return "packmall/center/shippingaddress_list";
+    @RequestMapping(value="/clientSAList",method = RequestMethod.GET)
+    public String list(String clientId,HttpServletRequest request){
+        request.setAttribute("clientId",clientId);
+        return "packmall/center/shippingaddress_client_list";
+    }
+
+    /**
+     * 根据客户id查询收货地址列表
+     * @param clientId
+     * @return
+     */
+    @RequestMapping(value="/getByClientId",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getByClientId(String clientId){
+        Map<String,Object> result = new HashMap<>(4);
+        List<ShippingAddress> list =  shippingaddressService.findByClientId(clientId);
+        result.put("list",list);
+        return result;
     }
 
     @RefreshCSRFToken

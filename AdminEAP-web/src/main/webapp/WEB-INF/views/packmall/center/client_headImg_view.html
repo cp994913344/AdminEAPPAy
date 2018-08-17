@@ -1,0 +1,27 @@
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                        <img id ="headImg" src="/resources/common/images/avatar.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var clientId = '${clientId}';
+    $(function (){
+        if(clientId){
+            ajaxPost(basePath + "/file/findByFormId",{"formId":clientId}, function (data) {
+                if (data)  {
+                    $("#headImg").attr("src",data.filePath);
+                }else {
+                    modals.info("还没有上传头像！");
+                }
+            });
+        }
+    })
+</script>

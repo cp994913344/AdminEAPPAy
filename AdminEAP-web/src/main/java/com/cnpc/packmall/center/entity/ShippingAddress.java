@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * @create 2018-08-15 10:38
  **/
 @Entity
-@Table(name="TB_PACKMAIL_SHIPPING_ADDRESS")
+@Table(name="TB_PACKMALL_SHIPPING_ADDRESS")
 public class ShippingAddress extends BaseEntity{
 
     @Header(name="客户id")
@@ -25,16 +25,23 @@ public class ShippingAddress extends BaseEntity{
     private String shippingName;
 
     @Header(name="城市编号")
-    @Column(name = "AREACODE", length = 100)
+    @Column(name = "AREACODE", length = 20)
     private String areaCode;
 
     @Header(name="收货地址")
-    @Column(name="shipping_addresss")
+    @Column(name="shipping_addresss", length = 100)
     private String shippingAddress;
 
     @Header(name="联系方式")
     @Column(name="shipping_phone")
     private String shippingPhone;
+
+    /**
+     * 1 默认 2 非默认
+     */
+    @Header(name="是否默认收货地址")
+    @Column(name="shipping_default",length = 4)
+    private Integer shippingDefault;
 
     public void setShippingName(String shippingName) {
         this.shippingName = shippingName;
@@ -77,5 +84,14 @@ public class ShippingAddress extends BaseEntity{
     public String getAreaCode() {
 
         return areaCode;
+    }
+
+    public void setShippingDefault(Integer shippingDefault) {
+        this.shippingDefault = shippingDefault;
+    }
+
+    public Integer getShippingDefault() {
+
+        return shippingDefault;
     }
 }

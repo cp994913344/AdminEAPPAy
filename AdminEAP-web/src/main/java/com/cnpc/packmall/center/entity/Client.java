@@ -12,14 +12,17 @@ import javax.persistence.*;
  * @create 2018-08-15 10:38
  **/
 @Entity
-@Table(name="TB_PACKMAIL_CLIENT")
+@Table(name="TB_PACKMALL_CLIENT")
 public class Client extends BaseEntity{
     @Header(name="编码")
     @Column(name="CLIENT_CODE" ,length = 20)
     private String clientCode;
 
+    /**
+     *  1 个人 2 企业
+     */
     @Header(name="姓名/企业名称")
-    @Column(name="CLIENT_NAME" ,length = 50)
+    @Column(name="CLIENT_NAME" ,length = 100)
     private String clientName;
 
     @Header(name="性质")
@@ -29,14 +32,6 @@ public class Client extends BaseEntity{
     @Header(name="联系方式")
     @Column(name="CLIENT_PHONE" ,length = 11)
     private String clientPhone;
-
-    @Header(name="状态")
-    @Column(name="ClIENT_STATUS",length = 4)
-    private Integer clientStatus;
-
-    @Header(name="头像url")
-    @Column(name="HEAD_IMAGE_id" ,length =36)
-    private  String headImageId;
 
     public void setClientCode(String clientCode) {
         this.clientCode = clientCode;
@@ -50,11 +45,6 @@ public class Client extends BaseEntity{
     public void setClientPhone(String clientPhone) {
         this.clientPhone = clientPhone;
     }
-
-    public void setClientStatus(Integer clientStatus) {
-        this.clientStatus = clientStatus;
-    }
-
 
     public String getClientCode() {
 
@@ -70,16 +60,8 @@ public class Client extends BaseEntity{
         return clientPhone;
     }
 
-    public Integer getClientStatus() {
-        return clientStatus;
-    }
-
     public void setClientType(String clientType) {
         this.clientType = clientType;
-    }
-
-    public void setHeadImageId(String headImageId) {
-        this.headImageId = headImageId;
     }
 
     public String getClientType() {
@@ -87,7 +69,4 @@ public class Client extends BaseEntity{
         return clientType;
     }
 
-    public String getHeadImageId() {
-        return headImageId;
-    }
 }

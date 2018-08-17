@@ -35,20 +35,20 @@ public class InvoiceDedicatedController {
 
     @RequestMapping(value="/list",method = RequestMethod.GET)
     public String list(){
-        return "packmall/invoice/invoicededicated_list";
+        return "packmail/invoice/invoicededicated_list";
     }
 
     @RefreshCSRFToken
     @RequestMapping(value="/edit",method = RequestMethod.GET)
     public String edit(String id,HttpServletRequest request){
         request.setAttribute("id", id);
-        return "packmall/invoice/invoicededicated_edit";
+        return "packmail/invoice/invoicededicated_edit";
     }
 
     @RequestMapping(value="/detail",method = RequestMethod.GET)
     public String detail(String id,HttpServletRequest request){
         request.setAttribute("id", id);
-        return "packmall/invoice/invoicededicated_detail";
+        return "packmail/invoice/invoicededicated_detail";
     }
 
     @RequestMapping(value="/get/{id}",method = RequestMethod.POST)
