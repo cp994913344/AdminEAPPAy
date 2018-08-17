@@ -6,7 +6,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="${basePath}"><i class="fa fa-dashboard"></i> 首页</a></li>
-        <li><a href="#">PackMail</a></li>
+        <li><a href="#">packmall</a></li>
         <li class="active">客户管理管理</li>
     </ol>
 </section>
@@ -106,7 +106,7 @@
         var name = $thes.text();
         if(name=="开启"){
             modals.confirm('确定开启该客户',function(){
-                ajaxPost(basePath + "/packmail/client/updateDeleted" , {"id":id}, function (data) {
+                ajaxPost(basePath + "/packmall/client/updateDeleted" , {"id":id}, function (data) {
                     if (data==true) {
                         $thes.text("禁用");
                         $thes.parent("td").prev().text("开启");
@@ -118,7 +118,7 @@
             });
         }else if(name=="禁用"){
             modals.confirm('确定禁用该客户',function(){
-                ajaxPost(basePath + "/packmail/client/updateDeleted" , {"id":id}, function (data) {
+                ajaxPost(basePath + "/packmall/client/updateDeleted" , {"id":id}, function (data) {
                     if (data==true) {
                         $thes.text("开启");
                         $thes.parent("td").prev().text("禁用");
