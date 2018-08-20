@@ -24,15 +24,15 @@
         if(clientId){
             ajaxPost(basePath + "/packmall/shippingaddress/getByClientId",{"clientId":clientId}, function (data) {
                 if (data.list)  {
-                    var list = data.list;
-                    var len = data.list.length;
-                    for(var i=0;i<len;i++){
-                        if(list[i].shippingDefault==1){
-                            $("#addressDefaultDiv").append("<br><span>"+list[i].shippingName+"-"+list[i].shippingPhone+"-"+list[i].areaCode+list[i].shippingAddress);
+                    $.each(data.list,function(){
+                        debugger;
+                        if(this[0]==1){
+                           $("#addressDefaultDiv").append("<br><span>"+this[1]+"-"+this[3]+"-"+this[4]+this[2]);
                         }else if(list[i].shippingDefault==2){
-                            $("#addressOthers").append("<br><span>"+list[i].shippingName+"-"+list[i].shippingPhone+"-"+list[i].areaCode+list[i].shippingAddress);
+                            $("#addressDefaultDiv").append("<br><span>"+this[1]+"-"+this[3]+"-"+this[4]+this[2]);
+
                         }
-                    }
+                    });
                 }else {
                     modals.info("还没有添加收货地址！");
                 }

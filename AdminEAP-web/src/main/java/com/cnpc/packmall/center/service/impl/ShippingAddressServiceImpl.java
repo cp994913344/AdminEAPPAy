@@ -29,9 +29,11 @@ public class ShippingAddressServiceImpl extends BaseServiceImpl implements Shipp
         if(StringUtils.isEmpty(clientId)){
             return null;
         }
-        String hql = "from ShippingAddress where clientId = :clientId";
+        String hql = "select sa.shippingDefault,sa.shippingName,sa.shippingAddress,sa.shippingPhone,sarea.mergerName as areaCode " +
+                " from ShippingAddress as sa ,SysArea as sarea  where sa.areaCode = sarea.code and sa.clientId = :clientId";
         Map<String,Object> params = new HashMap<>(4);
         params.put("clientId",clientId);
-        return this.baseDao.find(hql,params);
+        List<ShippingAddress> shippingAddressList =  this.baseDao.find(hql,params);
+        return  shippingAddressList;
     }
 }

@@ -5,10 +5,9 @@ package com.cnpc.packmall.invoice.entity;/**
 
 import com.cnpc.framework.annotation.Header;
 import com.cnpc.framework.base.entity.BaseEntity;
+import com.cnpc.framework.base.entity.SysArea;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
@@ -52,9 +51,10 @@ public class InvoiceNormal extends BaseEntity{
     @Column(name = "recipient_phone",length = 11)
     private String recipientPhone;
 
-    @Header(name="城市编号")
-    @Column(name = "AREACODE", length = 100)
-    private String areaCode;
+    @Header(name = "城市")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sys_area")
+    private SysArea sysArea;
 
     @Header(name="收货地址")
     @Column(name="shipping_addresss")
@@ -118,10 +118,6 @@ public class InvoiceNormal extends BaseEntity{
         this.recipientPhone = recipientPhone;
     }
 
-    public void setAreaCode(String areaCode) {
-        this.areaCode = areaCode;
-    }
-
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
@@ -167,10 +163,6 @@ public class InvoiceNormal extends BaseEntity{
         return recipientPhone;
     }
 
-    public String getAreaCode() {
-        return areaCode;
-    }
-
     public String getShippingAddress() {
         return shippingAddress;
     }
@@ -212,5 +204,14 @@ public class InvoiceNormal extends BaseEntity{
     public String getInvoiceNo() {
 
         return invoiceNo;
+    }
+
+    public void setSysArea(SysArea sysArea) {
+        this.sysArea = sysArea;
+    }
+
+    public SysArea getSysArea() {
+
+        return sysArea;
     }
 }

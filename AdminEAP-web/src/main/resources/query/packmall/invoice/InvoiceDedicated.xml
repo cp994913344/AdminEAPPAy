@@ -15,7 +15,8 @@
         <column key="invoicePrice" header="发票金额" classType="BigDecimal" allowSort="true" width="150"/>
         <column key="recipient" header="收件人" classType="String" allowSort="true" width="150"/>
         <column key="recipientPhone" header="联系人电话" classType="String" allowSort="true" width="150"/>
-        <column key="shippingAddress" header="收货地址" classType="String" allowSort="true" width="150"/>
+        <column key="sysArea" header="城市" classType="String" allowSort="true" width="150" hidden="true"/>
+        <column key="shippingAddress" header="收货地址" classType="String" allowSort="true" width="300" fnRender="shippingAddressChange"/>
         <column key="invoiceContent" header="发票内容" classType="Integer" allowSort="true" width="150" render="1=商品明细,2=商品类别"/>
         <column key="remark" header="备注" classType="String" allowSort="true" width="150"/>
         <column key="invoiceMark" header="发票代码" classType="String" allowSort="true" width="150"/>

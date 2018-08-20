@@ -1,6 +1,7 @@
 package com.cnpc.packmall.invoice.service;
 
 import com.cnpc.framework.base.service.BaseService;
+import com.cnpc.packmall.invoice.entity.InvoiceDedicated;
 
 /**
 * 发票管理（增专）服务接口
@@ -18,4 +19,6 @@ public interface InvoiceDedicatedService extends BaseService {
      * @return
      */
     boolean saveInvoiceStatusChangeData(String invoiceId,String invoiceMark,String invoiceNo,String courierNo);
+
+    void insertData(InvoiceDedicated invoiceDedicated);
 }

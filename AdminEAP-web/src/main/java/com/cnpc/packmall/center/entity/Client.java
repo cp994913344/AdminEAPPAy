@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="TB_PACKMALL_CLIENT")
 public class Client extends BaseEntity{
+
     @Header(name="编码")
     @Column(name="CLIENT_CODE" ,length = 20)
     private String clientCode;

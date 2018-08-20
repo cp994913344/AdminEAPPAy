@@ -35,4 +35,9 @@ public class InvoiceDedicatedServiceImpl extends BaseServiceImpl implements Invo
         }
         return false;
     }
+
+    @Override
+    public void insertData(InvoiceDedicated invoiceDedicated) {
+        this.baseDao.save(invoiceDedicated);
+    }
 }

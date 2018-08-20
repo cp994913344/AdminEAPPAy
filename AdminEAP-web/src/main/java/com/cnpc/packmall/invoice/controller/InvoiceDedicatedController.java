@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cnpc.framework.utils.StrUtil;
+import com.cnpc.packmall.invoice.entity.InvoiceNormal;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,17 +74,16 @@ public class InvoiceDedicatedController {
     @VerifyCSRFToken
     @RequestMapping(value="/save")
     @ResponseBody
-    public Result save(InvoiceDedicated invoicededicated){
-        if(StrUtil.isEmpty(invoicededicated.getId())){
-            invoicededicatedService.save(invoicededicated);
+    public Result save(InvoiceNormal invoicenormal){
+        if(StrUtil.isEmpty(invoicenormal.getId())){
+            invoicededicatedService.save(invoicenormal);
         }
         else{
-            invoicededicated.setUpdateDateTime(new Date());
-            invoicededicatedService.update(invoicededicated);
+            invoicenormal.setUpdateDateTime(new Date());
+            invoicededicatedService.update(invoicenormal);
         }
         return new Result(true);
     }
-
 
 
     @RequestMapping(value="/delete/{id}",method = RequestMethod.POST)
