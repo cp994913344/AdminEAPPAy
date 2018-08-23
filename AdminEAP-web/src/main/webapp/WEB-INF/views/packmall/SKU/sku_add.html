@@ -1,5 +1,4 @@
 
-<link rel="stylesheet" href="./resources/common/libs/fileinput/css/fileinput.min.css">
 <style>
     .dictDiv{
         float: left;
@@ -85,12 +84,12 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">尺寸<span style="color:red">*</span></label>
-                    <div class="col-sm-8" >
-                        <input type="text" class="typeInput" autocomplete="off" name="sizeLength" placeholder="长"/>
+                    <div class="col-sm-8">
+                        <input type="text" class="typeInput" autocomplete="off" name="sizeLengthInput" placeholder="长"/>
                         <span class="typeInputSpan">*</span>
-                        <input type="text" class="typeInput" autocomplete="off" name="sizeWide" placeholder="宽"/>
+                        <input type="text" class="typeInput" autocomplete="off" name="sizeWideInput" placeholder="宽"/>
                         <span class="typeInputSpan">*</span>
-                        <input type="text" class="typeInput" autocomplete="off" name="sizeHigh" placeholder="高"/>
+                        <input type="text" class="typeInput" autocomplete="off" name="sizeHighInput" placeholder="高"/>
                         <span class="typeInputSpan">cm</span>
                     </div>
                 </div>
@@ -118,11 +117,6 @@
             <button type="button" class="btn btn-primary" onclick="saveData()" >提交</button>
         </div>
 </div>
-<script src="./resources/common/libs/fileinput/js/fileinput.js"></script>
-<script src="./resources/common/libs/fileinput/js/locales/zh.js"></script>
-<!--BaseFile组件-->
-<script src="./resources/common/js/base-file.js"></script>
-<script src="./resources/common/js/select/jquery.select.js"></script>
 <script>
 
     $(function(){
@@ -300,19 +294,19 @@
         }
         //尺寸长宽高
         //长
-        skuData.skuSizeLength = $("input[name='sizeLength']").val();
+        skuData.skuSizeLength = $("input[name='sizeLengthInput']").val();
         if(!skuData.skuSizeLength||skuData.skuSizeLength.trim().length==0){
             modals.info("请输入尺寸长！");
             return;
         }
         //宽
-        skuData.skuSizeWide = $("input[name='sizeWide']").val();
+        skuData.skuSizeWide = $("input[name='sizeWideInput']").val();
         if(skuData.skuSizeWide||skuData.skuSizeWide.trim().length==0){
             modals.info("请输入尺寸宽！");
             return;
         }
         //高
-        skuData.skuSizeHigh = $("input[name='sizeHigh']").val();
+        skuData.skuSizeHigh = $("input[name='sizeHighInput']").val();
         if(!skuData.skuSizeHigh||skuData.skuSizeHigh.trim().length==0){
             modals.info("请输入尺寸高！");
             return;

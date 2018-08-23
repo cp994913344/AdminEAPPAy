@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queryContext xmlns="http://www.example.org/query" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/query query.xsd">
+<!--本xml片段为代码生成器生成，时间：2018-08-20 16:03:23-->
+<query id="packmall_product" key="id" tableName="商品列表" className="com.cnpc.packmall.product.entity.Product" widthType="px">
+        <column key="rowIndex" header="序号" width="80"/>
+        <column key="productCode" header="商品编码" classType="String" allowSort="true" width="150"/>
+        <column key="productName" header="商品名称" classType="String" allowSort="true" width="150"/>
+</query>
+</queryContext>

@@ -1,0 +1,461 @@
+
+<link rel="stylesheet" href="./resources/common/libs/fileinput/css/fileinput.min.css">
+<style>
+    .dictDiv{
+        float: left;
+        width: 100px;
+        height: 30px;
+        margin: 0px 10px 30px 0px;
+        border: 1px solid #000000;
+        border-radius:10px;
+        cursor: pointer;
+    }
+    .dictSpan {
+        display: block;
+        text-align:center;
+        font-size: 15px;
+        margin: 5px;
+    }
+    .fontOption{
+        color: #55ACF1;
+    }
+    .inputText{
+        width: 100px;
+        display: block;
+        padding: 6px 12px;
+        font-size: 13px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+    }
+    .btn.btn-file {
+        margin-left: 15px;
+    }
+</style>
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+    <h5 class="modal-title"></h5>
+</div>
+
+<div class="modal-body" >
+    <input type='hidden' value="${productId}" id='productId'>
+    <div class="box-body" style="height: 500px; overflow-Y:auto;">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">商品名称<span style="color:red">*</span></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" autocomplete="off" name="productNameAdd" placeholder="请填写商品名称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">banner图片<span style="color:red">*</span></label>
+                <div class="col-sm-8" id="bannerImgAdd">
+                    <input type="text" style="display: none" name="fileIds3" datetype="*" value="">
+                    <div class="form-group">
+                        <div class="btn btn-default btn-file" id="uploadFile3">
+                            <i class="fa fa-paperclip"></i> 上传banner图片
+                        </div>
+                        <div style="margin: -34px 0px 5px 169px;width: 189px;color: red">
+                            <span>支持上传png/jpg/jpeg/bmp详情图片</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="file_container3">
+                        <input type="file" name="file" id="attachment3">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"> 详情图片<span style="color:red">*</span></label>
+                <div class="col-sm-8" id="detailImgAdd">
+                    <input type="text" style="display: none" name="fileIds2" datetype="*" value="">
+                    <div class="form-group">
+                        <div class="btn btn-default btn-file" id="uploadFile2">
+                            <i class="fa fa-paperclip"></i> 上传详情图片
+                        </div>
+                        <div style="margin: -34px 0px 5px 169px;width: 189px;color: red">
+                            <span>支持上传png/jpg/jpeg/bmp详情图片</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="file_container2">
+                        <input type="file" name="file" id="attachment2">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">规格图片<span style="color:red">*</span></label>
+                <div class="col-sm-8" id="typeImgAdd">
+                    <input type="text" style="display: none" name="fileIds" datetype="*" value="">
+                    <div class="form-group">
+                        <div class="btn btn-default btn-file" id="uploadFile">
+                            <i class="fa fa-paperclip"></i> 上传规格图片
+                        </div>
+                        <div style="margin: -34px 0px 5px 169px;width: 189px;color: red">
+                            <span>支持上传png/jpg/jpeg/bmp格式的图片</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="file_container">
+                        <input type="file" name="file" id="attachment">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">颜色<span style="color:red">*</span></label>
+                <div class="col-sm-8" id="colorAdd">
+                    <div></div>
+                    <div class="addDiv">
+                        <input type="text" class="inputText"  name="colorInput" autocomplete="off"/>
+                        <a onclick="addDict(this,'PACKMALL_PRODUCT_COLOR')" href="#">添加</a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">规格<span style="color:red">*</span></label>
+                <div class="col-sm-8" id="typeAdd">
+                    <div></div>
+                    <div class="addDiv">
+                        <input type="text" class="inputText"  name="typeInput" autocomplete="off" />
+                        <a onclick="addDict(this,'PACKMALL_PRODUCT_TYPE')" href="#">添加</a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">质量<span style="color:red">*</span></label>
+                <div class="col-sm-8" id="qualityAdd">
+                    <div></div>
+                    <div class="addDiv">
+                        <input type="text" class="inputText"  name="qualityInput" autocomplete="off" />
+                        <a onclick="addDict(this,'PACKMALL_PRODUCT_QUALITY')" href="#">添加</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-footer text-right">
+        <button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="saveData()" >提交</button>
+    </div>
+</div>
+<script src="./resources/common/libs/fileinput/js/fileinput.js"></script>
+<script src="./resources/common/libs/fileinput/js/locales/zh.js"></script>
+<!--BaseFile组件-->
+<script src="./resources/common/js/base-file.js"></script>
+<script>
+    var productId = '${productId}';
+    $(function(){
+        $.post("/packmall/product/getProductDict",null,function(data){
+            if(data){
+                if(data.colorDictList){
+                    addDictHtml("PACKMALL_PRODUCT_COLOR",data.colorDictList);
+                }
+                if(data.typeDictList){
+                    addDictHtml("PACKMALL_PRODUCT_TYPE",data.typeDictList);
+                }
+                if(data.qualityDictList){
+                    addDictHtml("PACKMALL_PRODUCT_QUALITY",data.qualityDictList);
+                }
+            }
+            $.post("/packmall/product/getbyId",{"id":productId},function(data){
+                if(data){
+                    var product = data.product;
+                    $("input[name='productNameAdd']").val(product.productName);
+
+                    //颜色
+                    var colorList = data.colorList;
+                    for(var i=0;i<colorList.length;i++){
+                        colorId=colorList[i].detailId;
+                        $.each($("#colorAdd div:first").find("span"),function(){
+                            if($(this).attr("id")==colorId)
+                                $(this).addClass("fontOption")
+                        }) ;
+                    }
+
+                    //规格
+                    var typeList = data.typeList;
+                    for(var i=0;i<typeList.length;i++) {
+                        var typeId = typeList[i].detailId;
+                        $.each($("#typeAdd div:first").find("span"), function () {
+                            if ($(this).attr("id") == typeId)
+                                $(this).addClass("fontOption")
+                        });
+                    }
+                    //质量
+                    var qualityList = data.qualityList;
+                    for(var i=0;i<qualityList.length;i++) {
+                        qualityId = qualityList[i].detailId;
+                        $.each($("#qualityAdd div:first").find("span"), function () {
+                            if ($(this).attr("id") == qualityId)
+                                $(this).addClass("fontOption")
+                        });
+                    }
+                    //banner图片
+                    var bannerImgList = data.bannerImgList;
+                    var bannerImgIds = ""
+                    $.each(bannerImgList,function(){
+                        bannerImgIds+=this.detailId+","
+                    });
+                    $("input[name='fileIds3']").val(bannerImgIds);
+                    //详情图片
+                    var detailImgList = data.detailImgList;
+                    var detailImgIds = ""
+                    $.each(detailImgList,function(){
+                        detailImgIds+=this.detailId+","
+                    });
+                    $("input[name='fileIds2']").val(detailImgIds);
+                    //规格图片
+                    var typeImgList = data.typeImgList;
+                    var typeImgIds = ""
+                    $.each(typeImgList,function(){
+                        typeImgIds+=this.detailId+","
+                    });
+                    $("input[name='fileIds']").val(typeImgIds);
+                    //初始化上传附件 banner图片
+                    $("#uploadFile3").file({
+                        title: "banner图片",
+                        fileinput: {
+                            maxFileSize: 2048,
+                            allowedFileExtensions:['jpg', 'png', 'jpeg','bmp']
+                        },
+                        fileIdContainer:"[name='fileIds3']",
+                        showContainer:'#attachment3',
+                        //显示文件类型 edit=可编辑  detail=明细 默认为明细
+                        showType:'edit',
+                        //弹出窗口 执行上传附件后的回调函数(window:false不调用此方法)
+                        window:true,
+                        callback:function(fileIds,oldfileIds){
+                            //更新fileIds
+                            this.showFiles({
+                                fileIds:fileIds
+                            });
+                        }
+                    });
+                    //初始化上传附件 详情图片
+                    $("#uploadFile2").file({
+                        title: "详情图片",
+                        fileinput: {
+                            maxFileSize: 2048,
+                            allowedFileExtensions:['jpg', 'png', 'jpeg','bmp']
+                        },
+                        fileIdContainer:"[name='fileIds2']",
+                        showContainer:'#attachment2',
+                        //显示文件类型 edit=可编辑  detail=明细 默认为明细
+                        showType:'edit',
+                        //弹出窗口 执行上传附件后的回调函数(window:false不调用此方法)
+                        window:true,
+                        callback:function(fileIds,oldfileIds){
+                            //更新fileIds
+                            this.showFiles({
+                                fileIds:fileIds
+                            });
+                        }
+                    });
+                    //初始化上传附件 规格图片
+                    $("#uploadFile").file({
+                        title: "规格图片",
+                        fileinput: {
+                            maxFileSize: 2048,
+                            allowedFileExtensions:['jpg', 'png', 'jpeg','bmp']
+                        },
+                        fileIdContainer:"[name='fileIds']",
+                        showContainer:'#attachment',
+                        //显示文件类型 edit=可编辑  detail=明细 默认为明细
+                        showType:'edit',
+                        //弹出窗口 执行上传附件后的回调函数(window:false不调用此方法)
+                        window:true,
+                        callback:function(fileIds,oldfileIds){
+                            //更新fileIds
+                            this.showFiles({
+                                fileIds:fileIds
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    //div中显示html
+    function addDictHtml(type,dictList){
+        var listLength = dictList.length;
+        var DictHtml="";
+        if(type.indexOf("PACKMALL_PRODUCT_COLOR")!=-1){
+            for(var i=0;i<listLength;i++){
+                DictHtml+="<div class='dictDiv' onclick='addFontColor(this)'><span class='dictSpan' id='"+dictList[i].id+"'>"+dictList[i].name+"</span></div>"
+            }
+            $("#colorAdd div:first").append(DictHtml);
+        }
+        if(type.indexOf("PACKMALL_PRODUCT_TYPE")!=-1){
+            for(var i=0;i<listLength;i++){
+                DictHtml+="<div class='dictDiv' onclick='addFontColor(this)'  ><span  class='dictSpan' id='"+dictList[i].id+"'>"+dictList[i].name+"</span></div>"
+            }
+            $("#typeAdd div:first").append(DictHtml);
+        }
+        if(type.indexOf("PACKMALL_PRODUCT_QUALITY")!=-1){
+            for(var i=0;i<listLength;i++){
+                DictHtml+="<div class='dictDiv' onclick='addFontColor(this)'   ><span class='dictSpan' id='"+dictList[i].id+"'>"+dictList[i].name+"</span></div>"
+            }
+            $("#qualityAdd div:first").append(DictHtml);
+        }
+    }
+
+    //点击选中时间
+    function addFontColor(thes){
+        if($(thes).find("span").hasClass("fontOption")){
+            $(thes).find("span").removeClass("fontOption");
+        }else{
+            $(thes).find("span").addClass("fontOption");
+        }
+    }
+
+    //添加方法
+    function addDict(thes,code){
+        var name = $(thes).prev().val();
+        if(name!=null&&name.trim().length>0){
+            $.post("/packmall/product/saveDict",{"name":name,"code":code},function(data){
+                if(data.success){
+                    var dictList = [];
+                    dictList.push(data.data);
+                    $(thes).prev().val("");
+                    addDictHtml(data.data.code,dictList);
+                    modals.info("添加成功！");
+                }else{
+                    if(data.code == 002){
+                        modals.error("您添加的种类已重复！");
+                    }else{
+                        modals.error("保存错误！");
+                    }
+                }
+            });
+        }else{
+            modals.error("请输入要添加的数据！");
+        }
+    }
+
+    //保存方法
+    function saveData(){
+        //商品名称
+        var productDetailList = [];
+        var productName = $("input[name='productNameAdd']").val();
+        if(!productName||productName.trim().length==0){
+            modals.info("请输入商品名称！");
+            return;
+        }
+        //banner图片
+        var bannerImgIds = $("input[name='fileIds3']").val();
+        if(!bannerImgIds||bannerImgIds.trim().length==0){
+            modals.info("请选择banner图片！");
+            return;
+        }
+        var bannerImgIdArray = bannerImgIds.split(",");
+        if(bannerImgIdArray&&bannerImgIdArray.length>0){
+            for(var i=0;i<bannerImgIdArray.length;i++){
+                var productDetail = new ProductDetail();
+                productDetail.detailType="BANNERIMG";
+                productDetail.detailId=bannerImgIdArray[i];
+                productDetail.detailSeq=i+1;
+                productDetailList.push(productDetail);
+            }
+        }
+
+        //详情图片
+        var detailImgIds = $("input[name='fileIds2']").val();
+        if(!detailImgIds||detailImgIds.trim().length==0){
+            modals.info("请选择详情图片！");
+            return;
+        }
+        var detailImgArray = detailImgIds.split(",");
+        if(detailImgArray&&detailImgArray.length>0){
+            for(var i=0;i<detailImgArray.length;i++){
+                var productDetail = new ProductDetail();
+                productDetail.detailType="DETAILIMG";
+                productDetail.detailId=detailImgArray[i];
+                productDetail.detailSeq=i+1;
+                productDetailList.push(productDetail);
+            }
+        }
+        //规格图片
+        var typeImgIds = $("input[name='fileIds']").val();
+        if(!typeImgIds||typeImgIds.trim().length==0){
+            modals.info("请选择规格图片！");
+            return;
+        }
+        var typeImgArray = typeImgIds.split(",");
+        if(typeImgArray&&typeImgArray.length>0){
+            for(var i=0;i<typeImgArray.length;i++){
+                var productDetail = new ProductDetail();
+                productDetail.detailType="TYPEIMG";
+                productDetail.detailId=typeImgArray[i];
+                productDetail.detailSeq=i+1;
+                productDetailList.push(productDetail);
+            }
+        }
+        //颜色
+        var colorIds = "";
+        var colorI=1;
+        $.each($("#colorAdd div:first").find(".fontOption"),function(){
+            colorIds += $(this).attr("id")+",";
+            var productDetail = new ProductDetail();
+            productDetail.detailType="COLOR";
+            productDetail.detailId=$(this).attr("id");
+            productDetail.detailSeq=colorI++;
+            productDetail.detailVal = $(this).text();
+            productDetailList.push(productDetail);
+        }) ;
+        if(!colorIds||colorIds.trim().length==0){
+            modals.info("请选择颜色！");
+            return;
+        }
+        //规格
+        var typeIds ="";
+        var typeI=1;
+        $.each($("#typeAdd div:first").find(".fontOption"),function(){
+            typeIds += $(this).attr("id")+",";
+            var productDetail = new ProductDetail();
+            productDetail.detailType="TYPE";
+            productDetail.detailId=$(this).attr("id");
+            productDetail.detailSeq=typeI++;
+            productDetail.detailVal = $(this).text();
+            productDetailList.push(productDetail);
+        });
+        if(!typeIds||typeIds.trim().length==0){
+            modals.info("请选择规格！");
+            return;
+        }
+        //质量
+        var qualityIds ="";
+        var qualityI=1;
+        $.each($("#qualityAdd div:first").find(".fontOption"),function(){
+            qualityIds += $(this).attr("id")+",";
+            var productDetail = new ProductDetail();
+            productDetail.detailType="QUALITY";
+            productDetail.detailId=$(this).attr("id");
+            productDetail.detailSeq=qualityI++;
+            productDetail.detailVal = $(this).text();
+            productDetailList.push(productDetail);
+        });
+        if(!qualityIds||qualityIds.trim().length==0){
+            modals.info("请选择质量！");
+            return;
+        }
+        $.post("/packmall/product/editProdcut",{"con":JSON.stringify(productDetailList),"productName":productName,"id":productId},function(data){
+            if(data.success){
+                parent.refreshMain();
+                modals.closeWin("productWin");
+            }else{
+                modals.error("保存失败");
+            }
+        });
+    }
+
+    function ProductDetail(productId,detailType,detailId,detailVal,detailSeq){
+        this.productId=productId;
+        this.detailType=detailType;
+        this.detailId=detailId;
+        this.detailVal=detailVal;
+        this.detailSeq=detailSeq;
+    }
+
+</script>
