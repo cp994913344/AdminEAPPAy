@@ -1,4 +1,4 @@
-package com.cnpc.packmall.product.entity;
+package com.cnpc.packmall.SKU.entity;
 
 import com.cnpc.framework.annotation.Header;
 import com.cnpc.framework.base.entity.BaseEntity;
@@ -13,20 +13,18 @@ import javax.persistence.Table;
  * @create 2018-08-15 19:25
  **/
 @Entity
-@Table(name="TB_PACKMALL_PRODUCT_DETAIL")
-public class ProductDetail extends BaseEntity{
+@Table(name="TB_PACKMALL_SKU_DETAIL")
+public class SkuDetail extends BaseEntity{
 
-    @Header(name="商品id")
-    @Column(name="product_id",length = 36)
-    private String productId;
+    @Header(name="sku id")
+    @Column(name="sku_id",length = 36)
+    private String skuId;
 
     /**
-     * BANNERIMG banner图片
-     * DETAILIMG 详情图片
-     * TYPEIMG  规格图片
      * COLOR 颜色
      *  TYPE 规格
      * QUALITY 质量
+     *  PRICE
      */
     @Header(name="详情类型")
     @Column(name="detail_type",length = 20)
@@ -36,6 +34,10 @@ public class ProductDetail extends BaseEntity{
     @Column(name="detail_id")
     private String detailId;
 
+    @Header(name="详情name")
+    @Column(name="detail_name")
+    private String detailName;
+
     @Header(name="详情表value")
     @Column(name="detail_val")
     private String detailVal;
@@ -44,9 +46,6 @@ public class ProductDetail extends BaseEntity{
     @Column(name="detail_seq")
     private Integer detailSeq;
 
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
 
     public void setDetailType(String detailType) {
         this.detailType = detailType;
@@ -64,11 +63,6 @@ public class ProductDetail extends BaseEntity{
         this.detailSeq = detailSeq;
     }
 
-    public String getProductId() {
-
-        return productId;
-    }
-
     public String getDetailType() {
         return detailType;
     }
@@ -83,5 +77,23 @@ public class ProductDetail extends BaseEntity{
 
     public Integer getDetailSeq() {
         return detailSeq;
+    }
+
+    public void setSkuId(String skuId) {
+        this.skuId = skuId;
+    }
+
+    public String getSkuId() {
+
+        return skuId;
+    }
+
+    public void setDetailName(String detailName) {
+        this.detailName = detailName;
+    }
+
+    public String getDetailName() {
+
+        return detailName;
     }
 }

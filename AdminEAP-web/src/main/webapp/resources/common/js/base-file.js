@@ -107,7 +107,7 @@
          console.log(self);*/
         modals.openWin({
             winId: that.options.winId,
-            url: that.options.url + "?config=" + JSON.stringify(self),
+            url:   that.options.url + "?config=" + encodeURIComponent(JSON.stringify(self)),
             width: that.options.width + "px",
             title: that.options.title,
             backdrop: "static"

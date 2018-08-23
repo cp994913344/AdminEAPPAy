@@ -17,8 +17,12 @@ import java.math.BigDecimal;
  * @create 2018-08-15 19:03
  **/
 @Entity
-@Table(name="TB_PACKMAIL_SKU")
+@Table(name="TB_PACKMAlL_SKU")
 public class Sku extends BaseEntity {
+
+    @Header(name="商品id")
+    @Column(name="product_id",length = 36)
+    private String productId;
 
     @Header(name="sku编码")
     @Column(name="sku_code",length = 20)
@@ -28,26 +32,21 @@ public class Sku extends BaseEntity {
     @Column(name="sku_model",length = 50)
     private String skuModel;
 
-    @Header(name="sku尺寸")
-    @Column(name="sku_size",length = 50)
-    private String skuSize;
+    @Header(name="sku尺寸长")
+    @Column(name="sku_size_length",length = 50)
+    private String skuSizeLength;
 
-    @Header(name="颜色")
-    @Column(name="sku_color")
-    private String skuColor;
+    @Header(name="sku尺寸宽")
+    @Column(name="sku_size_wide",length = 50)
+    private String skuSizeWide;
 
-    @Header(name="规格")
-    @Column(name="sku_type")
-    private String skuType;
+    @Header(name="sku尺寸高")
+    @Column(name="sku_size_high",length = 50)
+    private String skuSizeHigh;
 
-    @Header(name="质量")
-    @Column(name="sku_quality")
-    private String skuQuality;
-
-    @Header(name="价格")
-    @Column(name = "sku_price")
-    private BigDecimal skuPrice;
-
+    /**
+     *  1 上架  2 下架
+     */
     @Header(name="sku状态")
     @Column(name = "sku_status")
     private Integer skuStatus;
@@ -56,58 +55,20 @@ public class Sku extends BaseEntity {
         this.skuCode = skuCode;
     }
 
-    public void setSkuType(String skuType) {
-        this.skuType = skuType;
-    }
-
-    public void setSkuQuality(String skuQuality) {
-        this.skuQuality = skuQuality;
-    }
-
-    public void setSkuPrice(BigDecimal skuPrice) {
-        this.skuPrice = skuPrice;
-    }
-
     public void setSkuStatus(Integer skuStatus) {
         this.skuStatus = skuStatus;
     }
 
-    public void setSkuSize(String skuSize) {
-        this.skuSize = skuSize;
-    }
-
-    public void setSkuColor(String skuColor) {
-        this.skuColor = skuColor;
-    }
 
     public String getSkuCode() {
 
         return skuCode;
     }
 
-    public String getSkuType() {
-        return skuType;
-    }
-
-    public String getSkuQuality() {
-        return skuQuality;
-    }
-
-    public BigDecimal getSkuPrice() {
-        return skuPrice;
-    }
-
     public Integer getSkuStatus() {
         return skuStatus;
     }
 
-    public String getSkuSize() {
-        return skuSize;
-    }
-
-    public String getSkuColor() {
-        return skuColor;
-    }
 
     public void setSkuModel(String skuModel) {
         this.skuModel = skuModel;
@@ -116,5 +77,39 @@ public class Sku extends BaseEntity {
     public String getSkuModel() {
 
         return skuModel;
+    }
+
+    public void setSkuSizeLength(String skuSizeLength) {
+        this.skuSizeLength = skuSizeLength;
+    }
+
+    public void setSkuSizeWide(String skuSizeWide) {
+        this.skuSizeWide = skuSizeWide;
+    }
+
+    public void setSkuSizeHigh(String skuSizeHigh) {
+        this.skuSizeHigh = skuSizeHigh;
+    }
+
+    public String getSkuSizeLength() {
+
+        return skuSizeLength;
+    }
+
+    public String getSkuSizeWide() {
+        return skuSizeWide;
+    }
+
+    public String getSkuSizeHigh() {
+        return skuSizeHigh;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductId() {
+
+        return productId;
     }
 }

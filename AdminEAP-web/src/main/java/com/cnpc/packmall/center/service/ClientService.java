@@ -12,7 +12,6 @@ public interface ClientService extends BaseService {
     /**
      *  修改客户禁用
      * @param id
-     * @param deleted
      * @return
      */
     boolean updateDeleted(String id);

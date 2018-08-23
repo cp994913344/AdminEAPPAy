@@ -1,0 +1,403 @@
+
+<link rel="stylesheet" href="./resources/common/libs/fileinput/css/fileinput.min.css">
+<style>
+    .dictDiv{
+        float: left;
+        width: 100px;
+        height: 30px;
+        margin: 0px 10px 30px 0px;
+        border: 1px solid #000000;
+        border-radius:10px;
+        cursor: pointer;
+    }
+    .dictSpan {
+        display: block;
+        text-align:center;
+        font-size: 15px;
+        margin: 5px;
+    }
+    .fontOption{
+        color: #55ACF1;
+    }
+    .inputText{
+        width: 100px;
+        display: block;
+        padding: 6px 12px;
+        font-size: 13px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+    }
+    .typeInput{
+        float: left;
+        width: 90px;
+        display: block;
+        padding: 6px 12px;
+        font-size: 13px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+    }
+    .typeInputSpan{
+        float: left;
+        margin: 10px 10px 10px 10px;
+    }
+    .btn.btn-file {
+        margin-left: 15px;
+    }
+</style>
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+    <h5 class="modal-title"></h5>
+</div>
+
+<div class="modal-body" >
+        <input type='hidden' value="${CSRFToken}" id='csrftoken'>
+        <div class="box-body" style="height: 500px; overflow-Y:auto;">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">商品<span style="color:red">*</span></label>
+                    <div class="col-sm-8" >
+                        <div class="addDiv" style="margin-bottom: 10px;">
+                            <select id="prdouctSelect" class="form-control select2">
+                                <option selected="selected" value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">型号<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="inputText" autocomplete="off" name="skuModelInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">颜色<span style="color:red">*</span></label>
+                    <div class="col-sm-8" id="colorAdd">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">尺寸<span style="color:red">*</span></label>
+                    <div class="col-sm-8" >
+                        <input type="text" class="typeInput" autocomplete="off" name="sizeLength" placeholder="长"/>
+                        <span class="typeInputSpan">*</span>
+                        <input type="text" class="typeInput" autocomplete="off" name="sizeWide" placeholder="宽"/>
+                        <span class="typeInputSpan">*</span>
+                        <input type="text" class="typeInput" autocomplete="off" name="sizeHigh" placeholder="高"/>
+                        <span class="typeInputSpan">cm</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">规格<span style="color:red">*</span></label>
+                    <div class="col-sm-8" id="typeAdd">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">质量<span style="color:red">*</span></label>
+                    <div class="col-sm-8" id="qualityAdd">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">价格<span style="color:red">*</span></label>
+                    <div class="col-sm-8" id="priceAdd">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer text-right">
+            <button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="saveData()" >提交</button>
+        </div>
+</div>
+<script src="./resources/common/libs/fileinput/js/fileinput.js"></script>
+<script src="./resources/common/libs/fileinput/js/locales/zh.js"></script>
+<!--BaseFile组件-->
+<script src="./resources/common/js/base-file.js"></script>
+<script src="./resources/common/js/select/jquery.select.js"></script>
+<script>
+
+    $(function(){
+        $(".select2").select2();
+        $.post("/packmall/product/getProductList",null,function(data){
+            var productArray = [];
+            if(data.productList){
+                var productList = data.productList;
+                for(var i=0;i<productList.length;i++){
+                    var productEntity = {
+                        "id":productList[i].id,
+                        "value":productList[i].productName
+                    }
+                    productArray.push(productEntity);
+                }
+            }
+            themeSelect("prdouctSelect",productArray,"", function ($this, theme) {
+                getDetailByProductId(theme);
+                $("#priceAdd").html("");
+            });
+        });
+    });
+
+    //根据商品id 获取 商品的 信息
+    function getDetailByProductId(productId){
+        $.post("/packmall/product/getDetailbyProductId",{"id":productId},function(data){
+            if(data){
+                if(data.colorList){
+                    addDictHtml("PACKMALL_PRODUCT_COLOR",data.colorList);
+                }
+                if(data.typeList){
+                    addDictHtml("PACKMALL_PRODUCT_TYPE",data.typeList);
+                }
+                if(data.qualityList){
+                    addDictHtml("PACKMALL_PRODUCT_QUALITY",data.qualityList );
+                }
+            }
+        });
+
+    }
+
+    //初始化 select
+    function themeSelect(id, themes, lsKey, callback) {
+        var select = $("#" + id);
+
+        for (var i = 0, len = themes.length; i < len; i++) {
+            var theme = themes[i];
+            var selected = (lsKey == theme.id) ? " selected=\"selected\"" : "";
+
+            select.append("<option value=\"" + theme.id + "\"" + selected + ">" + theme.value + "</option>");
+        }
+
+        select.bind("change", function () {
+            var theme = $(this).val();
+
+            if (theme === "") {
+                return false;
+            }
+            lsKey = theme;
+            callback(select, theme);
+        });
+
+        return select;
+    }
+
+    //div中显示html
+    function addDictHtml(type,dictList){
+        var listLength = dictList.length;
+        var DictHtml="";
+        if(type.indexOf("PACKMALL_PRODUCT_COLOR")!=-1){
+            for(var i=0;i<listLength;i++){
+                DictHtml+="<div class='dictDiv' onclick='addFontColor(this)'><span class='dictSpan' id='"+dictList[i].id+"'>"+dictList[i].detailVal+"</span></div>"
+            }
+            $("#colorAdd div:first").html(DictHtml);
+        }
+        if(type.indexOf("PACKMALL_PRODUCT_TYPE")!=-1){
+            for(var i=0;i<listLength;i++){
+                DictHtml+="<div class='dictDiv' onclick='addFontColor(this)'  ><span  class='dictSpan' id='"+dictList[i].id+"'>"+dictList[i].detailVal+"</span></div>"
+            }
+            $("#typeAdd div:first").html(DictHtml);
+        }
+        if(type.indexOf("PACKMALL_PRODUCT_QUALITY")!=-1){
+            for(var i=0;i<listLength;i++){
+                DictHtml+="<div class='dictDiv'  onclick='addFontColor(this)' name='quality'  ><span class='dictSpan' id='"+dictList[i].id+"'>"+dictList[i].detailVal+"</span></div>"
+            }
+            $("#qualityAdd div:first").html(DictHtml);
+        }
+    }
+
+    //点击选中时间
+    function addFontColor(thes){
+        var $span=$(thes).find("span");
+        if($span.hasClass("fontOption")){
+            $span.removeClass("fontOption");
+            if($(thes).attr("name")=="quality"){
+                var priceId =  $span.attr("id");
+                $.each($("#priceAdd .priceclass "),function(){
+                    if($(this).find("input").attr("name")==priceId){
+                        $(this).remove();
+                    }
+                });
+            }
+        }else{
+            $span.addClass("fontOption");
+            if($(thes).attr("name")=="quality"){
+                addPriceDiv($span.attr("id"),$span.text());
+            }
+        }
+    }
+    
+    //选中质量价格添加  div
+    function addPriceDiv(detailId,detailName){
+        var divHtml ="<div class='priceclass'><span>"+detailName+"</span>" +
+            "<input type='text' name='"+detailId+"' class='typeInput' autocomplete='off' '/></div> ";
+        $("#priceAdd") .append(divHtml);
+    }
+
+    //添加方法
+    function addDict(thes,code){
+        var name = $(thes).prev().val();
+        if(name!=null&&name.trim().length>0){
+            $.post("/packmall/product/saveDict",{"name":name,"code":code},function(data){
+                if(data.success){
+                    var dictList = [];
+                    dictList.push(data.data);
+                    $(thes).prev().val("");
+                    addDictHtml(data.data.code,dictList);
+                    modals.info("添加成功！");
+                }else{
+                    if(data.code == 002){
+                        modals.error("您添加的种类已重复！");
+                    }else{
+                        modals.error("保存错误！");
+                    }
+                }
+            });
+        }else{
+            modals.error("请输入要添加的数据！");
+        }
+    }
+
+    //保存方法
+    function saveData(){
+        var flag = true;
+        //商品
+        var skuDetailList = [];
+        var  skuData= new SkuData();
+        skuData.skuStatus=1;
+        skuData.productId = $("#prdouctSelect").val();
+        if(!skuData.productId||skuData.productId.trim().length==0){
+            modals.info("请选择商品！");
+            return;
+        }
+        //型号
+        skuData.skuModel = $("input[name='skuModelInput']").val();
+        if(!skuData.skuModel||skuData.skuModel.trim().length==0){
+            modals.info("请输入型号！");
+            return;
+        }
+        //颜色
+        var colorIds = "";
+        var colorI=1;
+        $.each($("#colorAdd div:first").find(".fontOption"),function(){
+            colorIds += $(this).attr("id")+",";
+            var skuDetail = new SkuDetail();
+            skuDetail.detailType="COLOR";
+            skuDetail.detailId=$(this).attr("id");
+            skuDetail.detailSeq=colorI++;
+            skuDetail.detailVal = $(this).text();
+            skuDetailList.push(skuDetail);
+        }) ;
+        if(!colorIds||colorIds.trim().length==0){
+            modals.info("请选择颜色！");
+            return;
+        }
+        //尺寸长宽高
+        //长
+        skuData.skuSizeLength = $("input[name='sizeLength']").val();
+        if(!skuData.skuSizeLength||skuData.skuSizeLength.trim().length==0){
+            modals.info("请输入尺寸长！");
+            return;
+        }
+        //宽
+        skuData.skuSizeWide = $("input[name='sizeWide']").val();
+        if(skuData.skuSizeWide||skuData.skuSizeWide.trim().length==0){
+            modals.info("请输入尺寸宽！");
+            return;
+        }
+        //高
+        skuData.skuSizeHigh = $("input[name='sizeHigh']").val();
+        if(!skuData.skuSizeHigh||skuData.skuSizeHigh.trim().length==0){
+            modals.info("请输入尺寸高！");
+            return;
+        }
+
+        //规格
+        var typeIds ="";
+        var typeI=1;
+        $.each($("#typeAdd div:first").find(".fontOption"),function(){
+            typeIds += $(this).attr("id")+",";
+            var skuDetail = new SkuDetail();
+            skuDetail.detailType="TYPE";
+            skuDetail.detailId=$(this).attr("id");
+            skuDetail.detailSeq=typeI++;
+            skuDetail.detailVal = $(this).text();
+            skuDetailList.push(skuDetail);
+        });
+        if(!typeIds||typeIds.trim().length==0){
+            modals.info("请选择规格！");
+            return;
+        }
+        //质量
+        var qualityIds ="";
+        var qualityI=1;
+        $.each($("#qualityAdd div:first").find(".fontOption"),function(){
+            qualityIds += $(this).attr("id")+",";
+            var skuDetail = new SkuDetail();
+            skuDetail.detailType="QUALITY";
+            skuDetail.detailId=$(this).attr("id");
+            skuDetail.detailSeq=qualityI++;
+            skuDetail.detailVal = $(this).text();
+            skuDetailList.push(skuDetail);
+        });
+        if(!qualityIds||qualityIds.trim().length==0){
+            modals.info("请选择质量！");
+            return;
+        }
+
+        //价格
+        var priceI =1;
+        $.each($("#priceAdd input "),function(){
+            if(!$(this).val()||$(this).val().trim().length==0){
+                modals.info("请将价格信息填写完整！");
+                return;
+                flag = false;
+            }else{
+                var skuDetail = new SkuDetail();
+                skuDetail.detailType="PRICE";
+                skuDetail.detailId=$(this).attr("name");
+                skuDetail.detailSeq=priceI++;
+                skuDetail.detailVal = $(this).val().trim();
+                skuDetail.detailName = $(this).prev().text();
+                skuDetailList.push(skuDetail);
+            }
+        });
+if(flag){
+//    $.post("/packmall/product/save",{"con":JSON.stringify(skuDetailList),"productName":productName},function(data){
+//        if(data.success){
+//            parent.refreshMain();
+//            modals.closeWin("productWin");
+//        }else{
+//            modals.error("保存失败");
+//        }
+//    });
+}
+        
+    }
+
+    function SkuDetail(productId,detailType,detailId,detailName,detailVal,detailSeq){
+        this.productId=productId;
+        this.detailType=detailType;
+        this.detailId=detailId;
+        this.detailName=detailName;
+        this.detailVal=detailVal;
+        this.detailSeq=detailSeq;
+    }
+
+    function SkuData(skuCode,skuModel,skuSizeLength,skuSizeWide,skuSizeHigh,skuStatus,productId){
+        this.skuCode=skuCode;
+        this.skuModel=skuModel;
+        this.skuSizeLength=skuSizeLength;
+        this.skuSizeWide=skuSizeWide;
+        this.skuSizeHigh=skuSizeHigh;
+        this.skuStatus=skuStatus;
+        this.productId=productId;
+    }
+
+</script>

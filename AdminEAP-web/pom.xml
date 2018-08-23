@@ -280,6 +280,18 @@
 		    <artifactId>core</artifactId>
 		    <version>3.3.2</version>
 		</dependency>
+        <!-- junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -318,18 +330,18 @@
                     </webAppConfig>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <!-- 注意此处的url -->
-                    <url>http://xxxxxxxx:8080/manager/text</url><!--部署到本地tomcat7-->
-                    <path>/${project.name}</path>  <!-- 此处的名字是项目发布的工程名 -->
-                    <username>tomcat</username><!--settings.xml文件已配置，此处可不配-->
-                    <password>xxxxxx</password><!--settings.xml文件已配置，此处可不配-->
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.tomcat.maven</groupId>-->
+                <!--<artifactId>tomcat-maven-plugin</artifactId>-->
+                <!--<version>2.2</version>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash; 注意此处的url &ndash;&gt;-->
+                    <!--<url>http://xxxxxxxx:8080/manager/text</url>&lt;!&ndash;部署到本地tomcat7&ndash;&gt;-->
+                    <!--<path>/${project.name}</path>  &lt;!&ndash; 此处的名字是项目发布的工程名 &ndash;&gt;-->
+                    <!--<username>tomcat</username>&lt;!&ndash;settings.xml文件已配置，此处可不配&ndash;&gt;-->
+                    <!--<password>xxxxxx</password>&lt;!&ndash;settings.xml文件已配置，此处可不配&ndash;&gt;-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

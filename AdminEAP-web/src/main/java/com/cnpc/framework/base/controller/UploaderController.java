@@ -183,7 +183,7 @@ public class UploaderController {
      * 跳转到通用文件上传窗口
      * @return
      */
-    @RequestMapping(value="/uploader",method = RequestMethod.GET)
+    @RequestMapping(value="/uploader")
     public String uploader(String config,HttpServletRequest request){
         request.setAttribute("config",config);
         return "base/file/file_uploader";
