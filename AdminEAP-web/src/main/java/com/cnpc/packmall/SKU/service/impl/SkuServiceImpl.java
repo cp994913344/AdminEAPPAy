@@ -6,6 +6,7 @@ import com.cnpc.packmall.SKU.entity.SkuDetail;
 import com.cnpc.packmall.center.entity.Client;
 import com.cnpc.packmall.product.entity.Product;
 import com.cnpc.packmall.product.entity.ProductDetail;
+import com.cnpc.packmall.util.SortUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,9 @@ import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.packmall.SKU.service.SkuService;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
 * sku服务实现
@@ -108,5 +111,65 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             return true;
         }
         return false;
+    }
+    /**
+     * 通过 skuId 查询 详情
+     * @param skuId
+     * @return
+     */
+    @Override
+    public Map<String, Object> findDetailBySkuId(String skuId) {
+        Map<String, Object> result = new HashMap<>(16);
+        String hql = "from SkuDetail where skuId='"+skuId+"'";
+        List<SkuDetail> detailsList = this.baseDao.find(hql);
+        if(detailsList!=null&&detailsList.size()>0){
+            // PRICE 价格
+            List<SkuDetail> priceList = SortUtil.sortSkuDetailByType("PRICE",detailsList);
+            result.put("priceList",priceList);
+            // COLOR 颜色
+            List<SkuDetail> colorList = SortUtil.sortSkuDetailByType("COLOR",detailsList);
+            result.put("colorList",colorList);
+            //  TYPE 规格
+            List<SkuDetail> typeList = SortUtil.sortSkuDetailByType("TYPE",detailsList);
+            result.put("typeList",typeList);
+            // QUALITY 质量
+            List<SkuDetail> qualityList = SortUtil.sortSkuDetailByType("QUALITY",detailsList);
+            result.put("qualityList",qualityList);
+        }
+        return result;
+    }
+
+    /**
+     * 修改sku 和sku详情
+     * @param list
+     * @param sku
+     * @return
+     */
+    @Override
+    public Result updatedata(List<SkuDetail> list, Sku sku){
+        Sku oldSku = this.baseDao.get(Sku.class,sku.getId());
+        //判断是否是同一个商品 如果是同一个商品那就修改一些信息  删除 字表  重新提交
+        // 如果不是 那就是删除整个商品 和详情表新增
+        if(oldSku.getProductId().equals(sku.getProductId())){
+            oldSku.setSkuModel(sku.getSkuModel());
+            oldSku.setUpdateDateTime(new Date());
+            oldSku.setSkuSizeHigh(sku.getSkuSizeHigh());
+            oldSku.setSkuSizeWide(sku.getSkuSizeWide());
+            oldSku.setSkuSizeHigh(sku.getSkuSizeHigh());
+            this.baseDao.update(oldSku);
+            String hql = "delete SkuDetail sd where sd.skuId='"+oldSku.getId()+"'";
+            this.baseDao.executeHql(hql);
+            for(SkuDetail pd: list){
+                pd.setSkuId(sku.getId());
+            }
+            this.batchSave(list);
+        }else{
+            String hql = "delete Sku s where s.id='"+oldSku.getId()+"'";
+            this.baseDao.executeHql(hql);
+            String Detailhql = "delete SkuDetail sd where sd.skuId='"+oldSku.getId()+"'";
+            this.baseDao.executeHql(Detailhql);
+            savedata(list,sku);
+        }
+        return new Result(true);
     }
 }

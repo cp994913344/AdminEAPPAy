@@ -24,7 +24,7 @@ public class SkuDetail extends BaseEntity{
      * COLOR 颜色
      *  TYPE 规格
      * QUALITY 质量
-     *  PRICE
+     *  PRICE 价格
      */
     @Header(name="详情类型")
     @Column(name="detail_type",length = 20)

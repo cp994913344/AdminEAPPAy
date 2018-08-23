@@ -4,8 +4,9 @@
 <query id="packmall_sku" key="id" tableName="sku列表" className="com.cnpc.packmall.SKU.entity.Sku" widthType="px">
         <column key="rowIndex" header="序号" width="80"/>
         <column key="skuCode" header="sku编码" classType="String" allowSort="true" width="150"/>
+        <column key="productName" header="商品名称" classType="String" allowSort="true" width="150"/>
         <column key="skuModel" header="sku型号" classType="String" allowSort="true" width="150"/>
-        <column key="skuSize" header="sku尺寸" classType="String" allowSort="true" width="150"/>
-        <column key="skuStatus" header="sku状态" classType="Integer" allowSort="true" width="150"/>
+        <column key="skuStatus" header="sku状态" classType="Integer" allowSort="true" width="150" render="1=上架,2=下架"/>
+        <column key="skuStatus" header="sku状态" classType="Integer" allowSort="true" width="150" fnRender = "deletedFn"  render="type=link,method=banOrstar,params='[id]';this"/>
 </query>
 </queryContext>

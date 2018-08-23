@@ -6,6 +6,7 @@ import com.cnpc.packmall.SKU.entity.Sku;
 import com.cnpc.packmall.SKU.entity.SkuDetail;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 * sku服务接口
@@ -30,4 +31,19 @@ public interface SkuService extends BaseService {
      * @return
      */
     boolean updateStauts(String id);
+
+    /**
+     * 通过 skuId 查询 详情
+     * @param skuId
+     * @return
+     */
+    Map<String, Object> findDetailBySkuId(String skuId);
+
+    /**
+     * 修改sku 和sku详情
+     * @param list
+     * @param sku
+     * @return
+     */
+    Result updatedata(List<SkuDetail> list, Sku sku);
 }

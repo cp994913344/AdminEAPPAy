@@ -2,6 +2,7 @@ package com.cnpc.packmall.SKU.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.packmall.SKU.entity.SkuDetail;
+import com.cnpc.packmall.product.entity.Product;
 import com.cnpc.packmall.product.entity.ProductDetail;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -55,16 +57,12 @@ public class SkuController {
         return "packmall/SKU/sku_edit";
     }
 
-    @RequestMapping(value="/detail",method = RequestMethod.GET)
-    public String detail(String id,HttpServletRequest request){
-        request.setAttribute("id", id);
-        return "packmall/SKU/sku_detail";
-    }
-
-    @RequestMapping(value="/get/{id}",method = RequestMethod.POST)
+    @RequestMapping(value="/getbyId",method = RequestMethod.POST)
     @ResponseBody
-    public Sku get(@PathVariable("id") String id){
-        return skuService.get(Sku.class, id);
+    public Map<String,Object> getbyId(String id){
+        Map<String,Object> result = skuService.findDetailBySkuId(id);
+        result.put("Sku",skuService.get(Sku.class, id));
+        return result;
     }
 
     /**
@@ -84,12 +82,21 @@ public class SkuController {
         return  skuService.savedata(skuDetailList, sku);
     }
 
-
+    @RequestMapping(value="/editSku",method = RequestMethod.POST)
+    @ResponseBody
+    public Result editSku(String detailString,String entityString ){
+        if(StringUtils.isEmpty(detailString)||StringUtils.isEmpty(entityString)){
+            return  new Result(false);
+        }
+        List<SkuDetail> skuDetailList = JSON.parseArray(detailString,SkuDetail.class);
+        Sku sku =JSON.parseObject(entityString,Sku.class);
+        return  skuService.updatedata(skuDetailList, sku);
+    }
 
     @RequestMapping(value="/delete/{id}",method = RequestMethod.POST)
     @ResponseBody
     public Result delete(@PathVariable("id") String id){
-        Sku sku=this.get(id);
+        Sku sku= skuService.get(Sku.class,id);
         try{
         	skuService.delete(sku);
             return new Result();

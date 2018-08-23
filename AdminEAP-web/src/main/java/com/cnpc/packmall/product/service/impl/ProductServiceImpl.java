@@ -4,7 +4,7 @@ import bsh.StringUtil;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.packmall.product.entity.Product;
 import com.cnpc.packmall.product.entity.ProductDetail;
-import com.cnpc.packmall.product.util.productUtil;
+import com.cnpc.packmall.util.SortUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -111,22 +111,22 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
         List<ProductDetail> detailsList = this.baseDao.find(hql);
         if(detailsList!=null&&detailsList.size()>0){
             // BANNERIMG banner图片
-            List<ProductDetail> bannerImgList = productUtil.sortByType("BANNERIMG",detailsList);
+            List<ProductDetail> bannerImgList = SortUtil.sortByType("BANNERIMG",detailsList);
             result.put("bannerImgList",bannerImgList);
             // DETAILIMG 详情图片
-            List<ProductDetail> detailImgList = productUtil.sortByType("DETAILIMG",detailsList);
+            List<ProductDetail> detailImgList = SortUtil.sortByType("DETAILIMG",detailsList);
             result.put("detailImgList",detailImgList);
             // TYPEIMG  规格图片
-            List<ProductDetail> typeImgList = productUtil.sortByType("TYPEIMG",detailsList);
+            List<ProductDetail> typeImgList = SortUtil.sortByType("TYPEIMG",detailsList);
             result.put("typeImgList",typeImgList);
             // COLOR 颜色
-            List<ProductDetail> colorList = productUtil.sortByType("COLOR",detailsList);
+            List<ProductDetail> colorList = SortUtil.sortByType("COLOR",detailsList);
             result.put("colorList",colorList);
             //  TYPE 规格
-            List<ProductDetail> typeList = productUtil.sortByType("TYPE",detailsList);
+            List<ProductDetail> typeList = SortUtil.sortByType("TYPE",detailsList);
             result.put("typeList",typeList);
             // QUALITY 质量
-            List<ProductDetail> qualityList = productUtil.sortByType("QUALITY",detailsList);
+            List<ProductDetail> qualityList = SortUtil.sortByType("QUALITY",detailsList);
             result.put("qualityList",qualityList);
         }
         return result;
