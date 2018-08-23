@@ -301,7 +301,7 @@
         }
         //宽
         skuData.skuSizeWide = $("input[name='sizeWideInput']").val();
-        if(skuData.skuSizeWide||skuData.skuSizeWide.trim().length==0){
+        if(!skuData.skuSizeWide||skuData.skuSizeWide.trim().length==0){
             modals.info("请输入尺寸宽！");
             return;
         }
@@ -362,16 +362,16 @@
                 skuDetailList.push(skuDetail);
             }
         });
-if(flag){
-//    $.post("/packmall/product/save",{"con":JSON.stringify(skuDetailList),"productName":productName},function(data){
-//        if(data.success){
-//            parent.refreshMain();
-//            modals.closeWin("productWin");
-//        }else{
-//            modals.error("保存失败");
-//        }
-//    });
-}
+        if(flag){
+            $.post("/packmall/sku/save",{"detailString":JSON.stringify(skuDetailList),"entityString":JSON.stringify(skuData)},function(data){
+                if(data.success){
+                    parent.refreshMain();
+                    modals.closeWin("skuWin");
+                }else{
+                    modals.error("保存失败");
+                }
+            });
+        }
         
     }
 
@@ -384,7 +384,7 @@ if(flag){
         this.detailSeq=detailSeq;
     }
 
-    function SkuData(skuCode,skuModel,skuSizeLength,skuSizeWide,skuSizeHigh,skuStatus,productId){
+    function SkuData(skuCode,skuModel,skuSizeLength,skuSizeWide,skuSizeHigh,skuStatus,productId,productName){
         this.skuCode=skuCode;
         this.skuModel=skuModel;
         this.skuSizeLength=skuSizeLength;
@@ -392,6 +392,7 @@ if(flag){
         this.skuSizeHigh=skuSizeHigh;
         this.skuStatus=skuStatus;
         this.productId=productId;
+        this.productName=productName;
     }
 
 </script>

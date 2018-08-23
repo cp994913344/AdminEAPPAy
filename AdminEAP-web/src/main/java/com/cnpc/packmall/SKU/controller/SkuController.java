@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.packmall.SKU.entity.SkuDetail;
@@ -79,7 +80,7 @@ public class SkuController {
             return  new Result(false);
         }
         List<SkuDetail> skuDetailList = JSON.parseArray(detailString,SkuDetail.class);
-        Sku sku = (Sku)JSON.parse(entityString);
+        Sku sku =JSON.parseObject(entityString,Sku.class);
         return  skuService.savedata(skuDetailList, sku);
     }
 
@@ -98,6 +99,13 @@ public class SkuController {
         }
     }
 
-
+    @RequestMapping(value="/updateStauts",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean updateStauts(String id){
+        if(StringUtils.isEmpty(id)){
+            return false;
+        }
+        return skuService.updateStauts(id);
+    }
 
 }

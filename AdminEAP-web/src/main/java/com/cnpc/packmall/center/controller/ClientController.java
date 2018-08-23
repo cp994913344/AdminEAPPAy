@@ -90,7 +90,8 @@ public class ClientController {
     public Result delete(@PathVariable("id") String id){
         Client client=this.get(id);
         try{
-            clientService.delete(client);
+            client.setDeleted(1);
+            clientService.update(client);
             return new Result();
         }
         catch(Exception e){

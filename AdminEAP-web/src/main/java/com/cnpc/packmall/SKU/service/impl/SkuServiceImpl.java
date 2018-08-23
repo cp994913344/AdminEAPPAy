@@ -3,6 +3,7 @@ package com.cnpc.packmall.SKU.service.impl;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.packmall.SKU.entity.Sku;
 import com.cnpc.packmall.SKU.entity.SkuDetail;
+import com.cnpc.packmall.center.entity.Client;
 import com.cnpc.packmall.product.entity.Product;
 import com.cnpc.packmall.product.entity.ProductDetail;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
         String skuCode;
         Product product = this.baseDao.get(Product.class,sku.getProductId());
         if(product!=null&&StringUtils.isNotEmpty(product.getProductCode())){
+            sku.setProductName(product.getProductName());
             skuCode = product.getProductCode().replace("M","MS");
             //获取最后一个  此商品的 sku
             String hql = "from Sku s where s.skuCode like '"+ skuCode+"%'  order by s.skuCode desc";
@@ -45,11 +47,11 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
                 Sku lastSku = lastSkuList.get(0);
                 String lastSkuCode = lastSku.getSkuCode();
                 //默认  MS00100001 为九位  超过 九位
-                if(StringUtils.isNotEmpty(lastSkuCode)&&lastSkuCode.length()>9){
-                    skuCode +=  (Integer.parseInt(lastSkuCode.replace(skuCode," "))+1);
+                if(StringUtils.isNotEmpty(lastSkuCode)&&lastSkuCode.length()>10){
+                    skuCode +=  (Integer.parseInt(lastSkuCode.replace(skuCode,"0"))+1);
                 }else{
                     try{
-                        int skuNum =  Integer.parseInt(lastSkuCode.replace(skuCode," "))+1;
+                        int skuNum =  Integer.parseInt(lastSkuCode.replace(skuCode,"0"))+1;
                         if(skuNum>0&&skuNum<10){
                             skuCode=skuCode+"0000"+skuNum;
                         }else if(skuNum<100&&skuNum>=10){
@@ -71,12 +73,12 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
                 skuCode += "00001";
             }
             if(StringUtils.isNotEmpty(skuCode)){
-                sku.setSkuCode(skuCode);
-                product.setCreateDateTime(new Date());
-                product.setDeleted(0);
-                product.setVersion(0);
-                this.baseDao.save(product);
-                if(StringUtils.isNotEmpty(sku.getId())){
+                 sku.setSkuCode(skuCode);
+                 sku.setCreateDateTime(new Date());
+                 sku.setDeleted(0);
+                 sku.setVersion(0);
+                 this.baseDao.save(sku);
+                 if(StringUtils.isNotEmpty(sku.getId())){
                     for(SkuDetail pd: list){
                         pd.setSkuId(sku.getId());
                     }
@@ -86,5 +88,25 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             }
         }
         return new Result(false);
+    }
+
+    /**
+     *  修改客户禁用
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean updateStauts(String id) {
+        Sku sku = this.baseDao.get(Sku.class,id);
+        if(sku!=null){
+            if(sku.getSkuStatus()==1){
+                sku.setSkuStatus(2);
+            }else{
+                sku.setSkuStatus(1);
+            }
+            this.baseDao.update(sku);
+            return true;
+        }
+        return false;
     }
 }

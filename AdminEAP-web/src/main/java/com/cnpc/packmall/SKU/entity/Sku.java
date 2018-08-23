@@ -24,6 +24,10 @@ public class Sku extends BaseEntity {
     @Column(name="product_id",length = 36)
     private String productId;
 
+    @Header(name="商品名称")
+    @Column(name="product_name",length = 36)
+    private String productName;
+
     @Header(name="sku编码")
     @Column(name="sku_code",length = 20)
     private String skuCode;
@@ -111,5 +115,14 @@ public class Sku extends BaseEntity {
     public String getProductId() {
 
         return productId;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductName() {
+
+        return productName;
     }
 }

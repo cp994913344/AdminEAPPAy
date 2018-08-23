@@ -86,5 +86,46 @@
                     break;
             }
         })
-    })
+    });
+
+    //操作html替换
+    function deletedFn(value, type, rowObj,oSetting) {
+        if (value.indexOf("上架")>0) {
+            return value.replace("上架","下架");
+        } else {
+            return value.replace("下架","上架");
+        }
+        return value;
+    }
+
+    //开启禁用操作
+    function banOrstar(id,thes){
+        $thes = $(thes);
+        var name = $thes.text();
+        if(name=="上架"){
+            modals.confirm('确定上架该sku',function(){
+                ajaxPost(basePath + "/packmall/sku/updateStauts" , {"id":id}, function (data) {
+                    if (data==true) {
+                        $thes.text("下架");
+                        $thes.parent("td").prev().text("上架");
+                        modals.info("操作成功！");
+                    } else {
+                        modals.info("操作失败！");
+                    }
+                });
+            });
+        }else if(name=="下架"){
+            modals.confirm('确定下架该sku',function(){
+                ajaxPost(basePath + "/packmall/sku/updateStauts" , {"id":id}, function (data) {
+                    if (data==true) {
+                        $thes.text("上架");
+                        $thes.parent("td").prev().text("下架");
+                        modals.info("操作成功！");
+                    } else {
+                        modals.info("操作失败！");
+                    }
+                });
+            });
+        }
+    }
 </script>

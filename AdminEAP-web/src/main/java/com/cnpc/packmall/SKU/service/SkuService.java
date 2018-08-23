@@ -23,4 +23,11 @@ public interface SkuService extends BaseService {
      * @return
      */
      Result savedata(List<SkuDetail> list, Sku sku);
+
+    /**
+     *  修改sku上下架
+     * @param id
+     * @return
+     */
+    boolean updateStauts(String id);
 }
