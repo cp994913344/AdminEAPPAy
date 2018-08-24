@@ -98,6 +98,11 @@
         return value;
     }
 
+    //操作尺寸html替换
+    function skuSizeS(value, type, rowObj,oSetting) {
+        return rowObj.skuSizeLength+"*"+rowObj.skuSizeWide+"*"+ value;
+    }
+
     //开启禁用操作
     function banOrstar(id,thes){
         $thes = $(thes);

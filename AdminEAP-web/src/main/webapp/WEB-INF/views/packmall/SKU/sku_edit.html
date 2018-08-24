@@ -48,6 +48,18 @@
     .btn.btn-file {
         margin-left: 15px;
     }
+
+    .priceSpan{
+        float: left;
+        margin: 10px;
+    }
+    .form-group:before,.form-group:after{
+        content:'';
+        display: table;
+    }
+    .form-group:after{
+        clear: both;
+    }
 </style>
 
 
@@ -210,7 +222,7 @@
                 //价格
                 var divHtml ="";
                 for(var i=0;i<priceList.length;i++) {
-                    divHtml +="<div class='priceclass'><span>"+priceList[i].detailName+"：</span>" +
+                    divHtml +="<div class='priceclass'><span class='priceSpan'>"+priceList[i].detailName+"：</span>" +
                         "<input type='text' name='"+priceList[i].detailId+"' class='typeInput' value='"+priceList[i].detailVal+"' autocomplete='off' '/></div> ";
                 }
                 $("#priceAdd") .append(divHtml);
@@ -310,7 +322,7 @@
     
     //选中质量价格添加  div
     function addPriceDiv(detailId,detailName){
-        var divHtml ="<div class='priceclass'><span>"+detailName+"：</span>" +
+        var divHtml ="<div class='priceclass'><span class='priceSpan'>"+detailName+"：</span>" +
             "<input type='text' name='"+detailId+"' class='typeInput' autocomplete='off' '/></div> ";
         $("#priceAdd") .append(divHtml);
     }

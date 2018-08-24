@@ -48,6 +48,17 @@
     .btn.btn-file {
         margin-left: 15px;
     }
+    .form-group:before,.form-group:after{
+        content:'';
+        display: table;
+    }
+    .form-group:after{
+        clear: both;
+    }
+    .priceSpan{
+        float: left;
+        margin: 10px;
+    }
 </style>
 
 
@@ -229,7 +240,7 @@
     
     //选中质量价格添加  div
     function addPriceDiv(detailId,detailName){
-        var divHtml ="<div class='priceclass'><span>"+detailName+"</span>" +
+        var divHtml ="<div class='priceclass'><span class='priceSpan'>"+detailName+"：</span>" +
             "<input type='text' name='"+detailId+"' class='typeInput' autocomplete='off' '/></div> ";
         $("#priceAdd") .append(divHtml);
     }

@@ -38,15 +38,15 @@ public class Sku extends BaseEntity {
 
     @Header(name="sku尺寸长")
     @Column(name="sku_size_length",length = 50)
-    private String skuSizeLength;
+    private BigDecimal skuSizeLength;
 
     @Header(name="sku尺寸宽")
     @Column(name="sku_size_wide",length = 50)
-    private String skuSizeWide;
+    private BigDecimal skuSizeWide;
 
     @Header(name="sku尺寸高")
     @Column(name="sku_size_high",length = 50)
-    private String skuSizeHigh;
+    private BigDecimal skuSizeHigh;
 
     /**
      *  1 上架  2 下架
@@ -83,28 +83,28 @@ public class Sku extends BaseEntity {
         return skuModel;
     }
 
-    public void setSkuSizeLength(String skuSizeLength) {
+    public void setSkuSizeLength(BigDecimal skuSizeLength) {
         this.skuSizeLength = skuSizeLength;
     }
 
-    public void setSkuSizeWide(String skuSizeWide) {
+    public void setSkuSizeWide(BigDecimal skuSizeWide) {
         this.skuSizeWide = skuSizeWide;
     }
 
-    public void setSkuSizeHigh(String skuSizeHigh) {
+    public void setSkuSizeHigh(BigDecimal skuSizeHigh) {
         this.skuSizeHigh = skuSizeHigh;
     }
 
-    public String getSkuSizeLength() {
+    public BigDecimal getSkuSizeLength() {
 
         return skuSizeLength;
     }
 
-    public String getSkuSizeWide() {
+    public BigDecimal getSkuSizeWide() {
         return skuSizeWide;
     }
 
-    public String getSkuSizeHigh() {
+    public BigDecimal getSkuSizeHigh() {
         return skuSizeHigh;
     }
 
