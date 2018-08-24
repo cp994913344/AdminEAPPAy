@@ -20,6 +20,10 @@ public class ShippingAddress extends BaseEntity{
     @Column(name="client_id" ,length = 36)
     private String clientId;
 
+    @Header(name="openID")
+    @Column(name="open_id",length = 60)
+    private String openId;
+
     @Header(name="收货人")
     @Column(name="shipping_name")
     private String shippingName;
@@ -93,5 +97,14 @@ public class ShippingAddress extends BaseEntity{
     public Integer getShippingDefault() {
 
         return shippingDefault;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getOpenId() {
+
+        return openId;
     }
 }

@@ -19,6 +19,10 @@ import java.math.BigDecimal;
 @Table(name="TB_PACKMALL_INVOICE_NORMAL")
 public class InvoiceNormal extends BaseEntity{
 
+    @Header(name="openID")
+    @Column(name="open_id",length = 60)
+    private String openId;
+
     @Header(name="invoice编码")
     @Column(name="invoice_code",length = 20)
     private String invoiceCode;
@@ -213,5 +217,14 @@ public class InvoiceNormal extends BaseEntity{
     public SysArea getSysArea() {
 
         return sysArea;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getOpenId() {
+
+        return openId;
     }
 }

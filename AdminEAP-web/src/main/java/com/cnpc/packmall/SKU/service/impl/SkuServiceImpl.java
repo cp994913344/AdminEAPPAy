@@ -4,6 +4,7 @@ import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.packmall.SKU.entity.Sku;
 import com.cnpc.packmall.SKU.entity.SkuDetail;
 import com.cnpc.packmall.center.entity.Client;
+import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.product.entity.Product;
 import com.cnpc.packmall.product.entity.ProductDetail;
 import com.cnpc.packmall.util.SortUtil;
@@ -171,5 +172,29 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             savedata(list,sku);
         }
         return new Result(true);
+    }
+
+
+    /**
+     * 根据商品id 获取 尺寸信息
+     * @param productId
+     * @return
+     */
+    @Override
+    public List<Sku> findByProductId(String productId){
+        if(StringUtils.isEmpty(productId)){
+            return null;
+        }
+        String hql = "select s.id as id,s.skuSizeLength as skuSizeLength,s.skuSizeWide as skuSizeWide,s.skuSizeHigh as skuSizeHigh " +
+                " from Sku s where  s.productId = :productId";
+        Map<String,Object> params = new HashMap<>(4);
+        params.put("productId",productId);
+        List<Sku> skus =  this.baseDao.find(hql,params,Sku.class);
+        if(skus!=null&&skus.size()>0){
+            for(Sku s:skus){
+                s.setSkuSize(s.getSkuSizeLength()+"*"+s.getSkuSizeWide()+"*"+s.getSkuSizeHigh()+"cm");
+            }
+        }
+        return  skus;
     }
 }

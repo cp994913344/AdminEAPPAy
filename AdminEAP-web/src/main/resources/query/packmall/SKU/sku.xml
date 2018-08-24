@@ -6,6 +6,9 @@
         <column key="skuCode" header="sku编码" classType="String" allowSort="true" width="150"/>
         <column key="productName" header="商品名称" classType="String" allowSort="true" width="150"/>
         <column key="skuModel" header="sku型号" classType="String" allowSort="true" width="150"/>
+        <column key="skuSizeLength" header="sku尺寸长" hidden="true" classType="Integer" />
+        <column key="skuSizeWide" header="sku尺寸宽" hidden="true"  classType="Integer"/>
+        <column key="skuSizeHigh" header="尺寸cm" classType="Integer" fnRender="skuSizeS"/>
         <column key="skuStatus" header="sku状态" classType="Integer" allowSort="true" width="150" render="1=上架,2=下架"/>
         <column key="skuStatus" header="sku状态" classType="Integer" allowSort="true" width="150" fnRender = "deletedFn"  render="type=link,method=banOrstar,params='[id]';this"/>
 </query>

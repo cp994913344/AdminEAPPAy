@@ -15,8 +15,6 @@ import java.util.Map;
 */
 public interface SkuService extends BaseService {
 
-
-
     /**
      * 保存sku 和 sku详情
      * @param list
@@ -46,4 +44,12 @@ public interface SkuService extends BaseService {
      * @return
      */
     Result updatedata(List<SkuDetail> list, Sku sku);
+
+
+    /**
+     * 根据商品id 获取 尺寸信息
+     * @param productId
+     * @return
+     */
+    List<Sku> findByProductId(String productId);
 }

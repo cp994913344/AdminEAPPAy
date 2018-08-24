@@ -13,6 +13,9 @@ import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.base.service.DictService;
 import com.cnpc.framework.constant.RedisConstant;
 import com.cnpc.framework.utils.StrUtil;
+import com.cnpc.packmall.SKU.entity.Sku;
+import com.cnpc.packmall.SKU.service.SkuService;
+import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.product.entity.ProductDetail;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +45,9 @@ public class ProductController {
 
     @Resource
     private DictService dictService;
+
+    @Resource
+    private SkuService skuService;
 
     @RequestMapping(value="/list",method = RequestMethod.GET)
     public String list(){
@@ -150,4 +156,26 @@ public class ProductController {
         return productService.findDetailByProducid(id);
     }
 
+
+
+    //————————————————————小程序接口start——————————————————————————
+
+
+    //获取所有商品   list
+    /**
+     * 获取 商品页信息
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getProductById/${id}",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result saveOrUpdate(@PathVariable("id")String id){
+        Map<String,Object> result = new HashMap<>(8);
+        List<Sku> skuList = skuService.findByProductId(id);
+        result.put("skuList", skuList);
+        return new Result(true,result);
+    }
+    //规格选择
+
+    //规格选择  选择尺寸后
 }

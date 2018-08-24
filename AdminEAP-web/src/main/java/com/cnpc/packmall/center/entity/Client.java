@@ -15,6 +15,10 @@ import javax.persistence.*;
 @Table(name="TB_PACKMALL_CLIENT")
 public class Client extends BaseEntity{
 
+    @Header(name="openID")
+    @Column(name="open_id",length = 60)
+    private String openId;
+
     @Header(name="编码")
     @Column(name="CLIENT_CODE" ,length = 20)
     private String clientCode;
@@ -70,4 +74,11 @@ public class Client extends BaseEntity{
         return clientType;
     }
 
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 }

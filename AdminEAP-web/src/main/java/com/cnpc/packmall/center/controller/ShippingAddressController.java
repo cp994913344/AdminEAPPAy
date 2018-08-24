@@ -105,6 +105,48 @@ public class ShippingAddressController {
         }
     }
 
+    //————————————————————小程序接口start——————————————————————————
+
+    /**
+     * 获取收货地址列表
+     * @param clientId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getList/${clientId}",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result getList(@PathVariable("clientId")String clientId){
+        List<ShippingAddress> list =  shippingaddressService.findByClientId(clientId);
+        return new Result(true,list);
+    }
+
+    /**
+     * 获取编辑收货地址数据
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getEdit/${id}",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result getEdit(@PathVariable("id")String id){
+        ShippingAddress shippingAddress =  shippingaddressService.get(ShippingAddress.class,id);
+        return new Result(true,shippingAddress);
+    }
+
+    /**
+     * 保存修改 实体
+     * @param conData
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/saveOrUpdate/${conData}",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result saveOrUpdate(@PathVariable("conData")String conData){
+        try{
+            ShippingAddress shippingAddress =  JSON.parseObject(conData,ShippingAddress.class);
+            shippingaddressService.saveOrUpdate(shippingAddress);
+        }catch (Exception e){
+            return new Result(false,"错误："+e.getMessage());
+        }
+        return new Result(true);
+    }
 
 
 }

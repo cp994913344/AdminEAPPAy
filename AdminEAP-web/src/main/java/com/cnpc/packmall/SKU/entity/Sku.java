@@ -9,6 +9,7 @@ import com.cnpc.framework.base.entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 
 /**
@@ -54,6 +55,18 @@ public class Sku extends BaseEntity {
     @Header(name="sku状态")
     @Column(name = "sku_status")
     private Integer skuStatus;
+
+    @Transient
+    private String skuSize;
+
+    public void setSkuSize(String skuSize) {
+        this.skuSize = skuSize;
+    }
+
+    public String getSkuSize() {
+
+        return skuSize;
+    }
 
     public void setSkuCode(String skuCode) {
         this.skuCode = skuCode;
