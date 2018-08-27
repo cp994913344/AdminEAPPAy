@@ -38,23 +38,20 @@ public class ShippingAddressController {
     private ShippingAddressService shippingaddressService;
 
     @RequestMapping(value="/clientSAList",method = RequestMethod.GET)
-    public String list(String clientId,HttpServletRequest request){
-        request.setAttribute("clientId",clientId);
+    public String list(String openId,HttpServletRequest request){
+        request.setAttribute("openId",openId);
         return "packmall/center/shippingaddress_client_list";
     }
 
     /**
-     * 根据客户id查询收货地址列表
-     * @param clientId
+     * 根据客户openid查询收货地址列表
+     * @param openId
      * @return
      */
-    @RequestMapping(value="/getByClientId",method = RequestMethod.POST)
+    @RequestMapping(value="/getByClientOpenId",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> getByClientId(String clientId){
-        Map<String,Object> result = new HashMap<>(4);
-        List<ShippingAddress> list =  shippingaddressService.findByClientId(clientId);
-        result.put("list",list);
-        return result;
+    public Result getByClientOpenId(String openId){
+        return  shippingaddressService.findByOpenId(openId);
     }
 
     @RefreshCSRFToken
@@ -147,6 +144,20 @@ public class ShippingAddressController {
         }
         return new Result(true);
     }
+
+
+    /**
+     * 根据客户id查询收货地址列表
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getByOpenId/${openId}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getByOpenId(@PathVariable("openId")  String openId){
+        return  shippingaddressService.findByOpenId(openId);
+    }
+
+
 
 
 }

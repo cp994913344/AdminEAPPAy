@@ -1,5 +1,6 @@
 package com.cnpc.packmall.center.service.impl;
 
+import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.packmall.center.entity.ShippingAddress;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,22 @@ public class ShippingAddressServiceImpl extends BaseServiceImpl implements Shipp
         params.put("clientId",clientId);
         List<ShippingAddress> shippingAddressList =  this.baseDao.find(hql,params);
         return  shippingAddressList;
+    }
+
+    /**
+     * 根据openid 查询客户的收货地址
+     * @param openId
+     * @return
+     */
+    @Override
+    public Result findByOpenId(String openId) {
+        if(StringUtils.isEmpty(openId)){
+            return new Result(false);
+        }
+        String hql = "select sa.shippingDefault,sa.shippingName,sa.shippingAddress,sa.shippingPhone,sarea.mergerName as areaCode " +
+                " from ShippingAddress as sa ,SysArea as sarea  where sa.areaCode = sarea.code and sa.openId = :openId and sa.deleted=0";
+        Map<String,Object> params = new HashMap<>(4);
+        params.put("openId",openId);
+        return new Result(true,this.baseDao.find(hql,params));
     }
 }

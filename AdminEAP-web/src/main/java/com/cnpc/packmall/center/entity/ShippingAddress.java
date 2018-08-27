@@ -16,10 +16,6 @@ import javax.persistence.Table;
 @Table(name="TB_PACKMALL_SHIPPING_ADDRESS")
 public class ShippingAddress extends BaseEntity{
 
-    @Header(name="客户id")
-    @Column(name="client_id" ,length = 36)
-    private String clientId;
-
     @Header(name="openID")
     @Column(name="open_id",length = 60)
     private String openId;
@@ -70,15 +66,6 @@ public class ShippingAddress extends BaseEntity{
 
     public String getShippingPhone() {
         return shippingPhone;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
-
-    public String getClientId() {
-
-        return clientId;
     }
 
     public void setAreaCode(String areaCode) {

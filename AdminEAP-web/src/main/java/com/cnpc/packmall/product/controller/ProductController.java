@@ -161,7 +161,7 @@ public class ProductController {
     //————————————————————小程序接口start——————————————————————————
 
 
-    //获取所有商品   list
+    //获取所有商品   list【
     /**
      * 获取 商品页信息
      * @param id

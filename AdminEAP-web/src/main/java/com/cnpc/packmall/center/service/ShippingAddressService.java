@@ -1,5 +1,6 @@
 package com.cnpc.packmall.center.service;
 
+import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.packmall.center.entity.ShippingAddress;
 
@@ -18,4 +19,12 @@ public interface ShippingAddressService extends BaseService {
      * @return
      */
     public List<ShippingAddress> findByClientId(String clientId);
+
+
+    /**
+     * 根据openid 查询客户的收货地址
+     * @param openId
+     * @return
+     */
+    public Result findByOpenId(String openId);
 }

@@ -19,18 +19,16 @@
 </section>
 
 <script>
-    var clientId = '${clientId}';
+    var openId = '${openId}';
     $(function (){
-        if(clientId){
-            ajaxPost(basePath + "/packmall/shippingaddress/getByClientId",{"clientId":clientId}, function (data) {
-                if (data.list)  {
-                    $.each(data.list,function(){
-                        debugger;
+        if(openId){
+            ajaxPost(basePath + "/packmall/shippingaddress/getByClientOpenId",{"openId":openId}, function (data) {
+                if (data.data)  {
+                    $.each(data.data,function(){
                         if(this[0]==1){
                            $("#addressDefaultDiv").append("<br><span>"+this[1]+"-"+this[3]+"-"+this[4]+this[2]);
                         }else if(list[i].shippingDefault==2){
                             $("#addressDefaultDiv").append("<br><span>"+this[1]+"-"+this[3]+"-"+this[4]+this[2]);
-
                         }
                     });
                 }else {

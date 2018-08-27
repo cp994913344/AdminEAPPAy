@@ -8,7 +8,7 @@
         <column key="clientName" header="姓名/企业名称" classType="String" allowSort="true" width="150"/>
         <column key="version" header="头像url" classType="String" allowSort="true" width="150" fnRender = "changeLook" render="type=window,winId=myHeadImg,method=selectModal,url=/packmall/client/toHeadImgHtml?clientId=[id],title=头像,width=270px" />
         <column key="clientType" header="性质" classType="String" allowSort="true" width="150"  render="1=个人,2=企业" />
-        <column key="id" header="收货地址"   classType="String" allowSort="true" width="150" fnRender = "changeLook" render="type=window,winId=myShippingAddress,method=selectModal,url=/packmall/shippingaddress/clientSAList?clientId=[id],title=收货地址" />
+        <column key="openId" header="收货地址"   classType="String" allowSort="true" width="150" fnRender = "changeLook" render="type=window,winId=myShippingAddress,method=selectModal,url=/packmall/shippingaddress/clientSAList?openId=[openId],title=收货地址" />
         <column key="clientPhone" header="联系方式" classType="String" allowSort="true" width="150"/>
         <column key="deleted" header="状态" classType="Integer" allowSort="true" width="150" render="0=开启,1=禁用"/>
         <column key="deleted" header="操作" classType="Integer" allowSort="true" width="150" fnRender = "deletedFn"  render="type=link,method=banOrstar,params='[id]';this"/>
