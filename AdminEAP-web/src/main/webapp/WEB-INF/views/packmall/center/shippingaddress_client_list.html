@@ -25,10 +25,10 @@
             ajaxPost(basePath + "/packmall/shippingaddress/getByClientOpenId",{"openId":openId}, function (data) {
                 if (data.data)  {
                     $.each(data.data,function(){
-                        if(this[0]==1){
-                           $("#addressDefaultDiv").append("<br><span>"+this[1]+"-"+this[3]+"-"+this[4]+this[2]);
-                        }else if(list[i].shippingDefault==2){
-                            $("#addressDefaultDiv").append("<br><span>"+this[1]+"-"+this[3]+"-"+this[4]+this[2]);
+                        if(this.shippingDefault==1){
+                           $("#addressDefaultDiv").append("<br><span>"+this.shippingName+"-"+this.shippingPhone+"-"+this.areaCode+this.shippingAddress);
+                        }else if(this.shippingDefault==2){
+                            $("#addressDefaultDiv").append("<br><span>"+this.shippingName+"-"+this.shippingPhone+"-"+this.areaCode+this.shippingAddress);
                         }
                     });
                 }else {

@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.packmall.SKU.service.SkuService;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
 * sku服务实现
@@ -196,5 +193,27 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             }
         }
         return  skus;
+    }
+
+    @Override
+    public Map<String, List<SkuDetail>> findSkuListBySkuIds(List<String> skuIdList) {
+        if(skuIdList!=null&skuIdList.size()>0){
+            Map<String,Object> params = new HashMap<>(2);
+            Map<String,List<SkuDetail>> skuMap = new HashMap<>();
+            params.put("skuIdList",skuIdList);
+            String hql = "from SkuDetail where skuId in(:skuIdList)";
+            List<SkuDetail> skuDetailList = this.baseDao.find(hql, params);
+            for(String s:skuIdList) {
+                List<SkuDetail> IdskuDetailList = new ArrayList<>();
+                for (SkuDetail sd : skuDetailList) {
+                    if(s.equals(sd.getSkuId())){
+                        IdskuDetailList.add(sd);
+                    }
+                }
+                skuMap.put(s,IdskuDetailList);
+            }
+            return skuMap;
+        }
+        return null;
     }
 }

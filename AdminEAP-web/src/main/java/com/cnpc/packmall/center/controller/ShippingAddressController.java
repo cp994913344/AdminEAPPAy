@@ -105,18 +105,6 @@ public class ShippingAddressController {
     //————————————————————小程序接口start——————————————————————————
 
     /**
-     * 获取收货地址列表
-     * @param clientId
-     * @return
-     */
-    @RequestMapping(value="/pack_mall_api/getList/${clientId}",method = RequestMethod.POST)
-    @ResponseBody
-    public  Result getList(@PathVariable("clientId")String clientId){
-        List<ShippingAddress> list =  shippingaddressService.findByClientId(clientId);
-        return new Result(true,list);
-    }
-
-    /**
      * 获取编辑收货地址数据
      * @param id
      * @return

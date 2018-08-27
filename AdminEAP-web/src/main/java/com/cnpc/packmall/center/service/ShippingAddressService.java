@@ -14,14 +14,6 @@ import java.util.List;
 public interface ShippingAddressService extends BaseService {
 
     /**
-     * 根据客户id 查询客户的收货地址
-     * @param clientId
-     * @return
-     */
-    public List<ShippingAddress> findByClientId(String clientId);
-
-
-    /**
      * 根据openid 查询客户的收货地址
      * @param openId
      * @return

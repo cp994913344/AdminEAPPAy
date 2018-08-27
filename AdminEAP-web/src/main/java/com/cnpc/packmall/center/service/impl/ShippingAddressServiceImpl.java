@@ -17,26 +17,9 @@ import java.util.Map;
 * @author WY
 * 2018-08-16 10:50:26由代码生成器自动生成
 */
-@Service("shippingaddressService")
+@Service("shippingAddressService")
 public class ShippingAddressServiceImpl extends BaseServiceImpl implements ShippingAddressService {
 
-    /**
-     * 根据客户id 查询客户的收货地址
-     * @param clientId
-     * @return
-     */
-    @Override
-    public List<ShippingAddress> findByClientId(String clientId){
-        if(StringUtils.isEmpty(clientId)){
-            return null;
-        }
-        String hql = "select sa.shippingDefault,sa.shippingName,sa.shippingAddress,sa.shippingPhone,sarea.mergerName as areaCode " +
-                " from ShippingAddress as sa ,SysArea as sarea  where sa.areaCode = sarea.code and sa.clientId = :clientId";
-        Map<String,Object> params = new HashMap<>(4);
-        params.put("clientId",clientId);
-        List<ShippingAddress> shippingAddressList =  this.baseDao.find(hql,params);
-        return  shippingAddressList;
-    }
 
     /**
      * 根据openid 查询客户的收货地址
@@ -48,10 +31,12 @@ public class ShippingAddressServiceImpl extends BaseServiceImpl implements Shipp
         if(StringUtils.isEmpty(openId)){
             return new Result(false);
         }
-        String hql = "select sa.shippingDefault,sa.shippingName,sa.shippingAddress,sa.shippingPhone,sarea.mergerName as areaCode " +
+        String hql = "select sa.shippingDefault as shippingDefault,sa.shippingName as shippingName," +
+                "sa.shippingAddress as shippingAddress,sa.shippingPhone as shippingPhone,sarea.mergerName as areaCode " +
                 " from ShippingAddress as sa ,SysArea as sarea  where sa.areaCode = sarea.code and sa.openId = :openId and sa.deleted=0";
         Map<String,Object> params = new HashMap<>(4);
         params.put("openId",openId);
-        return new Result(true,this.baseDao.find(hql,params));
+        List<ShippingAddress> list = this.baseDao.find(hql,params,ShippingAddress.class);
+        return new Result(true,list);
     }
 }

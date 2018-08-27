@@ -52,4 +52,11 @@ public interface SkuService extends BaseService {
      * @return
      */
     List<Sku> findByProductId(String productId);
+
+    /**
+     * 根据 skuid  查询skumap
+     * @param skuIdList
+     * @return
+     */
+    Map<String,List<SkuDetail>> findSkuListBySkuIds(List<String> skuIdList);
 }
