@@ -14,9 +14,8 @@ import com.cnpc.framework.base.entity.Dict;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * 地区表信息
- * 
- * @author
+ * 订单信息
+ * @author 16692
  *
  */
 @Entity
@@ -42,8 +41,8 @@ public class Order extends BaseEntity {
      * 用户id
      */
 	@Header(name="用户id")
-    @Column(name = "user_id", length = 100)
-    private String userId;
+    @Column(name = "open_id", length = 100)
+    private String openId;
     
     
     /**
@@ -85,7 +84,7 @@ public class Order extends BaseEntity {
     
     @Header(name="SKU")
     @Column(name = "SKU", length = 100)
-    private Boolean sku;
+    private String sku;
 
     /**
      * 备注 留言
@@ -107,13 +106,30 @@ public class Order extends BaseEntity {
     @Header(name="总价格")
     @Column(name = "total_price", length = 100)
     private BigDecimal totalPrice;
+    
+    /**
+     * 支付方式
+     */
+    @Header(name="支付方式")
+    @Column(name = "pay_method", length = 100)
+    private String payMethod;
 
     /**
-     * 状态
+     * 状态1 未支付 2 待送货 3 待签收 4 已完结 -1 订单关闭
      */
     @Header(name="状态")
     @Column(name = "state", length = 100)
     private String state;
+    
+    @Header(name="开票状态")
+    @Column(name = "whether_state", length = 100)
+    private String whetherState;
+
+    @Header(name="开票ID")
+    @Column(name = "whether_id", length = 100)
+    private String whetherId;
+    
+    
 
 	public String getCode() {
 		return code;
@@ -123,13 +139,6 @@ public class Order extends BaseEntity {
 		this.code = code;
 	}
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 
 	public String getUserName() {
 		return userName;
@@ -175,15 +184,23 @@ public class Order extends BaseEntity {
 		return weekend;
 	}
 
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
 	public void setWeekend(Boolean weekend) {
 		this.weekend = weekend;
 	}
 
-	public Boolean getSku() {
+	public String getSku() {
 		return sku;
 	}
 
-	public void setSku(Boolean sku) {
+	public void setSku(String sku) {
 		this.sku = sku;
 	}
 
@@ -217,6 +234,28 @@ public class Order extends BaseEntity {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+
+	public void setPayMethod(String payMethod) {
+		this.payMethod = payMethod;
+	}
+
+
+	public String getWhetherState() {
+		return whetherState;
+	}
+
+	public void setWhetherState(String whetherState) {
+		this.whetherState = whetherState;
+	}
+
+	public String getWhetherId() {
+		return whetherId;
+	}
+
+	public void setWhetherId(String whetherId) {
+		this.whetherId = whetherId;
 	}
 
 

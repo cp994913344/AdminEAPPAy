@@ -15,6 +15,8 @@ import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.packmall.SKU.service.SkuService;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
 * sku服务实现
@@ -196,24 +198,30 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
     }
 
     @Override
-    public Map<String, List<SkuDetail>> findSkuListBySkuIds(List<String> skuIdList) {
-        if(skuIdList!=null&skuIdList.size()>0){
-            Map<String,Object> params = new HashMap<>(2);
-            Map<String,List<SkuDetail>> skuMap = new HashMap<>();
-            params.put("skuIdList",skuIdList);
-            String hql = "from SkuDetail where skuId in(:skuIdList)";
+    public Map<String,Map<String, String>> findSkuDetailBySkuDetailIds(Set<String> skuDetailIds) {
+        if(skuDetailIds!=null&skuDetailIds.size()>0){
+            Map<String,Object> params = new HashMap<>();
+            params.put("skuDetailIds",skuDetailIds);
+            String hql = "from SkuDetail where id in(:skuDetailIds)";
             List<SkuDetail> skuDetailList = this.baseDao.find(hql, params);
-            for(String s:skuIdList) {
-                List<SkuDetail> IdskuDetailList = new ArrayList<>();
-                for (SkuDetail sd : skuDetailList) {
-                    if(s.equals(sd.getSkuId())){
-                        IdskuDetailList.add(sd);
-                    }
-                }
-                skuMap.put(s,IdskuDetailList);
-            }
-            return skuMap;
+            Map<String,List<SkuDetail>> skuDetailMap = skuDetailList.stream().collect(Collectors.groupingBy(SkuDetail::getSkuId));
+            Map<String,Map<String, String>> skuDMap = new HashMap<>();
+            skuDetailMap.forEach((k,v) ->{
+            	Map<String, String> map = v.stream().collect(Collectors.toMap(SkuDetail::getId, SkuDetail::getDetailVal));
+            	skuDMap.put(k, map);
+            });
+            return skuDMap;
         }
         return null;
     }
+
+	@Override
+	public Map<String, Sku> findSkuBySkuIds(Set<String> skuIdList) {
+		Map<String,Object> params = new HashMap<>();
+		String hql = "from Sku where id in(:skuIdList)";
+        params.put("skuIdList",skuIdList);
+        List<Sku> skus = this.find(hql, params);
+        Map<String,Sku> skuMap = skus.stream().collect(Collectors.toMap(Sku::getId,Function.identity()));
+		return skuMap;
+	}
 }

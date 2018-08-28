@@ -14,9 +14,8 @@ import com.cnpc.framework.base.entity.Dict;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * 地区表信息
- * 
- * @author
+ * 订单详情
+ * @author 16692
  *
  */
 @Entity
@@ -47,6 +46,22 @@ public class OrderDetail extends BaseEntity {
 	@Header(name="SKU信息")
     @Column(name = "sku_msg", length = 100)
     private String skumsg;
+	
+	@Header(name="尺寸")
+	@Column(name = "size", length = 100)
+	private String size;
+	
+	@Header(name="规格")
+	@Column(name = "specification", length = 100)
+	private String specification;
+	
+	@Header(name="颜色")
+	@Column(name = "color", length = 100)
+	private String color;
+	
+	@Header(name="质量")
+	@Column(name = "quality", length = 100)
+	private String quality;
     
     @Header(name="商品名称")
     @Column(name = "product_name", length = 100)
@@ -126,6 +141,38 @@ public class OrderDetail extends BaseEntity {
 
 	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getSpecification() {
+		return specification;
+	}
+
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getQuality() {
+		return quality;
+	}
+
+	public void setQuality(String quality) {
+		this.quality = quality;
 	}
 
 

@@ -1,6 +1,10 @@
 package com.cnpc.packmall.center.service.impl;
 
 import com.cnpc.packmall.center.entity.Client;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
@@ -33,4 +37,12 @@ public class ClientServiceImpl extends BaseServiceImpl implements ClientService 
         }
         return false;
     }
+
+	@Override
+	public Client getByOpenId(String openId) {
+		Map<String, Object> params = new HashMap<>();
+		String hql = "from Client where openId =:openId";
+		params.put("openId", openId);
+		return this.get(hql, params);
+	}
 }

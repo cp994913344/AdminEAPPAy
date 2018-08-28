@@ -1,6 +1,7 @@
 package com.cnpc.packmall.center.service;
 
 import com.cnpc.framework.base.service.BaseService;
+import com.cnpc.packmall.center.entity.Client;
 
 /**
 * 客户管理服务接口
@@ -15,4 +16,10 @@ public interface ClientService extends BaseService {
      * @return
      */
     boolean updateDeleted(String id);
+    /**
+     * 根据openId 查询
+     * @param openId
+     * @return
+     */
+    Client getByOpenId(String openId);
 }
