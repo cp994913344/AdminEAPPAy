@@ -225,7 +225,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
 
     /**
      * 根据 skuid  查询skumap
-     * @param skuIdList
+     * @param skuDetailIds
      * @return
      */
     @Override
@@ -238,7 +238,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             Map<String,List<SkuDetail>> skuDetailMap = skuDetailList.stream().collect(Collectors.groupingBy(SkuDetail::getSkuId));
             Map<String,Map<String, String>> skuDMap = new HashMap<>();
             skuDetailMap.forEach((k,v) ->{
-            	Map<String, String> map = v.stream().collect(Collectors.toMap(SkuDetail::getId, SkuDetail::getDetailVal));
+            	Map<String, String> map = v.stream().collect(Collectors.toMap(SkuDetail::getId, SkuDetail::getDetailName));
             	skuDMap.put(k, map);
             });
             return skuDMap;
