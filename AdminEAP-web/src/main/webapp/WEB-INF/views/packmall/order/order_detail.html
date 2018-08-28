@@ -1,0 +1,111 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+    <h5 class="modal-title"></h5>
+</div>
+
+<div class="modal-body">
+    <form id="order_form" name="order_form" class="form-horizontal">
+        <input type='hidden' value="${CSRFToken}" id='csrftoken'>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">CODE<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="code" name="code" placeholder="请填写CODE">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用户id</label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="userId" name="userId" placeholder="请填写用户id">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用户姓名<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="userName" name="userName" placeholder="请填写用户姓名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">收货地址</label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="addressId" name="addressId" placeholder="请填写收货地址">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">联系方式<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="phone" name="phone" placeholder="请填写联系方式">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">收货人<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="contacts" name="contacts" placeholder="请填写收货人">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">送货时间<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <select name="deliverytime" id="deliverytime" data-code="DELIVERYTIME"  data-flag="dictSelector" data-placeholder="请选择送货时间" class="form-control select2" style="width:100%" data-blank="true"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">是否周末送货<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <label class="control-label"> <input type="radio" name="weekend"  value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="radio" name="weekend"  value="0"> 否</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">SKU<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <label class="control-label"> <input type="radio" name="sku"  value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="radio" name="sku"  value="0"> 否</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">备注<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="remarks" name="remarks" placeholder="请填写备注">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">运费<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="freight" name="freight" placeholder="请填写运费">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">总价格<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="totalPrice" name="totalPrice" placeholder="请填写总价格">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">状态<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="state" name="state" placeholder="请填写状态">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var form;
+    var id="${id?default(0)}";
+    $(function(){
+        //初始化表单
+        form=$("#order_form").form();
+        //初始化控件
+        form.initComponent();
+        //编辑回填
+        if(id!=0){
+            ajaxPost(basePath+"/order/get/"+id,null,function(data){
+                form.initFormData(data);
+            })
+        }
+    });
+
+</script>
