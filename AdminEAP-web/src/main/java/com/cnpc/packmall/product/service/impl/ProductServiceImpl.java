@@ -165,11 +165,10 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
                 for(Product p :productList){
                     for( ProductDetail pd:productDetailList){
                         if(p.getId().equals(pd.getProductId())){
-                            p.setHeadImgUrl(pd.getDetailVal());
+                            p.setHeadImgId(pd.getDetailId());
                         }
                     }
                 }
-
             }
             List<Sku> skuList  = getSkuMinPriceByProductIds(productIds);
             for(Product p :productList){
@@ -201,25 +200,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
                 " from ProductDetail as p" +
                 " where p.detailType = 'BANNERIMG' and p.detailSeq =1  and p.productId in (:productIds)";
         params.put("productIds",productIds);
-        List<ProductDetail> list = this.baseDao.find(hql,params,ProductDetail.class);
-        if(list!=null&&list.size()>0){
-            List<String> productDetailIds = new ArrayList<>(list.size());
-            for(ProductDetail pd :list){
-                productDetailIds.add(pd.getDetailId());
-            }
-            Map<String,Object> params2 = new HashMap<>(2);
-            params2.put("productDetailIds", productDetailIds);
-            String hql2 = "select s.id as id,s.filePath as filePath from SysFile as s where s.id in (:productDetailIds)";
-            List<SysFile> sysFiles = this.baseDao.find(hql2,params2,SysFile.class);
-            for(ProductDetail pd :list){
-                for(SysFile s :sysFiles){
-                    if(pd.getDetailId().equals(s.getId())){
-                        pd.setDetailVal(s.getFilePath());
-                    }
-                }
-            }
-        }
-        return list;
+        return this.baseDao.find(hql,params,ProductDetail.class);
     }
 
     /**

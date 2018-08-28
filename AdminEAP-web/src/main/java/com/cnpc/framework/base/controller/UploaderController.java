@@ -110,7 +110,7 @@ public class UploaderController {
             BufferedInputStream inputStream;
             BufferedOutputStream outputStream;
             for (Iterator<Map.Entry<String, MultipartFile>> it = fileMap.entrySet().iterator(); it.hasNext(); avatarNumber++) {
-                File filePath = new File(dirPath + relPath);
+                File filePath = new File( relPath);
                 if (!filePath.exists()) {
                     filePath.mkdirs();
                 }
@@ -129,15 +129,15 @@ public class UploaderController {
                     initParams = new String(bytes, "UTF-8");
                     inputStream.close();
                 } else if (isSourcePic || fieldName.startsWith("__avatar")) {
-                    String virtualPath = dirPath + relPath + "\\" + fileName;
+                    String virtualPath =  relPath + "\\" + fileName;
                     if (avatarNumber > 1) {
                         fileName = avatarNumber + fileName;
-                        virtualPath = dirPath + relPath + "\\" + fileName;
+                        virtualPath = relPath + "\\" + fileName;
                     }
                     // 原始图片(file 域的名称：__source，如果客户端定义可以上传的话，可在此处理）。
                     if (isSourcePic) {
                         fileName = "source" + fileName;
-                        virtualPath = dirPath + relPath + "\\" + fileName;
+                        virtualPath = relPath + "\\" + fileName;
                         result.setSourceUrl(relPath + "/" + fileName);
                     }
                     // 头像图片(file 域的名称：__avatar1,2,3...)。
@@ -175,15 +175,15 @@ public class UploaderController {
             String relPath = PropertiesUtil.getValue("markdownPath");
             String dirPath = request.getRealPath("/");
             //不存在目录 则创建
-            File filePath = new File(dirPath + relPath);
+            File filePath = new File( relPath);
             if (!filePath.exists()) {
                 filePath.mkdirs();
             }
-            File realFile = new File(dirPath + relPath + File.separator + attach.getOriginalFilename());
+            File realFile = new File( relPath + File.separator + attach.getOriginalFilename());
             //上传的文件已存在 则对新上传的文件重命名
             if (realFile.exists()) {
                 String fileName = DateUtil.format(new Date(), "yyyyMMddHHmmss") + "_" + attach.getOriginalFilename();
-                realFile = new File(dirPath + relPath + File.separator + fileName);
+                realFile = new File( relPath + File.separator + fileName);
             }
             boolean iscreate = FileUtil.copyInputStreamToFile(attach.getInputStream(), realFile);
             if (iscreate) {
@@ -239,7 +239,6 @@ public class UploaderController {
         ArrayList<Integer> arr = new ArrayList<>();
         //缓存当前的文件
         List<SysFile> fileList=new ArrayList<>();
-        String dirPath = request.getRealPath("/");
         for (int i = 0; i < files.length; i++) {
             MultipartFile file = files[i];
 
@@ -247,7 +246,7 @@ public class UploaderController {
                 InputStream in = null;
                 OutputStream out = null;
                 try {
-                    File dir = new File(dirPath+uploaderPath);
+                    File dir = new File(uploaderPath);
                     if (!dir.exists())
                         dir.mkdirs();
                     //这样也可以上传同名文件了
@@ -307,8 +306,7 @@ public class UploaderController {
     @ResponseBody
     public Result delete(String id,HttpServletRequest request){
         SysFile sysFile=uploaderService.get(SysFile.class,id);
-        String dirPath=request.getRealPath("/");
-        FileUtil.delFile(dirPath+uploaderPath+File.separator+sysFile.getSavedName());
+        FileUtil.delFile(uploaderPath+File.separator+sysFile.getSavedName());
         uploaderService.delete(sysFile);
         return new Result();
     }
@@ -409,14 +407,13 @@ public class UploaderController {
         List<String> previews=new ArrayList<>();
         List<FileResult.PreviewConfig> previewConfigs=new ArrayList<>();
         //缓存当前的文件
-        String dirPath = request.getRealPath("/");
         String[] fileArr=new String[fileList.size()];
         int index=0;
         for (SysFile sysFile : fileList) {
             //上传后预览 TODO 该预览样式暂时不支持theme:explorer的样式，后续可以再次扩展
             //如果其他文件可预览txt、xml、html、pdf等 可在此配置
-            if(FileUtil.isImage(dirPath+uploaderPath+File.separator+sysFile.getSavedName())) {
-                previews.add("<img src='." + sysFile.getFilePath().replace(File.separator, "/") + "' class='file-preview-image kv-preview-data' " +
+            if(FileUtil.isImage(uploaderPath+File.separator+sysFile.getSavedName())) {
+                previews.add("<img src='/file/showImg?imgId=" + sysFile.getId() + "' class='file-preview-image kv-preview-data' " +
                         "style='width:auto;height:160px' alt='" + sysFile.getFileName() + " title='" + sysFile.getFileName() + "''>");
             }else{
                 previews.add("<div class='kv-preview-data file-preview-other-frame'><div class='file-preview-other'>" +
@@ -482,6 +479,47 @@ public class UploaderController {
         }
     }
 
+    /**
+     * 图片在线显示showImg
+     *
+     * @param request
+     * @param response
+     * @param imgId
+     * @throws Exception
+     */
+    @RequestMapping(value = "/pack_mall_api/showImg")
+    @ResponseBody
+    public void showApiImg(HttpServletRequest request, HttpServletResponse response, String imgId) throws Exception {
+        /*
+         * 在线预览图片
+         */
+        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("image/jpeg");
+        try {
+            // url = new String(url.getBytes("UTF-8"), "iso8859-1");
+            // url = java.net.URLEncoder.encode(url);
+            String path =uploaderService.get(SysFile.class, imgId).getFilePath();
+            InputStream is = new FileInputStream(new File(path));
+            response.reset();
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+            BufferedInputStream bis = new BufferedInputStream(is);
+            int s = 0;
+            byte[] bytes = new byte[2048];
+            while ((s = bis.read(bytes)) != -1) {
+                bos.write(bytes, 0, s);
+            }
+            bos.flush();
+            bos.close();
+            bis.close();
+            is.close();
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 
 }

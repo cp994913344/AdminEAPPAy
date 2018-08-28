@@ -166,7 +166,7 @@ public class ProductController {
      */
     @RequestMapping(value="/pack_mall_api/getList")
     @ResponseBody
-    public  Result getList(){
+    public  Result getList(HttpServletRequest request){
         Map<String,Object> result = new HashMap<>(8);
         List<Product> productList = productService.findList();
         result.put("productList", productList);
@@ -178,9 +178,9 @@ public class ProductController {
      * @param id
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/getProductById/${id}")
+    @RequestMapping(value="/pack_mall_api/getProductById",method = RequestMethod.POST)
     @ResponseBody
-    public  Result getProductById(@PathVariable("id")String id){
+    public  Result getProductById(String id){
         Map<String,Object> result = productService.findDetailByProducid(id);
         Product  product  =productService.get(Product.class, id);
         List<Sku> skuList = skuService.findByProductId(id);
@@ -202,9 +202,4 @@ public class ProductController {
         result.put("product",product);
         return new Result(true,result);
     }
-    //规格选择
-
-
-
-    //规格选择  选择尺寸后
 }

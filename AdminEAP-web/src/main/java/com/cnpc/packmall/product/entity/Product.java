@@ -30,7 +30,7 @@ public class Product extends BaseEntity {
      * 小程序 图片路径
      */
     @Transient
-    private String headImgUrl;
+    private String headImgId;
 
     /**
      * 小程序 图片路径
@@ -55,14 +55,6 @@ public class Product extends BaseEntity {
         return productName;
     }
 
-    public void setHeadImgUrl(String headImgUrl) {
-        this.headImgUrl = headImgUrl;
-    }
-
-    public String getHeadImgUrl() {
-
-        return headImgUrl;
-    }
 
     public void setMixPrice(BigDecimal mixPrice) {
         this.mixPrice = mixPrice;
@@ -71,5 +63,14 @@ public class Product extends BaseEntity {
     public BigDecimal getMixPrice() {
 
         return mixPrice;
+    }
+
+    public void setHeadImgId(String headImgId) {
+        this.headImgId = headImgId;
+    }
+
+    public String getHeadImgId() {
+
+        return headImgId;
     }
 }

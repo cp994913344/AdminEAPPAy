@@ -116,6 +116,7 @@ public class SkuController {
         return skuService.updateStauts(id);
     }
 
+    //————————————————————小程序接口start——————————————————————————
 
     /**
      * 获取 sku尺寸信息
@@ -128,7 +129,6 @@ public class SkuController {
         List<Sku> skuList = skuService.findByProductId(productId);
         return new Result(true,skuList);
     }
-
 
     /**
      * 获取 sku尺寸信息

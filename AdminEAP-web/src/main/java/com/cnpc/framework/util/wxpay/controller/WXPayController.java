@@ -13,7 +13,7 @@ import com.cnpc.framework.utils.HttpUtil;
 @Controller
 @RequestMapping("/wxpay")
 public class WXPayController {
-    @RequestMapping(value="/getOpenId/{code}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/getOpenId/{code}",method = RequestMethod.POST)
     @ResponseBody
     public String get(@PathVariable("code") String code){
     	MyConfig config = new MyConfig();
