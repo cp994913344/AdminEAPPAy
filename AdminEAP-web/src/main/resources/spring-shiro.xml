@@ -86,6 +86,8 @@
                 /login=anon
                 /logout=logout
                 /register=anon
+                <!--      小程序接口 -->
+                /**/pack_mall_api/**=anon
                 /oauth/**=anon
                 /resources/**=anon
                 /wechat/callback=anon

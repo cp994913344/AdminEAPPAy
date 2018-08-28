@@ -6,6 +6,7 @@ import com.cnpc.framework.base.entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  *  商品
@@ -40,7 +41,7 @@ public class SkuDetail extends BaseEntity{
 
     @Header(name="详情表value")
     @Column(name="detail_val")
-    private String detailVal;
+    private BigDecimal detailVal;
 
     @Header(name="顺序")
     @Column(name="detail_seq")
@@ -55,9 +56,6 @@ public class SkuDetail extends BaseEntity{
         this.detailId = detailId;
     }
 
-    public void setDetailVal(String detailVal) {
-        this.detailVal = detailVal;
-    }
 
     public void setDetailSeq(Integer detailSeq) {
         this.detailSeq = detailSeq;
@@ -71,9 +69,6 @@ public class SkuDetail extends BaseEntity{
         return detailId;
     }
 
-    public String getDetailVal() {
-        return detailVal;
-    }
 
     public Integer getDetailSeq() {
         return detailSeq;
@@ -95,5 +90,14 @@ public class SkuDetail extends BaseEntity{
     public String getDetailName() {
 
         return detailName;
+    }
+
+    public void setDetailVal(BigDecimal detailVal) {
+        this.detailVal = detailVal;
+    }
+
+    public BigDecimal getDetailVal() {
+
+        return detailVal;
     }
 }

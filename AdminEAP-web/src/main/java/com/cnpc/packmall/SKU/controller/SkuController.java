@@ -98,7 +98,8 @@ public class SkuController {
     public Result delete(@PathVariable("id") String id){
         Sku sku= skuService.get(Sku.class,id);
         try{
-        	skuService.delete(sku);
+            sku.setDeleted(1);
+        	skuService.update(sku);
             return new Result();
         }
         catch(Exception e){
@@ -113,6 +114,32 @@ public class SkuController {
             return false;
         }
         return skuService.updateStauts(id);
+    }
+
+
+    /**
+     * 获取 sku尺寸信息
+     * @param productId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getSkuListByProductId/${productId}")
+    @ResponseBody
+    public  Result getSkuListByProductId(@PathVariable("productId")String productId){
+        List<Sku> skuList = skuService.findByProductId(productId);
+        return new Result(true,skuList);
+    }
+
+
+    /**
+     * 获取 sku尺寸信息
+     * @param skuId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getSkuDetailBySkuId/${skuId}")
+    @ResponseBody
+    public  Result getSkuDetailBySkuId(@PathVariable("skuId")String skuId){
+        Map<String, Object> result = skuService.findDetailBySkuId(skuId);
+        return new Result(true,result);
     }
 
 }

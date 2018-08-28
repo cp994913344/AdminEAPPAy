@@ -95,7 +95,8 @@ public class InvoiceNormalController {
     public Result delete(@PathVariable("id") String id){
         InvoiceNormal invoicenormal=this.get(id);
         try{
-        	invoicenormalService.delete(invoicenormal);
+            invoicenormal.setDeleted(1);
+        	invoicenormalService.update(invoicenormal);
             return new Result();
         }
         catch(Exception e){

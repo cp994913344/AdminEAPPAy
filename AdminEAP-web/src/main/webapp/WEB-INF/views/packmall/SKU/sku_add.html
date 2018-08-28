@@ -296,7 +296,8 @@
             skuDetail.detailType="COLOR";
             skuDetail.detailId=$(this).attr("id");
             skuDetail.detailSeq=colorI++;
-            skuDetail.detailVal = $(this).text();
+            skuDetail.detailVal = 0;
+            skuDetail.detailName = $(this).text();
             skuDetailList.push(skuDetail);
         }) ;
         if(!colorIds||colorIds.trim().length==0){
@@ -332,7 +333,8 @@
             skuDetail.detailType="TYPE";
             skuDetail.detailId=$(this).attr("id");
             skuDetail.detailSeq=typeI++;
-            skuDetail.detailVal = $(this).text();
+            skuDetail.detailVal = 0;
+            skuDetail.detailName = $(this).text();
             skuDetailList.push(skuDetail);
         });
         if(!typeIds||typeIds.trim().length==0){
@@ -348,7 +350,8 @@
             skuDetail.detailType="QUALITY";
             skuDetail.detailId=$(this).attr("id");
             skuDetail.detailSeq=qualityI++;
-            skuDetail.detailVal = $(this).text();
+            skuDetail.detailVal = 0;
+            skuDetail.detailName = $(this).text();
             skuDetailList.push(skuDetail);
         });
         if(!qualityIds||qualityIds.trim().length==0){

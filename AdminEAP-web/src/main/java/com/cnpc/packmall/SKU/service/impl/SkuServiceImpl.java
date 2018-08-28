@@ -188,15 +188,46 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
                 " from Sku s where  s.productId = :productId";
         Map<String,Object> params = new HashMap<>(4);
         params.put("productId",productId);
-        List<Sku> skus =  this.baseDao.find(hql,params,Sku.class);
-        if(skus!=null&&skus.size()>0){
-            for(Sku s:skus){
+        List<Sku> list =  this.baseDao.find(hql,params,Sku.class);
+        if(list!=null&&list.size()>0){
+            for(Sku s:list){
                 s.setSkuSize(s.getSkuSizeLength()+"*"+s.getSkuSizeWide()+"*"+s.getSkuSizeHigh()+"cm");
             }
+            if(list!=null&&list.size()>0){
+                List<String> skuIds = new ArrayList<>(list.size());
+                for(Sku pd :list){
+                    skuIds.add(pd.getId());
+                }
+                Map<String,Object> params2 = new HashMap<>(2);
+                //获取所有sku 的价格  并选择每个sku的 最低价格
+                params2.put("skuIds", skuIds);
+                String hql2 = "select sd.skuId as skuId,sd.detailVal as detailVal " +
+                        " from SkuDetail as sd" +
+                        " where  sd.detailType='PRICE' and sd.skuId in (:skuIds)";
+                List<SkuDetail> skuDetails = this.baseDao.find(hql2,params2,SkuDetail.class);
+                for(Sku s :list){
+                    for(SkuDetail sd :skuDetails){
+                        if(s.getId().equals(sd.getSkuId())){
+                            if(s.getMixPrice()==null||s.getMixPrice().equals(0)){
+                                s.setMixPrice(sd.getDetailVal());
+                            }else{
+                                if(s.getMixPrice().compareTo(sd.getDetailVal())== 1){
+                                    s.setMixPrice(sd.getDetailVal());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-        return  skus;
+        return  list;
     }
 
+    /**
+     * 根据 skuid  查询skumap
+     * @param skuDetailIds
+     * @return
+     */
     @Override
     public Map<String,Map<String, String>> findSkuDetailBySkuDetailIds(Set<String> skuDetailIds) {
         if(skuDetailIds!=null&skuDetailIds.size()>0){
@@ -207,7 +238,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             Map<String,List<SkuDetail>> skuDetailMap = skuDetailList.stream().collect(Collectors.groupingBy(SkuDetail::getSkuId));
             Map<String,Map<String, String>> skuDMap = new HashMap<>();
             skuDetailMap.forEach((k,v) ->{
-            	Map<String, String> map = v.stream().collect(Collectors.toMap(SkuDetail::getId, SkuDetail::getDetailVal));
+            	Map<String, String> map = v.stream().collect(Collectors.toMap(SkuDetail::getId, SkuDetail::getDetailName));
             	skuDMap.put(k, map);
             });
             return skuDMap;

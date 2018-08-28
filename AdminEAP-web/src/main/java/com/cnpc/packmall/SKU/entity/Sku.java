@@ -59,6 +59,18 @@ public class Sku extends BaseEntity {
     @Transient
     private String skuSize;
 
+    @Transient
+    private BigDecimal mixPrice;
+
+    public void setMixPrice(BigDecimal mixPrice) {
+        this.mixPrice = mixPrice;
+    }
+
+    public BigDecimal getMixPrice() {
+
+        return mixPrice;
+    }
+
     public void setSkuSize(String skuSize) {
         this.skuSize = skuSize;
     }

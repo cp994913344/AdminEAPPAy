@@ -2,6 +2,7 @@ package com.cnpc.packmall.product.service;
 
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.BaseService;
+import com.cnpc.packmall.SKU.entity.Sku;
 import com.cnpc.packmall.product.entity.Product;
 import com.cnpc.packmall.product.entity.ProductDetail;
 
@@ -43,4 +44,23 @@ public interface ProductService extends BaseService {
      * @return
      */
     List<Product> findProductList();
+
+    /**
+     * 小程序 获取商品列表
+     * @return
+     */
+    List<Product> findList();
+
+    /**
+     *  获取商品列表 的展示图片list
+     * @return
+     */
+    List<ProductDetail> getImagesListByProductIds(List<String> productIds);
+
+    /**
+     * 通过商品ids  获取sku最小价格list
+     * @param productIds
+     * @return
+     */
+    List<Sku> getSkuMinPriceByProductIds(List<String> productIds);
 }
