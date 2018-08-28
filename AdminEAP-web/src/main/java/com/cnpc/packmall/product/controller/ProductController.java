@@ -160,22 +160,51 @@ public class ProductController {
 
     //————————————————————小程序接口start——————————————————————————
 
+    /**
+     * 获取所有商品list
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getList")
+    @ResponseBody
+    public  Result getList(){
+        Map<String,Object> result = new HashMap<>(8);
+        List<Product> productList = productService.findList();
+        result.put("productList", productList);
+        return new Result(true,result);
+    }
 
-    //获取所有商品   list【
     /**
      * 获取 商品页信息
      * @param id
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/getProductById/${id}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/getProductById/${id}")
     @ResponseBody
-    public  Result saveOrUpdate(@PathVariable("id")String id){
-        Map<String,Object> result = new HashMap<>(8);
+    public  Result getProductById(@PathVariable("id")String id){
+        Map<String,Object> result = productService.findDetailByProducid(id);
+        Product  product  =productService.get(Product.class, id);
         List<Sku> skuList = skuService.findByProductId(id);
         result.put("skuList", skuList);
+        //把最小价格填写上
+        if(skuList!=null&&skuList.size()>0){
+            for(Sku s :skuList) {
+                if(product.getId().equals(s.getProductId())){
+                    if(product.getMixPrice()==null||product.getMixPrice().equals(0)){
+                        product.setMixPrice(s.getMixPrice());
+                    }else{
+                        if(product.getMixPrice().compareTo(s.getMixPrice())== 1){
+                            product.setMixPrice(s.getMixPrice());
+                        }
+                    }
+                }
+            }
+        }
+        result.put("product",product);
         return new Result(true,result);
     }
     //规格选择
+
+
 
     //规格选择  选择尺寸后
 }

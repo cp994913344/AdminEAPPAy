@@ -6,6 +6,8 @@ import com.cnpc.framework.base.entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.math.BigDecimal;
 
 /**
  *  商品
@@ -24,6 +26,18 @@ public class Product extends BaseEntity {
     @Column(name = "product_name", length = 50)
     private String productName;
 
+    /**
+     * 小程序 图片路径
+     */
+    @Transient
+    private String headImgUrl;
+
+    /**
+     * 小程序 图片路径
+     */
+    @Transient
+    private BigDecimal mixPrice;
+
     public void setProductCode(String productCode) {
         this.productCode = productCode;
     }
@@ -39,5 +53,23 @@ public class Product extends BaseEntity {
 
     public String getProductName() {
         return productName;
+    }
+
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl;
+    }
+
+    public String getHeadImgUrl() {
+
+        return headImgUrl;
+    }
+
+    public void setMixPrice(BigDecimal mixPrice) {
+        this.mixPrice = mixPrice;
+    }
+
+    public BigDecimal getMixPrice() {
+
+        return mixPrice;
     }
 }

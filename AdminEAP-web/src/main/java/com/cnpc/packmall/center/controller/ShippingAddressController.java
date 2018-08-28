@@ -94,7 +94,8 @@ public class ShippingAddressController {
     public Result delete(@PathVariable("id") String id){
         ShippingAddress shippingaddress=this.get(id);
         try{
-            shippingaddressService.delete(shippingaddress);
+            shippingaddress.setDeleted(1);
+            shippingaddressService.update(shippingaddress);
             return new Result();
         }
         catch(Exception e){
@@ -135,7 +136,7 @@ public class ShippingAddressController {
 
 
     /**
-     * 根据客户id查询收货地址列表
+     * 根据客户openId查询收货地址列表
      * @param openId
      * @return
      */

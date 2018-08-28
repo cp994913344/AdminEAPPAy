@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.packmall.invoice.entity.InvoiceNormal;
 import org.apache.commons.lang3.StringUtils;
@@ -91,7 +92,8 @@ public class InvoiceDedicatedController {
     public Result delete(@PathVariable("id") String id){
         InvoiceDedicated invoicededicated=this.get(id);
         try{
-        	invoicededicatedService.delete(invoicededicated);
+            invoicededicated.setDeleted(1);
+        	invoicededicatedService.update(invoicededicated);
             return new Result();
         }
         catch(Exception e){
@@ -99,6 +101,47 @@ public class InvoiceDedicatedController {
         }
     }
 
+    //————————————————————小程序接口start——————————————————————————
 
+    /**
+     * 保存发票信息
+     * @param invoiceDedicated
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/save/${invoiceDedicated}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result save(@PathVariable("invoiceDedicated")  String invoiceDedicated){
+        try{
+            InvoiceDedicated invoiceDedicated1 = JSON.parseObject(invoiceDedicated,InvoiceDedicated.class);
+            if(invoiceDedicated!=null){
+                invoicededicatedService.save(invoiceDedicated);
+            }
+        }catch (Exception e){
+            return  new Result(false,e.getMessage());
+        }
+        return  new Result(true);
+    }
+
+    /**
+     * 根据客户openId查询收货地址列表
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getByOpenId/${openId}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getByOpenId(@PathVariable("openId")  String openId){
+        return  invoicededicatedService.findByOpenId(openId);
+    }
+
+    /**
+     * 根据客户openId查询收货地址列表
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getDetailById/${id}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getDetailById(@PathVariable("id")  String id){
+        return  invoicededicatedService.getDetailById(id);
+    }
 
 }

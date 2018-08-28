@@ -1,7 +1,10 @@
 package com.cnpc.packmall.product.service.impl;
 
 import bsh.StringUtil;
+import com.cnpc.framework.base.entity.SysFile;
 import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.packmall.SKU.entity.Sku;
+import com.cnpc.packmall.SKU.entity.SkuDetail;
 import com.cnpc.packmall.product.entity.Product;
 import com.cnpc.packmall.product.entity.ProductDetail;
 import com.cnpc.packmall.util.SortUtil;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.packmall.product.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -138,8 +142,128 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
      */
     @Override
     public List<Product> findProductList() {
-        String hql = "from Product where deleted = 0";
+        String hql = "from Product where deleted = 0 order by createDateTime desc";
         return this.baseDao.find(hql);
     }
+
+
+    /**
+     * 小程序 获取商品列表
+     * @return
+     */
+    @Override
+    public List<Product> findList() {
+        String hql = "from Product where deleted = 0 order by createDateTime desc";
+        List<Product> productList = this.baseDao.find(hql);
+        if(productList!=null&&productList.size()>0){
+            List<String> productIds = new ArrayList<>(productList.size());
+            for(Product p :productList){
+                productIds.add(p.getId());
+            }
+            List<ProductDetail> productDetailList=  getImagesListByProductIds(productIds);
+            if(productDetailList!=null&&productDetailList.size()>0){
+                for(Product p :productList){
+                    for( ProductDetail pd:productDetailList){
+                        if(p.getId().equals(pd.getProductId())){
+                            p.setHeadImgUrl(pd.getDetailVal());
+                        }
+                    }
+                }
+
+            }
+            List<Sku> skuList  = getSkuMinPriceByProductIds(productIds);
+            for(Product p :productList){
+                for(Sku s :skuList) {
+                    if(p.getId().equals(s.getProductId())){
+                        if(p.getMixPrice()==null||p.getMixPrice().equals(0)){
+                            p.setMixPrice(s.getMixPrice());
+                        }else{
+                            if(p.getMixPrice().compareTo(s.getMixPrice())== 1){
+                                p.setMixPrice(s.getMixPrice());
+                            }
+                        }
+                    }
+                }
+            }
+            return productList;
+        }
+        return null;
+    }
+
+    /**
+     *  获取商品列表 的展示图片list
+     * @return
+     */
+    @Override
+    public List<ProductDetail> getImagesListByProductIds(List<String> productIds){
+        Map<String,Object> params = new HashMap<>(2);
+        String hql  = " select p.id as id,p.productId as productId,p.detailId as detailId " +
+                " from ProductDetail as p" +
+                " where p.detailType = 'BANNERIMG' and p.detailSeq =1  and p.productId in (:productIds)";
+        params.put("productIds",productIds);
+        List<ProductDetail> list = this.baseDao.find(hql,params,ProductDetail.class);
+        if(list!=null&&list.size()>0){
+            List<String> productDetailIds = new ArrayList<>(list.size());
+            for(ProductDetail pd :list){
+                productDetailIds.add(pd.getDetailId());
+            }
+            Map<String,Object> params2 = new HashMap<>(2);
+            params2.put("productDetailIds", productDetailIds);
+            String hql2 = "select s.id as id,s.filePath as filePath from SysFile as s where s.id in (:productDetailIds)";
+            List<SysFile> sysFiles = this.baseDao.find(hql2,params2,SysFile.class);
+            for(ProductDetail pd :list){
+                for(SysFile s :sysFiles){
+                    if(pd.getDetailId().equals(s.getId())){
+                        pd.setDetailVal(s.getFilePath());
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 通过商品ids  获取sku最小价格list
+     * @param productIds
+     * @return
+     */
+    @Override
+    public List<Sku> getSkuMinPriceByProductIds(List<String> productIds){
+        //获取所有的sku
+        Map<String,Object> params = new HashMap<>(2);
+        String hql  = " select s.id as id,s.productId as productId " +
+                " from Sku as s" +
+                " where s.skuStatus = 1 and s.productId in (:productIds)";
+        params.put("productIds",productIds);
+        List<Sku> list = this.baseDao.find(hql,params,Sku.class);
+        if(list!=null&&list.size()>0){
+            List<String> skuIds = new ArrayList<>(list.size());
+            for(Sku pd :list){
+                skuIds.add(pd.getId());
+            }
+            Map<String,Object> params2 = new HashMap<>(2);
+            //获取所有sku 的价格  并选择每个sku的 最低价格
+            params2.put("skuIds", skuIds);
+            String hql2 = "select sd.skuId as skuId,sd.detailVal as detailVal " +
+                    " from SkuDetail as sd" +
+                    " where  sd.detailType='PRICE' and sd.skuId in (:skuIds)";
+            List<SkuDetail> skuDetails = this.baseDao.find(hql2,params2,SkuDetail.class);
+            for(Sku s :list){
+                for(SkuDetail sd :skuDetails){
+                    if(s.getId().equals(sd.getSkuId())){
+                        if(s.getMixPrice()==null||s.getMixPrice().equals(0)){
+                            s.setMixPrice(sd.getDetailVal());
+                        }else{
+                            if(s.getMixPrice().compareTo(sd.getDetailVal())== 1){
+                                s.setMixPrice(sd.getDetailVal());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
 
 }

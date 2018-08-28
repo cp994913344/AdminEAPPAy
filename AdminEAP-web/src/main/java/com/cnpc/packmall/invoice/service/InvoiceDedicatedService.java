@@ -1,5 +1,6 @@
 package com.cnpc.packmall.invoice.service;
 
+import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.packmall.invoice.entity.InvoiceDedicated;
 
@@ -21,4 +22,19 @@ public interface InvoiceDedicatedService extends BaseService {
     boolean saveInvoiceStatusChangeData(String invoiceId,String invoiceMark,String invoiceNo,String courierNo);
 
     void insertData(InvoiceDedicated invoiceDedicated);
+
+
+    /**
+     * 根据openid 查询客户的发票
+     * @param openId
+     * @return
+     */
+    Result findByOpenId(String openId);
+
+    /**
+     * 通过id 查询详情 及商品信息
+     * @param id
+     * @return
+     */
+    Result getDetailById(String id);
 }
