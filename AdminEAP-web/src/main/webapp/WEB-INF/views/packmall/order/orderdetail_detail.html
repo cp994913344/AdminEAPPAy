@@ -1,0 +1,79 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+    <h5 class="modal-title"></h5>
+</div>
+
+<div class="modal-body">
+    <form id="orderdetail_form" name="orderdetail_form" class="form-horizontal">
+        <input type='hidden' value="${CSRFToken}" id='csrftoken'>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">订单id</label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="orderId" name="orderId" placeholder="请填写订单id">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">商品id</label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="productId" name="productId" placeholder="请填写商品id">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">SKUid</label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="skuId" name="skuId" placeholder="请填写SKUid">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">SKU信息<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="skumsg" name="skumsg" placeholder="请填写SKU信息">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">商品名称<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="productName" name="productName" placeholder="请填写商品名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">商品数量<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="number" name="number" placeholder="请填写商品数量">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">商品单价<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="price" name="price" placeholder="请填写商品单价">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">总价格<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input readonly="readonly" type="text" class="form-control" id="totalPrice" name="totalPrice" placeholder="请填写总价格">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var form;
+    var id="${id?default(0)}";
+    $(function(){
+        //初始化表单
+        form=$("#orderdetail_form").form();
+        //初始化控件
+        form.initComponent();
+        //编辑回填
+        if(id!=0){
+            ajaxPost(basePath+"/orderdetail/get/"+id,null,function(data){
+                form.initFormData(data);
+            })
+        }
+    });
+
+</script>

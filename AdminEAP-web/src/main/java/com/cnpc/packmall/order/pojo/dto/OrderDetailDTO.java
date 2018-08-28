@@ -1,82 +1,72 @@
-package com.cnpc.packmall.order.entity;
+package com.cnpc.packmall.order.pojo.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.cnpc.framework.annotation.Header;
-import com.cnpc.framework.base.entity.BaseEntity;
-import com.cnpc.framework.base.entity.Dict;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.cnpc.framework.base.pojo.BaseDTO;
 
 /**
- * 订单详情
+ * 订单详情展示实体
  * @author 16692
  *
  */
-@Entity
-@Table(name = "tbl_packmall_order_order_detail")
-@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
-public class OrderDetail extends BaseEntity {
-
+public class OrderDetailDTO extends BaseDTO {
 
 
 	/**
-	 * 
+	 * 订单id
 	 */
-	private static final long serialVersionUID = -6800496706953132386L;
-
-
-	@Header(name="订单id")
-    @Column(name = "order_id", length = 100)
     private String orderId;
     
-	@Header(name="商品id")
-    @Column(name = "product_id", length = 100)
+    /*
+     * 商品id
+     */
     private String productId;
     
-	@Header(name="SKUid")
-    @Column(name = "sku_id", length = 100)
+    /**
+     * KUid
+     */
     private String skuId;
     
-	@Header(name="SKU信息")
-    @Column(name = "sku_msg", length = 100)
+    /**
+     * SKU信息
+     */
     private String skumsg;
-	
-	@Header(name="尺寸")
-	@Column(name = "size", length = 100)
+	/**
+	 * 尺寸
+	 */
 	private String size;
-	
-	@Header(name="规格")
-	@Column(name = "specification", length = 100)
+	/**
+	 * 规格
+	 */
 	private String specification;
-	
-	@Header(name="颜色")
-	@Column(name = "color", length = 100)
+	/**
+	 * 颜色
+	 */
 	private String color;
-	
-	@Header(name="质量")
-	@Column(name = "quality", length = 100)
+	/**
+	 * 质量
+	 */
 	private String quality;
-    
-    @Header(name="商品名称")
-    @Column(name = "product_name", length = 100)
+    /**
+     * 商品名称
+     */
     private String productName;
-    
-    @Header(name="商品数量")
-    @Column(name = "number", length = 100)
+    /**
+     * 商品数量
+     */
     private Integer number;
-
-    @Header(name="商品单价")
-    @Column(name = "price", length = 100)
+	/**
+	 * 商品单价
+	 */
     private BigDecimal price;
     
-    @Header(name="总价格")
-    @Column(name = "total_price", length = 100)
+	/**
+	 * 商品单价
+	 */
+    private String priceId;
+    /**
+     * 总价格
+     */
     private BigDecimal totalPrice;
 
 	public String getOrderId() {
@@ -173,6 +163,14 @@ public class OrderDetail extends BaseEntity {
 
 	public void setQuality(String quality) {
 		this.quality = quality;
+	}
+
+	public String getPriceId() {
+		return priceId;
+	}
+
+	public void setPriceId(String priceId) {
+		this.priceId = priceId;
 	}
 
 

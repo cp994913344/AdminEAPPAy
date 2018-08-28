@@ -14,9 +14,8 @@ import com.cnpc.framework.base.entity.Dict;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * 地区表信息
- * 
- * @author
+ * 订单状态流转记录
+ * @author 16692
  *
  */
 @Entity

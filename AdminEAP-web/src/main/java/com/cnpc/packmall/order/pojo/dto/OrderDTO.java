@@ -1,135 +1,95 @@
-package com.cnpc.packmall.order.entity;
+package com.cnpc.packmall.order.pojo.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.cnpc.framework.annotation.Header;
-import com.cnpc.framework.base.entity.BaseEntity;
-import com.cnpc.framework.base.entity.Dict;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.cnpc.framework.base.pojo.BaseDTO;
+import com.cnpc.packmall.order.entity.Order;
 
 /**
- * 订单信息
+ * 订单展示实体
  * @author 16692
  *
  */
-@Entity
-@Table(name = "tbl_packmall_order_order")
-@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
-public class Order extends BaseEntity {
+public class OrderDTO extends BaseDTO {
 
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5251144036134846307L;
 
 	/**
      * 编号
      */
-	@Header(name="CODE")
-    @Column(name = "CODE", length = 100)
     private String code;
 
     
     /**
      * 用户id
      */
-	@Header(name="用户id")
-    @Column(name = "open_id", length = 100)
     private String openId;
     
     
     /**
      * 用户姓名
      */
-	@Header(name="用户姓名")
-    @Column(name = "user_name", length = 100)
     private String userName;
     
     
     /**
      * 收货地址id
      */
-	@Header(name="收货地址")
-    @Column(name = "address_id", length = 100)
     private String addressId;
     
-    @Header(name="联系方式")
-    @Column(name = "phone", length = 100)
+    /**
+     * 联系方式
+     */
     private String phone;
     
-    @Header(name="收货人")
-    @Column(name = "contacts", length = 100)
+    /**
+     * 收货人
+     */
     private String contacts;
 
     /**
      * 送货时间
      */
-    @Header(name="送货时间",joinClass=Dict.class,dataSource="DELIVERYTIME")
-    @Column(name = "delivery_time", length = 100)
     private String deliverytime;
 
     /**
      * 是否周末送货
      */
-    @Header(name="是否周末送货")
-    @Column(name = "weekend", length = 100)
     private Boolean weekend;
     
-    @Header(name="SKU")
-    @Column(name = "SKU", length = 100)
+    /**
+     * SKU
+     */
     private String sku;
 
     /**
      * 备注 留言
      */
-    @Header(name="备注")
-    @Column(name = "remarks", length = 100)
     private String remarks;
 
     /**
      * 运费
      */
-    @Header(name="运费")
-    @Column(name = "freight", length = 100)
     private BigDecimal freight;
 
     /**
      * 总价格
      */
-    @Header(name="总价格")
-    @Column(name = "total_price", length = 100)
     private BigDecimal totalPrice;
     
     /**
-     * 支付方式
+     * 总价格
      */
-    @Header(name="支付方式")
-    @Column(name = "pay_method", length = 100)
-    private String payMethod;
+    private BigDecimal payMethod;
 
     /**
-     * 状态1 未支付 2 待送货 3 待签收 4 已完结 -1 订单关闭
+     * 状态
      */
-    @Header(name="状态")
-    @Column(name = "state", length = 100)
     private String state;
     
-    @Header(name="开票状态")
-    @Column(name = "whether_state", length = 100)
-    private String whetherState;
-
-    @Header(name="开票ID")
-    @Column(name = "whether_id", length = 100)
-    private String whetherId;
     
-    
+    private List<OrderDetailDTO> orderDetailDTOs;
 
 	public String getCode() {
 		return code;
@@ -236,26 +196,33 @@ public class Order extends BaseEntity {
 		this.state = state;
 	}
 
+	public BigDecimal getPayMethod() {
+		return payMethod;
+	}
 
-	public void setPayMethod(String payMethod) {
+	public void setPayMethod(BigDecimal payMethod) {
 		this.payMethod = payMethod;
 	}
 
-
-	public String getWhetherState() {
-		return whetherState;
+	public List<OrderDetailDTO> getOrderDetailDTOs() {
+		return orderDetailDTOs;
 	}
 
-	public void setWhetherState(String whetherState) {
-		this.whetherState = whetherState;
+	public void setOrderDetailDTOs(List<OrderDetailDTO> orderDetailDTOs) {
+		this.orderDetailDTOs = orderDetailDTOs;
 	}
 
-	public String getWhetherId() {
-		return whetherId;
-	}
-
-	public void setWhetherId(String whetherId) {
-		this.whetherId = whetherId;
+	public Order toEntity(OrderDTO orderDTO) {
+		Order order = new Order();
+		order.setAddressId(orderDTO.getAddressId());
+		order.setPhone(orderDTO.getPhone());
+		order.setContacts(orderDTO.getContacts());
+		order.setDeliverytime(orderDTO.getDeliverytime());
+		order.setWeekend(orderDTO.getWeekend());
+		order.setRemarks(orderDTO.getRemarks());
+		order.setFreight(orderDTO.getFreight());
+		order.setPayMethod("微信支付");
+		return order;
 	}
 
 

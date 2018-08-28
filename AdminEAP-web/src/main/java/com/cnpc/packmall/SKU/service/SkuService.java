@@ -7,6 +7,7 @@ import com.cnpc.packmall.SKU.entity.SkuDetail;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
 * sku服务接口
@@ -54,9 +55,16 @@ public interface SkuService extends BaseService {
     List<Sku> findByProductId(String productId);
 
     /**
-     * 根据 skuid  查询skumap
+     * 根据 ids  查询skuDetailmap
+     * @param skuDetailIdList
+     * @return
+     */
+    Map<String,Map<String, String>> findSkuDetailBySkuDetailIds(Set<String> skuDetailIdList);
+    
+    /**
+     * 根据 ids  查询skumap
      * @param skuIdList
      * @return
      */
-    Map<String,List<SkuDetail>> findSkuListBySkuIds(List<String> skuIdList);
+    Map<String,Sku> findSkuBySkuIds(Set<String> skuIdList);
 }
