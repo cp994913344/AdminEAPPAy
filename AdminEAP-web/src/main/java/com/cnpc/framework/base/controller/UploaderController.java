@@ -1,6 +1,42 @@
 package com.cnpc.framework.base.controller;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.util.Streams;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.cnpc.framework.base.entity.SysFile;
 import com.cnpc.framework.base.entity.User;
 import com.cnpc.framework.base.pojo.AvatarResult;
@@ -13,23 +49,6 @@ import com.cnpc.framework.utils.DateUtil;
 import com.cnpc.framework.utils.FileUtil;
 import com.cnpc.framework.utils.PropertiesUtil;
 import com.cnpc.framework.utils.StrUtil;
-import org.apache.commons.fileupload.util.Streams;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.*;
-import java.util.*;
 
 @Controller
 @RequestMapping("/file")
@@ -421,7 +440,47 @@ public class UploaderController {
     }
 
 
-
+    /**
+	 * 图片在线显示showImg
+	 *
+	 * @param request
+	 * @param response
+	 * @param imgId
+	 * @throws Exception
+	 */
+    @RequestMapping(value = "/showImg")
+    @ResponseBody
+    public void showImg(HttpServletRequest request, HttpServletResponse response, String imgId) throws Exception {
+        /*
+         * 在线预览图片
+         */
+        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("image/jpeg");
+        try {
+            // url = new String(url.getBytes("UTF-8"), "iso8859-1");
+            // url = java.net.URLEncoder.encode(url);
+            String path =uploaderService.get(SysFile.class, imgId).getFilePath();
+            InputStream is = new FileInputStream(new File(path));
+            response.reset();
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+            BufferedInputStream bis = new BufferedInputStream(is);
+            int s = 0;
+            byte[] bytes = new byte[2048];
+            while ((s = bis.read(bytes)) != -1) {
+                bos.write(bytes, 0, s);
+            }
+            bos.flush();
+            bos.close();
+            bis.close();
+            is.close();
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 
 
