@@ -130,7 +130,7 @@ public class SendMsgUtil {
     
     public static void main(String[] args) throws ClientException, InterruptedException {
         String random = getRandNum(6);
-        String phone = "18835789431";
+        String phone = "18310112336";
         //发短信
         SendSmsResponse response = sendSms(phone,"SMS_95375057","{'code':'"+random+"'}");
         System.out.println("短信接口返回的数据----------------");

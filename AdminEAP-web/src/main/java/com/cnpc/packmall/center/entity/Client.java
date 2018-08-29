@@ -38,6 +38,22 @@ public class Client extends BaseEntity{
     @Column(name="CLIENT_PHONE" ,length = 11)
     private String clientPhone;
 
+    /**
+     * 头像id
+     * @param clientCode
+     */
+    @Transient
+    private String headImgId;
+
+    public void setHeadImgId(String headImgId) {
+        this.headImgId = headImgId;
+    }
+
+    public String getHeadImgId() {
+
+        return headImgId;
+    }
+
     public void setClientCode(String clientCode) {
         this.clientCode = clientCode;
     }

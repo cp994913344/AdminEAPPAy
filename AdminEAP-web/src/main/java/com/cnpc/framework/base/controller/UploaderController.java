@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -254,16 +255,16 @@ public class UploaderController {
                     System.out.println(DateUtil.format(new Date(),filePrefixFormat));
                     String savedName=DateUtil.format(new Date(),filePrefixFormat)+"_"+file.getOriginalFilename();
                     String filePath=dir.getAbsolutePath() + File.separator + savedName;
-                    File serverFile = new File(filePath);
+                     File serverFile = new File(filePath);
                     //将文件写入到服务器
                     //FileUtil.copyInputStreamToFile(file.getInputStream(),serverFile);
-                    file.transferTo(serverFile);
+                     file.transferTo(serverFile);
                     SysFile sysFile=new SysFile();
                     sysFile.setFileName(file.getOriginalFilename());
                     sysFile.setSavedName(savedName);
                     sysFile.setCreateDateTime(new Date());
                     sysFile.setUpdateDateTime(new Date());
-                    sysFile.setCreateUserId(SecurityUtil.getUserId());
+                    //sysFile.setCreateUserId(SecurityUtil.getUserId());
                     sysFile.setDeleted(0);
                     sysFile.setFileSize(file.getSize());
                     sysFile.setFilePath(uploaderPath+File.separator+savedName);
@@ -478,6 +479,37 @@ public class UploaderController {
             e.printStackTrace();
         }
     }
+
+
+    //————————————————————小程序接口start——————————————————————————
+
+
+    /**
+     * 通用文件上传接口，存储到固定地址，以后存储到文件服务器地址
+     */
+    @RequestMapping(value = "/pack_mall_api/uploadFile")
+    @ResponseBody
+    public String PMAuploadFile(@RequestParam(value = "file", required = false) MultipartFile file,
+                                 HttpServletRequest request, HttpServletResponse response) throws IOException {
+        MultipartFile[] files=new MultipartFile[]{file};
+        FileResult fileResult =  uploadMultipleFile(files,request,response);
+        if(StringUtils.isEmpty(fileResult.getError())){
+            return fileResult.getFileIds();
+        }
+        return "error";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 图片在线显示showImg

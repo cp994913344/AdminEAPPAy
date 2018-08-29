@@ -135,9 +135,9 @@ public class SkuController {
      * @param skuId
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/getSkuDetailBySkuId/${skuId}")
+    @RequestMapping(value="/pack_mall_api/getSkuDetailBySkuId")
     @ResponseBody
-    public  Result getSkuDetailBySkuId(@PathVariable("skuId")String skuId){
+    public  Result getSkuDetailBySkuId(String skuId){
         Map<String, Object> result = skuService.findDetailBySkuId(skuId);
         return new Result(true,result);
     }

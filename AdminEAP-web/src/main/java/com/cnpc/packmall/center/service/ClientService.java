@@ -1,5 +1,6 @@
 package com.cnpc.packmall.center.service;
 
+import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.packmall.center.entity.Client;
 
@@ -22,4 +23,11 @@ public interface ClientService extends BaseService {
      * @return
      */
     Client getByOpenId(String openId);
+
+    /**
+     * 新增客户信息
+     * @param client
+     * @return
+     */
+    Result saveClient(Client client);
 }

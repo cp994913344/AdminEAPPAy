@@ -184,14 +184,14 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
         if(StringUtils.isEmpty(productId)){
             return null;
         }
-        String hql = "select s.id as id,s.skuSizeLength as skuSizeLength,s.skuSizeWide as skuSizeWide,s.skuSizeHigh as skuSizeHigh " +
+        String hql = "select s.id as id,s.skuSizeLength as skuSizeLength,s.skuSizeWide as skuSizeWide,s.skuSizeHigh as skuSizeHigh,s.productId as productId " +
                 " from Sku s where  s.productId = :productId";
         Map<String,Object> params = new HashMap<>(4);
         params.put("productId",productId);
         List<Sku> list =  this.baseDao.find(hql,params,Sku.class);
         if(list!=null&&list.size()>0){
             for(Sku s:list){
-                s.setSkuSize(s.getSkuSizeLength()+"*"+s.getSkuSizeWide()+"*"+s.getSkuSizeHigh()+"cm");
+                s.setSkuSize(s.getSkuSizeLength()+"*"+s.getSkuSizeWide()+"*"+s.getSkuSizeHigh());
             }
             if(list!=null&&list.size()>0){
                 List<String> skuIds = new ArrayList<>(list.size());

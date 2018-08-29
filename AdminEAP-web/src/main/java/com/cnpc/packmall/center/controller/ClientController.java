@@ -1,16 +1,27 @@
 package com.cnpc.packmall.center.controller;
 
+import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyuncs.exceptions.ClientException;
 import com.cnpc.framework.base.entity.Dict;
+import com.cnpc.framework.base.entity.SysFile;
+import com.cnpc.framework.base.service.SysFileService;
+import com.cnpc.framework.util.SendMsgUtil;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.packmall.center.entity.Client;
 import com.cnpc.packmall.center.service.ClientService;
+import com.cnpc.packmall.product.entity.Product;
+import com.cnpc.packmall.product.entity.ProductDetail;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.Odd;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +45,9 @@ public class ClientController {
 
     @Resource
     private ClientService clientService;
+
+    @Resource
+    private SysFileService sysFileService;
 
     @RequestMapping(value="/list",method = RequestMethod.GET)
     public String list(){
@@ -101,18 +115,119 @@ public class ClientController {
 
     //————————————————————小程序接口start——————————————————————————
 
-    // 修改姓名
+    /**
+     * 保存客户
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/saveClient",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result saveClient(HttpServletRequest request,Client client){
+        return clientService.saveClient(client);
+    }
 
-    //修改企业名称
+    /**
+     * 修改姓名
+     * @param clientName
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/updateClientName",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result updateClientName(String clientName,String openId){
+        if(StringUtils.isEmpty(openId)||StringUtils.isEmpty(clientName)){
+            return new Result(false);
+        }
+        Client client =  clientService.getByOpenId(openId);
+        client.setClientName(clientName);
+        clientService.update(client);
+        return  new Result(true);
+    }
 
-    //换绑手机
+    /**
+     * 换绑手机
+     * @param clientPhone
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/updateClientPhone",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result updateClientPhone(String clientPhone,String openId){
+        if(StringUtils.isEmpty(openId)||StringUtils.isEmpty(clientPhone)){
+            return new Result(false);
+        }
+        Client client =  clientService.getByOpenId(openId);
+        client.setClientPhone(clientPhone);
+        clientService.update(client);
+        return  new Result(true);
+    }
 
-    //保存头像 姓名
+    //修改头像 姓名
+    /**
+     * 换绑手机
+     * @param headImgId
+     * @param openId
+     * @param clientName
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/updateClientNameOrImg",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result updateClientNameOrImg(String clientName,String headImgId,String openId){
+        if(StringUtils.isEmpty(openId)){
+            return new Result(false);
+        }
+        Client client =  clientService.getByOpenId(openId);
+        if(StringUtils.isNotEmpty(clientName)){
+            if(client!=null){
+                client.setClientName(clientName);
+                clientService.update(client);
+            }else{
+                return new Result(false,"修改客户名称是失败");
+            }
+        }
+        if(StringUtils.isNotEmpty(headImgId)&&client!=null){
+            //如果 修改头像 先查询原头像  有 删除图片
+            SysFile oldFile = sysFileService.findByFormId(client.getId());
+            SysFile sysFile = clientService.get(SysFile.class,headImgId);
+            if(sysFile!=null){
+                //保存新头像
+                sysFile.setFormId(client.getId());
+                sysFileService.save(sysFile);
+                if(oldFile!=null&&oldFile.getFilePath()!=null){
+                    //删除 老图片
+                    File oldFileImg = new File(oldFile.getFilePath());
+                    if(oldFileImg!=null&&oldFileImg.isFile()){
+                        oldFileImg.delete();
+                    }
+                    sysFileService.delete(oldFile);
+                }
+            }else{
+                return new Result(false, "修改头像失败");
+            }
+        }
+        return  new Result(true);
+    }
 
 
-    //修改头像
 
-
-
+    /**
+     *  获取验证码
+     * @param clientPhone
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getPhoneCode",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result getPhoneCode(String clientPhone){
+        if(StringUtils.isEmpty(clientPhone)){
+            return new Result(false);
+        }
+        try{
+            Map<String, Object> result = SendMsgUtil.sendSmsCode(clientPhone);
+            return  new Result(true,result);
+        }catch (InterruptedException e){
+            return new Result(false, e.getMessage());
+        }catch (ClientException e){
+            return new Result(false, e.getMessage());
+        }
+    }
 
 }
