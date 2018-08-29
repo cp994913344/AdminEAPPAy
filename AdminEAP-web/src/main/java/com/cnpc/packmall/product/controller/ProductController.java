@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
@@ -127,6 +128,13 @@ public class ProductController {
     public Result delete(@PathVariable("id") String id){
         Product product=productService.get(Product.class,id);
         try{
+            if(product!=null) {
+                //查询是否有sku
+                Integer skuNum = skuService.findSkuNumByProductId(product.getId());
+                if(skuNum>0){
+                    return new Result(false,"该商品有sku，请先删除该产品的sku！");
+                }
+            }
             product.setDeleted(1);
         	productService.update(product);
             return new Result();
@@ -156,7 +164,19 @@ public class ProductController {
         return productService.findDetailByProducid(id);
     }
 
-
+    /**
+     * 修改商品状态 启用 暂停
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/updateStauts",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean updateStauts(String id){
+        if(StringUtils.isEmpty(id)){
+            return false;
+        }
+        return productService.updateStauts(id);
+    }
 
     //————————————————————小程序接口start——————————————————————————
 

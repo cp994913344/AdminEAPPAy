@@ -73,6 +73,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
             product.setCreateDateTime(new Date());
             product.setDeleted(0);
             product.setVersion(0);
+            product.setProductStatus(1);
             this.baseDao.save(product);
             if(StringUtils.isNotEmpty(product.getId())){
                 for(ProductDetail pd: list){
@@ -145,7 +146,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
      */
     @Override
     public List<Product> findProductList() {
-        String hql = "from Product where deleted = 0 order by createDateTime desc";
+        String hql = "from Product where deleted = 0 and productStatus = 1  order by createDateTime desc";
         return this.baseDao.find(hql);
     }
 
@@ -156,7 +157,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
      */
     @Override
     public List<Product> findList() {
-        String hql = "from Product where deleted = 0 order by createDateTime desc";
+        String hql = "from Product where deleted = 0 and productStatus = 1  order by createDateTime desc";
         List<Product> productList = this.baseDao.find(hql);
         if(productList!=null&&productList.size()>0){
             List<String> productIds = new ArrayList<>(productList.size());
@@ -260,5 +261,24 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 		return productDetails.stream().collect(Collectors.groupingBy(ProductDetail::getProductId));
 	}
 
-
+    /**
+     *  修改商品上下架
+     * @param id
+     * @return
+     * @autor cp
+     */
+    @Override
+    public boolean updateStauts(String id) {
+        Product product = this.baseDao.get(Product.class,id);
+        if(product!=null){
+            if(product.getProductStatus()==1){
+                product.setProductStatus(2);
+            }else{
+                product.setProductStatus(1);
+            }
+            this.baseDao.update(product);
+            return true;
+        }
+        return false;
+    }
 }

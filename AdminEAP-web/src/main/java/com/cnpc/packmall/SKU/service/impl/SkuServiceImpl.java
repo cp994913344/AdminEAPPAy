@@ -94,7 +94,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
     }
 
     /**
-     *  修改客户禁用
+     *  修改sku 下架
      * @param id
      * @return
      */
@@ -185,7 +185,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             return null;
         }
         String hql = "select s.id as id,s.skuSizeLength as skuSizeLength,s.skuSizeWide as skuSizeWide,s.skuSizeHigh as skuSizeHigh,s.productId as productId " +
-                " from Sku s where  s.productId = :productId";
+                " from Sku s where s.deleted=0 and s.skuStatus = 1 and  s.productId = :productId";
         Map<String,Object> params = new HashMap<>(4);
         params.put("productId",productId);
         List<Sku> list =  this.baseDao.find(hql,params,Sku.class);
@@ -246,6 +246,11 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
         return null;
     }
 
+    /**
+     *  ids  查询 sku
+     * @param skuIdList
+     * @return
+     */
 	@Override
 	public Map<String, Sku> findSkuBySkuIds(Set<String> skuIdList) {
 		Map<String,Object> params = new HashMap<>();
@@ -255,4 +260,17 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
         Map<String,Sku> skuMap = skus.stream().collect(Collectors.toMap(Sku::getId,Function.identity()));
 		return skuMap;
 	}
+
+    /**
+     * 通过 商品id 查询 该商品的 有效sku数量
+     * @param productId
+     * @return
+     */
+	@Override
+	public Integer findSkuNumByProductId(String productId){
+	    String hql = "SELECT count(*)  from Sku s where s.deleted=0 and s.productId = '"+productId+"'";
+	    Long num = this.baseDao.count(hql);
+        return num.intValue();
+    }
+
 }

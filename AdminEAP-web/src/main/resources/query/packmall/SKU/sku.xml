@@ -10,6 +10,6 @@
         <column key="skuSizeWide" header="sku尺寸宽" hidden="true"  classType="Integer"/>
         <column key="skuSizeHigh" header="尺寸cm" classType="Integer" fnRender="skuSizeS"/>
         <column key="skuStatus" header="sku状态" classType="Integer" allowSort="true" width="150" render="1=上架,2=下架"/>
-        <column key="skuStatus" header="sku状态" classType="Integer" allowSort="true" width="150" fnRender = "deletedFn"  render="type=link,method=banOrstar,params='[id]';this"/>
+        <column key="skuStatus" header="操作" classType="Integer" allowSort="true" width="150" fnRender = "deletedFn"  render="type=link,method=banOrstar,params='[id]';this"/>
 </query>
 </queryContext>

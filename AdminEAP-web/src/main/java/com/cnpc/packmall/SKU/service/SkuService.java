@@ -67,4 +67,6 @@ public interface SkuService extends BaseService {
      * @return
      */
     Map<String,Sku> findSkuBySkuIds(Set<String> skuIdList);
+
+    Integer findSkuNumByProductId(String productId);
 }

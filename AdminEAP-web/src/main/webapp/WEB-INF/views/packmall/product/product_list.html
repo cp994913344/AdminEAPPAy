@@ -79,7 +79,7 @@
                             if (data.success) {
                                 productTable.reloadRowData();
                             } else {
-                                modals.info("商品数据被引用，不可删除！");
+                                modals.info(data.message);
                             }
                         });
                     })
@@ -91,4 +91,46 @@
     function  refreshMain(){
         $("#mainDiv").load("/packmall/product/list");
     }
+
+    //操作html替换
+    function updateStatusFn(value, type, rowObj,oSetting) {
+        if (value.indexOf("启用")>0) {
+            return value.replace("启用","暂停");
+        } else {
+            return value.replace("暂停","启用");
+        }
+        return value;
+    }
+
+    //启用暂停操作
+    function banOrstar(id,thes){
+        $thes = $(thes);
+        var name = $thes.text();
+        if(name=="启用"){
+            modals.confirm('确定启用该商品！',function(){
+                ajaxPost(basePath + "/packmall/product/updateStauts" , {"id":id}, function (data) {
+                    if (data==true) {
+                        $thes.text("暂停");
+                        $thes.parent("td").prev().text("启用");
+                        modals.info("操作成功！");
+                    } else {
+                        modals.info("操作失败！");
+                    }
+                });
+            });
+        }else if(name=="暂停"){
+            modals.confirm('确定暂停该商品！',function(){
+                ajaxPost(basePath + "/packmall/product/updateStauts" , {"id":id}, function (data) {
+                    if (data==true) {
+                        $thes.text("启用");
+                        $thes.parent("td").prev().text("暂停");
+                        modals.info("操作成功！");
+                    } else {
+                        modals.info("操作失败！");
+                    }
+                });
+            });
+        }
+    }
+
 </script>

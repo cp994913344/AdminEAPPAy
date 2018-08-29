@@ -229,5 +229,4 @@ public class ClientController {
             return new Result(false, e.getMessage());
         }
     }
-
 }

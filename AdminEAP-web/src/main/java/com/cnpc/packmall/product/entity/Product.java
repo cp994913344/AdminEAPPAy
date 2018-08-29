@@ -27,6 +27,13 @@ public class Product extends BaseEntity {
     private String productName;
 
     /**
+     * 1 启用 2 暂停
+     */
+    @Header(name = "商品状态")
+    @Column(name = "product_status", length = 50)
+    private Integer productStatus;
+
+    /**
      * 小程序 图片路径
      */
     @Transient
@@ -72,5 +79,13 @@ public class Product extends BaseEntity {
     public String getHeadImgId() {
 
         return headImgId;
+    }
+
+    public void setProductStatus(Integer productStatus) {
+        this.productStatus = productStatus;
+    }
+
+    public Integer getProductStatus() {
+        return productStatus;
     }
 }

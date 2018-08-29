@@ -67,9 +67,17 @@ public interface ProductService extends BaseService {
     
     /**
      * 通过商品id 和详情类型获取商品详情信息
-     * @param productId
-     * @param Type
+     * @param productIds
+     * @param type
      * @return
      */
     Map<String, List<ProductDetail>> findProductDetailByProductIdAndType(Set<String> productIds,String type);
+
+    /**
+     *  修改商品上下架
+     * @param id
+     * @return
+     * @autor cp
+     */
+    public boolean updateStauts(String id);
 }
