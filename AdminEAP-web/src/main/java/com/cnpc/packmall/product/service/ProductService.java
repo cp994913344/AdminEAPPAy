@@ -8,6 +8,7 @@ import com.cnpc.packmall.product.entity.ProductDetail;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
 * 商品服务接口
@@ -63,4 +64,12 @@ public interface ProductService extends BaseService {
      * @return
      */
     List<Sku> getSkuMinPriceByProductIds(List<String> productIds);
+    
+    /**
+     * 通过商品id 和详情类型获取商品详情信息
+     * @param productId
+     * @param Type
+     * @return
+     */
+    Map<String, List<ProductDetail>> findProductDetailByProductIdAndType(Set<String> productIds,String type);
 }

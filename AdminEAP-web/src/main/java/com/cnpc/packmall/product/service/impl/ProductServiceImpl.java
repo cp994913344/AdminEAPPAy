@@ -16,6 +16,9 @@ import com.cnpc.packmall.product.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
 * 商品服务实现
@@ -245,6 +248,17 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
         }
         return list;
     }
+
+	@Override
+	public Map<String, List<ProductDetail>> findProductDetailByProductIdAndType(Set<String> productIds, String type) {
+		Map<String, Object> params = new HashMap<>();
+		String hql = "select detailType,detailVal,productId,detailId,id from ProductDetail where productId in(:productId) and detailType =:type";
+		params.put("productIds", productIds);
+		params.put("type", type);
+		List<ProductDetail> productDetails = this.find(hql, params);
+		
+		return productDetails.stream().collect(Collectors.groupingBy(ProductDetail::getProductId));
+	}
 
 
 }

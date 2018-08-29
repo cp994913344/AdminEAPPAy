@@ -1,7 +1,6 @@
 package com.cnpc.packmall.order.service.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,19 +9,15 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import org.apache.batik.util.HaltingThread;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.druid.sql.ast.expr.SQLCaseExpr.Item;
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
-import com.cnpc.packmall.center.entity.Client;
 import com.cnpc.packmall.center.service.ClientService;
 import com.cnpc.packmall.order.entity.Order;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
 import com.cnpc.packmall.order.pojo.dto.OrderDetailDTO;
 import com.cnpc.packmall.order.service.OrderDetailService;
 import com.cnpc.packmall.order.service.OrderService;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 /**
 * 订单管理服务实现
@@ -41,8 +36,12 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 	@Override
 	public List<OrderDTO> packMallgetList(String openid, Map<String, String> param) {
 		Map<String, Object> params = new HashMap<>();
-		String hql = "select code from Order where 1=1 ";
-		param.forEach((k,v) ->{params.put(k, v);});
+		String hql = "from Order where 1=1 and openId=:openid";
+		params.put("openid", openid);
+		for (Map.Entry<String, String> entry : param.entrySet()) {
+			params.put(entry.getKey(), entry.getValue());
+			hql +=" and "+entry.getKey() +"+:"+entry.getKey();
+		}
 		List<OrderDTO> orderDTOs = this.find(hql, params,OrderDTO.class);
 		writeOrderDetailDTO(orderDTOs);
 		return orderDTOs;
@@ -50,8 +49,13 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 
 	public List<OrderDTO> writeOrderDetailDTO(List<OrderDTO> orderDTOs){
 		List<OrderDetailDTO> orderDetailDTOs = orderDetailService.findPackMallgetDetailList(orderDTOs.stream().map(OrderDTO::getId).collect(Collectors.toList()));
+		//根据orderId分组
 		Map<String, List<OrderDetailDTO>> orderDetailDTOMap = orderDetailDTOs.stream().collect(Collectors.groupingBy(OrderDetailDTO::getOrderId));
-		orderDTOs.forEach(item ->{item.setOrderDetailDTOs(orderDetailDTOMap.get(item.getId()));});
+		Map<String, Map<String, List<OrderDetailDTO>>> orderDetailDTOMapMap = new HashMap<>();
+		for (Map.Entry<String, List<OrderDetailDTO>> entry : orderDetailDTOMap.entrySet()) {
+			orderDetailDTOMapMap.put(entry.getKey(), entry.getValue().stream().collect(Collectors.groupingBy(OrderDetailDTO::getProductId)));
+		}
+		orderDTOs.forEach(item ->{item.setOrderDetailDTOMaps(orderDetailDTOMapMap.get(item.getId()));});
 		return orderDTOs;
 	}
 

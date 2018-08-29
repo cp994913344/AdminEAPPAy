@@ -104,12 +104,14 @@ public class OrderController {
     
     @RequestMapping(value="/pack_mall_api/save/{openid}",method = RequestMethod.POST)
     @ResponseBody
-    public Result packMallgetSave(@PathVariable("openid") String openid,OrderDTO orderDTO){
+    public Result packMallgetSave(@PathVariable("openid") String openid,String con){
     	
+    	OrderDTO orderDTO = JSON.parseObject(con,OrderDTO.class);
         String orders=orderService.savePackMallOrder(openid,orderDTO);
         Result result = new Result();
         result.setData(orders);
         return result;
     }
+    
 
 }

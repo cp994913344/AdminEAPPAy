@@ -2,6 +2,7 @@ package com.cnpc.packmall.order.pojo.dto;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import com.cnpc.framework.base.pojo.BaseDTO;
 import com.cnpc.packmall.order.entity.Order;
@@ -90,6 +91,8 @@ public class OrderDTO extends BaseDTO {
     
     
     private List<OrderDetailDTO> orderDetailDTOs;
+    
+    private Map<String,List<OrderDetailDTO>> orderDetailDTOMaps;
 
 	public String getCode() {
 		return code;
@@ -206,6 +209,14 @@ public class OrderDTO extends BaseDTO {
 
 	public List<OrderDetailDTO> getOrderDetailDTOs() {
 		return orderDetailDTOs;
+	}
+
+	public Map<String, List<OrderDetailDTO>> getOrderDetailDTOMaps() {
+		return orderDetailDTOMaps;
+	}
+
+	public void setOrderDetailDTOMaps(Map<String, List<OrderDetailDTO>> orderDetailDTOMaps) {
+		this.orderDetailDTOMaps = orderDetailDTOMaps;
 	}
 
 	public void setOrderDetailDTOs(List<OrderDetailDTO> orderDetailDTOs) {

@@ -14,43 +14,37 @@ import com.cnpc.framework.base.entity.Dict;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * 订单详情
+ * 进货单
  * @author 16692
  *
  */
 @Entity
-@Table(name = "tbl_packmall_order_order_detail")
+@Table(name = "tbl_packmall_order_order_purchase")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
-public class OrderDetail extends BaseEntity {
-
+public class OrderPurchase extends BaseEntity {
 
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6800496706953132386L;
+	private static final long serialVersionUID = 7583483357919817032L;
 
-
-	@Header(name="订单id")
-    @Column(name = "order_id", length = 100)
-    private String orderId;
-    
+	@Header(name="用户openId")
+    @Column(name = "openId", length = 100)
+    private String openId;
+	
 	@Header(name="商品id")
     @Column(name = "product_id", length = 100)
     private String productId;
 	
-	@Header(name="商品缩略图")
-	@Column(name = "product_img_id", length = 100)
-	private String productImgId;
+	@Header(name="商品缩略图id")
+    @Column(name = "product_img_id", length = 100)
+    private String productImgId;
     
 	@Header(name="SKUid")
     @Column(name = "sku_id", length = 100)
     private String skuId;
     
-	@Header(name="SKU信息")
-    @Column(name = "sku_msg", length = 100)
-    private String skumsg;
-	
 	@Header(name="尺寸")
 	@Column(name = "size", length = 100)
 	private String size;
@@ -95,17 +89,6 @@ public class OrderDetail extends BaseEntity {
     @Column(name = "price_id", length = 100)
     private String priceId;
     
-    @Header(name="总价格")
-    @Column(name = "total_price", length = 100)
-    private BigDecimal totalPrice;
-
-	public String getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
-	}
 
 	public String getProductId() {
 		return productId;
@@ -121,14 +104,6 @@ public class OrderDetail extends BaseEntity {
 
 	public void setSkuId(String skuId) {
 		this.skuId = skuId;
-	}
-
-	public String getSkumsg() {
-		return skumsg;
-	}
-
-	public void setSkumsg(String skumsg) {
-		this.skumsg = skumsg;
 	}
 
 	public String getProductName() {
@@ -151,56 +126,8 @@ public class OrderDetail extends BaseEntity {
 		return price;
 	}
 
-	public String getSpecificationId() {
-		return specificationId;
-	}
-
-	public void setSpecificationId(String specificationId) {
-		this.specificationId = specificationId;
-	}
-
-	public String getProductImgId() {
-		return productImgId;
-	}
-
-	public void setProductImgId(String productImgId) {
-		this.productImgId = productImgId;
-	}
-
-	public String getColorId() {
-		return colorId;
-	}
-
-	public void setColorId(String colorId) {
-		this.colorId = colorId;
-	}
-
-	public String getQualityId() {
-		return qualityId;
-	}
-
-	public void setQualityId(String qualityId) {
-		this.qualityId = qualityId;
-	}
-
-	public String getPriceId() {
-		return priceId;
-	}
-
-	public void setPriceId(String priceId) {
-		this.priceId = priceId;
-	}
-
 	public void setPrice(BigDecimal price) {
 		this.price = price;
-	}
-
-	public BigDecimal getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(BigDecimal totalPrice) {
-		this.totalPrice = totalPrice;
 	}
 
 	public String getSize() {
@@ -225,6 +152,54 @@ public class OrderDetail extends BaseEntity {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
+	public String getProductImgId() {
+		return productImgId;
+	}
+
+	public void setProductImgId(String productImgId) {
+		this.productImgId = productImgId;
+	}
+
+	public String getSpecificationId() {
+		return specificationId;
+	}
+
+	public void setSpecificationId(String specificationId) {
+		this.specificationId = specificationId;
+	}
+
+	public String getColorId() {
+		return colorId;
+	}
+
+	public void setColorId(String colorId) {
+		this.colorId = colorId;
+	}
+
+	public String getQualityId() {
+		return qualityId;
+	}
+
+	public void setQualityId(String qualityId) {
+		this.qualityId = qualityId;
+	}
+
+	public String getPriceId() {
+		return priceId;
+	}
+
+	public void setPriceId(String priceId) {
+		this.priceId = priceId;
 	}
 
 	public String getQuality() {
