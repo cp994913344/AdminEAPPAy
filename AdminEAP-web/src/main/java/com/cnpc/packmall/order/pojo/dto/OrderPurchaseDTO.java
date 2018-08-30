@@ -217,8 +217,9 @@ public class OrderPurchaseDTO extends BaseDTO {
 		this.priceId = priceId;
 	}
 
-
-
+	public String getMapKey() {
+		return productId+specificationId+colorId+qualityId+priceId;
+	}
 
 }
 

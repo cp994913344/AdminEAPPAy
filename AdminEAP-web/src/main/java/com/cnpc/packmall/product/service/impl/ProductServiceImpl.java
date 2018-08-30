@@ -253,10 +253,10 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 	@Override
 	public Map<String, List<ProductDetail>> findProductDetailByProductIdAndType(Set<String> productIds, String type) {
 		Map<String, Object> params = new HashMap<>();
-		String hql = "select detailType,detailVal,productId,detailId,id from ProductDetail where productId in(:productId) and detailType =:type";
-		params.put("productIds", productIds);
+		String hql = "select detailType as detailType,detailVal as detailVal,productId as productId,detailId as detailId,id as id from ProductDetail where productId in(:productId) and detailType =:type";
+		params.put("productId", productIds);
 		params.put("type", type);
-		List<ProductDetail> productDetails = this.find(hql, params);
+		List<ProductDetail> productDetails = this.find(hql, params,ProductDetail.class);
 		
 		return productDetails.stream().collect(Collectors.groupingBy(ProductDetail::getProductId));
 	}

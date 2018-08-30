@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
+
+import com.cnpc.framework.annotation.Header;
 import com.cnpc.framework.base.pojo.BaseDTO;
 import com.cnpc.packmall.order.entity.Order;
 
@@ -88,6 +91,24 @@ public class OrderDTO extends BaseDTO {
      * 状态
      */
     private String state;
+    
+    
+    /**
+     * 商品种类
+     */
+    private Integer productCategory;
+    
+    /**
+     * 商品缩略图
+     */
+    private String productImgId;
+    
+    /**
+     * 商品信息概述
+     */
+    private String productMsg;
+    
+    
     
     
     private List<OrderDetailDTO> orderDetailDTOs;
@@ -195,12 +216,32 @@ public class OrderDTO extends BaseDTO {
 		return state;
 	}
 
+	public void setProductCategory(Integer productCategory) {
+		this.productCategory = productCategory;
+	}
+
 	public void setState(String state) {
 		this.state = state;
 	}
 
 	public BigDecimal getPayMethod() {
 		return payMethod;
+	}
+
+	public String getProductImgId() {
+		return productImgId;
+	}
+
+	public void setProductImgId(String productImgId) {
+		this.productImgId = productImgId;
+	}
+
+	public String getProductMsg() {
+		return productMsg;
+	}
+
+	public void setProductMsg(String productMsg) {
+		this.productMsg = productMsg;
 	}
 
 	public void setPayMethod(BigDecimal payMethod) {
@@ -234,6 +275,10 @@ public class OrderDTO extends BaseDTO {
 		order.setFreight(orderDTO.getFreight());
 		order.setPayMethod("微信支付");
 		return order;
+	}
+
+	public Integer getProductCategory() {
+		return productCategory;
 	}
 
 

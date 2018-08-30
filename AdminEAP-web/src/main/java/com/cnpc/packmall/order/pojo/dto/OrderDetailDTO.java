@@ -22,6 +22,11 @@ public class OrderDetailDTO extends BaseDTO {
      */
     private String productId;
     
+    /*
+     * 商品缩略图id
+     */
+    private String productImgId;
+    
     /**
      * KUid
      */
@@ -139,6 +144,14 @@ public class OrderDetailDTO extends BaseDTO {
 
 	public BigDecimal getTotalPrice() {
 		return totalPrice;
+	}
+
+	public String getProductImgId() {
+		return productImgId;
+	}
+
+	public void setProductImgId(String productImgId) {
+		this.productImgId = productImgId;
 	}
 
 	public void setTotalPrice(BigDecimal totalPrice) {

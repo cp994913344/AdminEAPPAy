@@ -16,7 +16,12 @@ import javax.persistence.Table;
 @Table(name="TB_PACKMALL_PRODUCT_DETAIL")
 public class ProductDetail extends BaseEntity{
 
-    @Header(name="商品id")
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1219521675403658571L;
+
+	@Header(name="商品id")
     @Column(name="product_id",length = 36)
     private String productId;
 

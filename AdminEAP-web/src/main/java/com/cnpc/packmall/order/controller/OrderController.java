@@ -1,6 +1,7 @@
 package com.cnpc.packmall.order.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,11 +108,21 @@ public class OrderController {
     public Result packMallgetSave(@PathVariable("openid") String openid,String con){
     	
     	OrderDTO orderDTO = JSON.parseObject(con,OrderDTO.class);
-        String orders=orderService.savePackMallOrder(openid,orderDTO);
+    	Map<String, String> orderMap=orderService.savePackMallOrder(openid,orderDTO);
         Result result = new Result();
-        result.setData(orders);
+        result.setData(orderMap);
         return result;
     }
     
+    @RequestMapping(value="/pack_mall_api/update_state/{openid}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result packMallgetUpdateState(@PathVariable("openid") String openid,String orderId){
+    	//确认收货
+        Order order = this.get(orderId);
+        order.setState("4");
+        order.setUpdateDateTime(new Date());
+        orderService.update(order);
+        return new Result(true);
+    }
 
 }

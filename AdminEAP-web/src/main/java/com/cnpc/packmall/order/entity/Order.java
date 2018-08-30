@@ -107,12 +107,34 @@ public class Order extends BaseEntity {
     @Column(name = "total_price", length = 100)
     private BigDecimal totalPrice;
     
+
+    @Header(name="商品种类")
+    @Column(name = "product_category", length = 100)
+    private Integer productCategory;
+    
+
+    @Header(name="商品缩略图")
+    @Column(name = "product_img_id", length = 100)
+    private String productImgId;
+    
+
+    @Header(name="商品信息概述")
+    @Column(name = "product_msg", length = 100)
+    private String productMsg;
+    
     /**
      * 支付方式
      */
     @Header(name="支付方式")
     @Column(name = "pay_method", length = 100)
     private String payMethod;
+    
+    /**
+     * 支付id
+     */
+    @Header(name="支付ID")
+    @Column(name = "pay_id", length = 100)
+    private String payId;
 
     /**
      * 状态1 未支付 2 待送货 3 待签收 4 已完结 -1 订单关闭
@@ -124,7 +146,9 @@ public class Order extends BaseEntity {
     @Header(name="开票状态")
     @Column(name = "whether_state", length = 100)
     private String whetherState;
-
+    /**
+     * 0未开票 1已开票
+     */
     @Header(name="开票ID")
     @Column(name = "whether_id", length = 100)
     private String whetherId;
@@ -224,6 +248,35 @@ public class Order extends BaseEntity {
 		return totalPrice;
 	}
 
+
+	public String getProductImgId() {
+		return productImgId;
+	}
+
+	public void setProductImgId(String productImgId) {
+		this.productImgId = productImgId;
+	}
+
+	public String getProductMsg() {
+		return productMsg;
+	}
+
+	public void setProductMsg(String productMsg) {
+		this.productMsg = productMsg;
+	}
+
+	public String getPayId() {
+		return payId;
+	}
+
+	public void setPayId(String payId) {
+		this.payId = payId;
+	}
+
+	public String getPayMethod() {
+		return payMethod;
+	}
+
 	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
 	}
@@ -256,6 +309,14 @@ public class Order extends BaseEntity {
 
 	public void setWhetherId(String whetherId) {
 		this.whetherId = whetherId;
+	}
+
+	public Integer getProductCategory() {
+		return productCategory;
+	}
+
+	public void setProductCategory(Integer productCategory) {
+		this.productCategory = productCategory;
 	}
 
 

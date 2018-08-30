@@ -16,6 +16,6 @@ public interface OrderService extends BaseService {
 
 	List<OrderDTO> packMallgetList(String openid, Map<String, String> param);
 
-	String savePackMallOrder(String openid, OrderDTO orderDTO);
+	Map<String, String> savePackMallOrder(String openid, OrderDTO orderDTO);
 
 }

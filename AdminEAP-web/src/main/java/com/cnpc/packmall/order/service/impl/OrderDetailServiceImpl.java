@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.packmall.SKU.entity.Sku;
+import com.cnpc.packmall.SKU.entity.SkuDetail;
 import com.cnpc.packmall.SKU.service.SkuService;
 import com.cnpc.packmall.order.entity.OrderDetail;
 import com.cnpc.packmall.order.pojo.dto.OrderDetailDTO;
@@ -62,7 +63,7 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 			skuDetails.add(orderDetailDTO.getPriceId());
 		});
 		Map<String, Sku> skuMap = skuService.findSkuBySkuIds(skuIds);
-		Map<String, Map<String, String>> skuDetailMap = skuService.findSkuDetailBySkuDetailIds(skuDetails);
+		Map<String, Map<String, SkuDetail>> skuDetailMap = skuService.findSkuDetailBySkuDetailIds(skuDetails);
 		Map<String, List<ProductDetail>> productDetailMap = productService.findProductDetailByProductIdAndType(productIds,"BANNERIMG");
 		String orderSku = "";
 		BigDecimal orderPrice = new BigDecimal(0);
@@ -70,21 +71,21 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 			OrderDetail orderDetail = new OrderDetail();
 			Sku sku = skuMap.get(orderDetailDTO.getSkuId());
 			ProductDetail productDetail = productDetailMap.get(orderDetailDTO.getProductId()).get(0);
-			Map<String, String> skuDetail = skuDetailMap.get(orderDetailDTO.getSkuId());
+			Map<String, SkuDetail> skuDetail = skuDetailMap.get(orderDetailDTO.getSkuId());
 			orderDetail.setOrderId(orderId);
 			orderDetail.setProductId(orderDetailDTO.getProductId());
 			orderDetail.setProductImgId(productDetail.getDetailId());
 			orderDetail.setSkuId(orderDetailDTO.getSkuId());
 			orderDetail.setSize(sku.getSkuSizeLength()+"*"+sku.getSkuSizeWide()+"*"+sku.getSkuSizeHigh());
-			orderDetail.setSpecification(skuDetail.get(orderDetail.getSpecification()));
-			orderDetail.setSpecification(orderDetailDTO.getSpecificationId());
-			orderDetail.setColor(skuDetail.get(orderDetail.getColor()));
+			orderDetail.setSpecification(skuDetail.get(orderDetailDTO.getSpecificationId()).getDetailName());
+			orderDetail.setSpecificationId(orderDetailDTO.getSpecificationId());
+			orderDetail.setColor(skuDetail.get(orderDetailDTO.getColorId()).getDetailName());
 			orderDetail.setColorId(orderDetailDTO.getColorId());
-			orderDetail.setQuality(skuDetail.get(orderDetail.getQuality()));
-			orderDetail.setQuality(orderDetailDTO.getQualityId());
+			orderDetail.setQuality(skuDetail.get(orderDetailDTO.getQualityId()).getDetailName());
+			orderDetail.setQualityId(orderDetailDTO.getQualityId());
 			orderDetail.setProductName(sku.getProductName());
 			orderDetail.setNumber(orderDetailDTO.getNumber());
-			orderDetail.setPrice(new BigDecimal(skuDetail.get(orderDetail.getPrice())));
+			orderDetail.setPrice(skuDetail.get(orderDetailDTO.getPriceId()).getDetailVal());
 			orderDetail.setPriceId(orderDetailDTO.getPriceId());
 			orderDetail.setTotalPrice(new BigDecimal(orderDetail.getNumber()).multiply(orderDetail.getPrice()));
 			orderDetail.setSkumsg(sku.getSkuCode()+"*"+orderDetail.getNumber()+"("+orderDetail.getSpecification()+";"+orderDetail.getColor()+";"+orderDetail.getQuality()+")");
@@ -95,6 +96,10 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 		this.batchSave(orderDetails);
 		result.put("SKU", orderSku);
 		result.put("TOTAL", orderPrice);
+		result.put("productCategory", orderDetails.size());
+		result.put("productImgId", orderDetails.get(0).getProductImgId());
+		result.put("productMsg", orderDetails.size()>1?orderDetails.get(0).getProductName()+"等"+orderDetails.size()+"类商品":orderDetails.get(0).getProductName());
+		
 		return result;
 	}
 

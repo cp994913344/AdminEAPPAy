@@ -210,7 +210,9 @@ public class OrderPurchase extends BaseEntity {
 		this.quality = quality;
 	}
 
-
+	public String getMapKey() {
+		return productId+specificationId+colorId+qualityId+priceId;
+	}
 
 
 }

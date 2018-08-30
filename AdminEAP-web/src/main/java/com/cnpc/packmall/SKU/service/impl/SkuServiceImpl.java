@@ -229,16 +229,16 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
      * @return
      */
     @Override
-    public Map<String,Map<String, String>> findSkuDetailBySkuDetailIds(Set<String> skuDetailIds) {
+    public Map<String,Map<String, SkuDetail>> findSkuDetailBySkuDetailIds(Set<String> skuDetailIds) {
         if(skuDetailIds!=null&skuDetailIds.size()>0){
             Map<String,Object> params = new HashMap<>();
             params.put("skuDetailIds",skuDetailIds);
             String hql = "from SkuDetail where id in(:skuDetailIds)";
             List<SkuDetail> skuDetailList = this.baseDao.find(hql, params);
             Map<String,List<SkuDetail>> skuDetailMap = skuDetailList.stream().collect(Collectors.groupingBy(SkuDetail::getSkuId));
-            Map<String,Map<String, String>> skuDMap = new HashMap<>();
+            Map<String,Map<String, SkuDetail>> skuDMap = new HashMap<>();
             skuDetailMap.forEach((k,v) ->{
-            	Map<String, String> map = v.stream().collect(Collectors.toMap(SkuDetail::getId, SkuDetail::getDetailName));
+            	Map<String, SkuDetail> map = v.stream().collect(Collectors.toMap(SkuDetail::getId, Function.identity()));
             	skuDMap.put(k, map);
             });
             return skuDMap;

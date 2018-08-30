@@ -12,8 +12,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
+import com.cnpc.framework.util.wxpay.MyConfig;
+import com.cnpc.framework.util.wxpay.WXPay;
 import com.cnpc.packmall.center.service.ClientService;
 import com.cnpc.packmall.order.entity.Order;
+import com.cnpc.packmall.order.entity.OrderWXPay;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
 import com.cnpc.packmall.order.pojo.dto.OrderDetailDTO;
 import com.cnpc.packmall.order.service.OrderDetailService;
@@ -40,7 +43,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		params.put("openid", openid);
 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			params.put(entry.getKey(), entry.getValue());
-			hql +=" and "+entry.getKey() +"+:"+entry.getKey();
+			hql +=" and "+entry.getKey() +":"+entry.getKey();
 		}
 		List<OrderDTO> orderDTOs = this.find(hql, params,OrderDTO.class);
 		writeOrderDetailDTO(orderDTOs);
@@ -60,7 +63,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 	}
 
 	@Override
-	public String savePackMallOrder(String openid, OrderDTO orderDTO) {
+	public Map<String, String> savePackMallOrder(String openid, OrderDTO orderDTO) {
 		Order order = orderDTO.toEntity(orderDTO);
 		order.setCode("PM"+new Date().getTime());
 		order.setOpenId(openid);
@@ -69,12 +72,54 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		order.setWhetherState("0");//未开票
 		//保存详情
 		this.save(order);
-		Map<String, Object> result= orderDetailService.savePackMallOrder(orderDTO.getOrderDetailDTOs(),order.getId());
+		Map<String, Object> detailResult= orderDetailService.savePackMallOrder(orderDTO.getOrderDetailDTOs(),order.getId());
 		
 		//填写所有sku 总价格
-		order.setSku(result.get("SKU").toString());
-		order.setTotalPrice(new BigDecimal(result.get("TOTAL").toString()).add(orderDTO.getFreight()));
-		return order.getId();
+		order.setSku(detailResult.get("SKU").toString());
+		order.setTotalPrice(new BigDecimal(detailResult.get("TOTAL").toString()).add(orderDTO.getFreight()));
+		order.setProductCategory(Integer.valueOf(detailResult.get("productCategory").toString()));
+		order.setProductImgId(detailResult.get("productImgId").toString());
+		order.setProductMsg(detailResult.get("productMsg").toString());
+		this.update(order);
+		//TODO 微信统一下单  保存微信下单信息
+//		Map<String, String> wxResult = doWXPay(order.getId(),openid,order.getProductMsg(),order.getTotalPrice().toString());
+		Map<String, String> wxResult = new HashMap<>();
+		Map<String, String> result = new HashMap<>();
+		result.put("sign", wxResult.get("sign"));
+		result.put("prepayId", wxResult.get("prepay_id"));
+		result.put("orderId", order.getId());
+		return result;
+	}
+	
+	public Map<String, String> doWXPay(String orderId,String openId,String body,String price){
+		MyConfig config = new MyConfig();
+		try {
+			WXPay wxpay = new WXPay(config);
+	        Map<String, String> data = new HashMap<String, String>();
+	        //商品描述
+	        data.put("body", "一撕得纸箱订单");
+	        //商户订单号
+	        data.put("out_trade_no", orderId);
+	//        data.put("device_info", "");
+	        data.put("fee_type", "CNY");
+	        data.put("total_fee", "1");
+	        data.put("notify_url", "http://www.example.com/wxpay/notify");
+	        data.put("trade_type", "JSAPI");  // 此处指定为小程序支付
+	//        data.put("openid", "oOb_W5aVK-8PdOcg092PwnHoqos8");
+	        data.put("openid", openId);
+	        Map<String, String> resp = wxpay.unifiedOrder(data);
+	        //保存签名等待回调验证
+	        OrderWXPay orderWXPay = new OrderWXPay();
+	        orderWXPay.setOrderId(orderId);
+	        orderWXPay.setPrepayId(resp.get("prepay_id"));
+	        orderWXPay.setSign(resp.get("sign"));
+	        this.save(orderWXPay);
+	        System.out.println(resp);
+	        return resp;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return new HashMap<>();
 	}
 	
 }

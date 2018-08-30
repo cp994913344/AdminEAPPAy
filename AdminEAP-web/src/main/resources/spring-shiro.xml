@@ -93,12 +93,6 @@
                 /wechat/callback=anon
 <!--                 支付宝支付回掉 -->
                 /aliPayCallBack/receiveNotify=anon
-<!--                 Android获取版本号-Nbox -->
-				/androidversion/nbox/getVersionByCode=anon
-<!--                 商品定位信息-Nbox -->
-				/warehouseproductposition/location=anon
-				/warehouseproductposition/nbox/findNboxLocationList=anon
-				/warehouseproductposition/nbox/findRangeNboxLocation=anon
 				
                 /*/nbox/**=nbox,authc
                 /**=authc

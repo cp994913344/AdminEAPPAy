@@ -59,7 +59,7 @@ public interface SkuService extends BaseService {
      * @param skuDetailIdList
      * @return
      */
-    Map<String,Map<String, String>> findSkuDetailBySkuDetailIds(Set<String> skuDetailIdList);
+    Map<String,Map<String, SkuDetail>> findSkuDetailBySkuDetailIds(Set<String> skuDetailIdList);
     
     /**
      * 根据 ids  查询skumap

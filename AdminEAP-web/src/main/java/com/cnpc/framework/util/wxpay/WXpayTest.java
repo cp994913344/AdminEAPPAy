@@ -10,15 +10,15 @@ public class WXpayTest {
 	        WXPay wxpay = new WXPay(config);
 
 	        Map<String, String> data = new HashMap<String, String>();
+	        //商品描述
 	        data.put("body", "一撕得纸箱订单");
-	        data.put("out_trade_no", "2018082410595900000012");
+	        //商户订单号
+	        data.put("out_trade_no", "2018082410595900000011");
 //	        data.put("device_info", "");
 	        data.put("fee_type", "CNY");
 	        data.put("total_fee", "1");
-	        data.put("spbill_create_ip", "123.12.12.123");
 	        data.put("notify_url", "http://www.example.com/wxpay/notify");
 	        data.put("trade_type", "JSAPI");  // 此处指定为公众号支付
-	        data.put("product_id", "12111");
 	        data.put("openid", "oOb_W5aVK-8PdOcg092PwnHoqos8");
 
 	        try {
