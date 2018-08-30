@@ -18,5 +18,27 @@ public interface ShippingAddressService extends BaseService {
      * @param openId
      * @return
      */
-    public Result findByOpenId(String openId);
+    Result findByOpenId(String openId);
+
+    /**
+     * 保存 更新 实体
+     * @param shippingAddress
+     * @return
+     */
+    ShippingAddress saveOrUpdateData(ShippingAddress shippingAddress);
+
+    /**
+     * 获取默认收货地址
+     * @param openId
+     * @return
+     */
+    ShippingAddress findDefaultByOpenId(String openId);
+
+    /**
+     * 修改默认地址
+     * @param id
+     * @param shippingDefault
+     * @return
+     */
+    Result updateDefaultAddress(String id,Integer shippingDefault );
 }

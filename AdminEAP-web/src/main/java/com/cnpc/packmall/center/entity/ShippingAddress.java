@@ -28,6 +28,10 @@ public class ShippingAddress extends BaseEntity{
     @Column(name = "AREACODE", length = 20)
     private String areaCode;
 
+    @Header(name="城市name")
+    @Column(name = "AREA_ADDRESS", length = 20)
+    private String areaAddress;
+
     @Header(name="收货地址")
     @Column(name="shipping_addresss", length = 100)
     private String shippingAddress;
@@ -93,5 +97,14 @@ public class ShippingAddress extends BaseEntity{
     public String getOpenId() {
 
         return openId;
+    }
+
+    public void setAreaAddress(String areaAddress) {
+        this.areaAddress = areaAddress;
+    }
+
+    public String getAreaAddress() {
+
+        return areaAddress;
     }
 }

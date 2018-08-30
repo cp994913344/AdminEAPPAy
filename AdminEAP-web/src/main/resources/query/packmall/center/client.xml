@@ -4,8 +4,9 @@
 <query id="packmall_client" key="id" tableName="客户管理列表" className="com.cnpc.packmall.center.entity.Client" widthType="px">
         <column key="rowIndex" header="序号" width="80"/>
         <column key="id" header="id" hidden="true"  />
+        <column key="enterpriseName" header="企业名称" hidden="true" />
         <column key="clientCode" header="编码" classType="String" allowSort="true" width="150"/>
-        <column key="clientName" header="姓名/企业名称" classType="String" allowSort="true" width="150"/>
+        <column key="clientName" header="姓名/企业名称" classType="String" allowSort="true" width="150" fnRender ="selectName" />
         <column key="version" header="头像url" classType="String" allowSort="true" width="150" fnRender = "changeLook" render="type=window,winId=myHeadImg,method=selectModal,url=/packmall/client/toHeadImgHtml?clientId=[id],title=头像,width=270px" />
         <column key="clientType" header="性质" classType="String" allowSort="true" width="150"  render="1=个人,2=企业" />
         <column key="openId" header="收货地址"   classType="String" allowSort="true" width="150" fnRender = "changeLook" render="type=window,winId=myShippingAddress,method=selectModal,url=/packmall/shippingaddress/clientSAList?openId=[openId],title=收货地址" />

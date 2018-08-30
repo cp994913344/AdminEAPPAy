@@ -20,8 +20,10 @@
                     <!--查询条件-->
                     <input type="search" placeholder="请输入编码" title="编码" name="clientCode"
                                            class="form-control" id="clientCode" operator="like" likeOption="true">
-                    <input type="search" placeholder="请输入姓名/企业名称" title="姓名/企业名称" name="clientName"
+                    <input type="search" placeholder="请输入姓名" title="姓名" name="clientName"
                                            class="form-control" id="clientName" operator="like" likeOption="true">
+                    <input type="search" placeholder="请输入企业名称" title="企业名称" name="enterpriseName"
+                           class="form-control" id="enterpriseName" operator="like" likeOption="true">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" data-btn-type="search">查询</button>
                     </div>
@@ -91,6 +93,20 @@
             return value.replace("禁用","开启");
         }
         return value;
+    }
+
+    //操作html替换
+    function selectName(value, type, rowObj,oSetting) {
+        debugger;
+        if(rowObj.clientType=="个人"){
+            return rowObj.clientName;
+        }else{
+            if(rowObj,clientName){
+                return rowObj.clientName+"/"+rowObj.enterpriseName;
+            }else{
+                return rowObj.enterpriseName;
+            }
+        }
     }
     //收货地址html 替换
     function  changeLook(value, type, rowObj,oSetting) {

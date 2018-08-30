@@ -131,14 +131,19 @@ public class ClientController {
      * @param openId
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/updateClientName",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/updateName",method = RequestMethod.POST)
     @ResponseBody
-    public  Result updateClientName(String clientName,String openId){
+    public  Result updateName(String clientName,String enterpriseName,String  openId){
         if(StringUtils.isEmpty(openId)||StringUtils.isEmpty(clientName)){
             return new Result(false);
         }
         Client client =  clientService.getByOpenId(openId);
-        client.setClientName(clientName);
+        if(StringUtils.isNotEmpty(clientName)){
+            client.setClientName(clientName);
+        }
+        if(StringUtils.isNotEmpty(enterpriseName)){
+            client.setEnterpriseName(enterpriseName);
+        }
         clientService.update(client);
         return  new Result(true);
     }
@@ -163,7 +168,7 @@ public class ClientController {
 
     //修改头像 姓名
     /**
-     * 换绑手机
+     * 保存头像姓名 等信息
      * @param headImgId
      * @param openId
      * @param clientName
@@ -171,7 +176,7 @@ public class ClientController {
      */
     @RequestMapping(value="/pack_mall_api/updateClientNameOrImg",method = RequestMethod.POST)
     @ResponseBody
-    public  Result updateClientNameOrImg(String clientName,String headImgId,String openId){
+    public  Result updateClientNameOrImg(String clientName,String enterpriseName,String headImgId,String openId,String clientType){
         if(StringUtils.isEmpty(openId)){
             return new Result(false);
         }
@@ -179,12 +184,18 @@ public class ClientController {
         if(StringUtils.isNotEmpty(clientName)){
             if(client!=null){
                 client.setClientName(clientName);
-                clientService.update(client);
             }else{
                 return new Result(false,"修改客户名称是失败");
             }
         }
-        if(StringUtils.isNotEmpty(headImgId)&&client!=null){
+        if(StringUtils.isNotEmpty(enterpriseName)){
+            client.setEnterpriseName(enterpriseName);
+        }
+        if(StringUtils.isNotEmpty(clientType)){
+            client.setClientType(clientType);
+        }
+        clientService.update(client);
+        if(StringUtils.isNotEmpty(headImgId)&&client!=null&&!headImgId.equals(client.getHeadImgId())){
             //如果 修改头像 先查询原头像  有 删除图片
             SysFile oldFile = sysFileService.findByFormId(client.getId());
             SysFile sysFile = clientService.get(SysFile.class,headImgId);
@@ -229,4 +240,24 @@ public class ClientController {
             return new Result(false, e.getMessage());
         }
     }
+
+    /**
+     *  判断是否已登录
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/judgeRegistered",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result judgeRegistered(String openId){
+        if(StringUtils.isEmpty(openId)){
+            return new Result(false,"openId为空");
+        }
+        Client client = clientService.getByOpenId(openId);
+        if(client!=null){
+            return new Result(true, client);
+        }else{
+            return new Result(false, "未注册");
+        }
+    }
+
 }

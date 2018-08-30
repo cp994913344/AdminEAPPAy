@@ -1,6 +1,8 @@
 package com.cnpc.framework.base.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.cnpc.framework.base.entity.SysArea;
 import com.cnpc.framework.base.pojo.Result;
@@ -18,6 +20,15 @@ public interface SysAreaService extends BaseService {
     List<SysArea> findCodeArea(String code);
     
     SysArea getAreaByCode(String code);
-    
+
+    SysArea getByCode(String code);
+
     List<SysAreaDTO> getTreeData();
+
+    /**
+     * 根据code list 查询 城市名称
+     * @param codes
+     * @return
+     */
+    List<SysArea> findNameByCodeList(List<String> codes);
 }

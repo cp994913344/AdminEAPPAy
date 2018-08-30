@@ -103,6 +103,14 @@ public class SysAreaServiceImpl extends BaseServiceImpl implements SysAreaServic
     }
 
     @Override
+    public SysArea getByCode(String code) {
+        Map<String, Object> param = new HashMap<String, Object>();
+        String hql = "from SysArea where deleted=0 and code=:code";
+        param.put("code", code);
+        return this.baseDao.get(hql, param);
+    }
+
+    @Override
     public List<SysAreaDTO> getTreeData() {
 
         String hql = "from SysArea order by code";
@@ -140,5 +148,19 @@ public class SysAreaServiceImpl extends BaseServiceImpl implements SysAreaServic
             }
         }
         return tnlist;
+    }
+
+    /**
+     * 根据code list 查询 城市名称
+     * @param codes
+     * @return
+     */
+    @Override
+    public List<SysArea> findNameByCodeList(List<String> codes){
+        Map<String,Object> params = new HashMap<>(2);
+        String hql = "select sa.id as id ,sa.code as code ,sa.mergerName as mergerName " +
+                "from SysArea as sa where sa.code in (:codes)";
+        params.put("codes",codes);
+        return this.baseDao.find(hql,params,SysArea.class);
     }
 }

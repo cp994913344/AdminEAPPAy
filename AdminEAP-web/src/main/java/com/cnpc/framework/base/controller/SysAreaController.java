@@ -50,7 +50,7 @@ public class SysAreaController {
 
         return sysAreaService.findCodeArea(code);
     }
-    
+
     @RequestMapping(value = "/getArea", method = RequestMethod.POST)
     @ResponseBody
     public SysArea getAreaByCode(String code) {

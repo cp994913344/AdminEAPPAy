@@ -23,13 +23,17 @@ public class Client extends BaseEntity{
     @Column(name="CLIENT_CODE" ,length = 20)
     private String clientCode;
 
-    /**
-     *  1 个人 2 企业
-     */
-    @Header(name="姓名/企业名称")
+    @Header(name="姓名")
     @Column(name="CLIENT_NAME" ,length = 100)
     private String clientName;
 
+    @Header(name="企业名称")
+    @Column(name="ENTERPRISE_NAME" ,length = 100)
+    private String enterpriseName;
+
+    /**
+     *  1 个人 2 企业
+     */
     @Header(name="性质")
     @Column(name="CLIENT_TYPE" ,length = 20)
     private String clientType;
@@ -96,5 +100,14 @@ public class Client extends BaseEntity{
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getEnterpriseName() {
+
+        return enterpriseName;
     }
 }

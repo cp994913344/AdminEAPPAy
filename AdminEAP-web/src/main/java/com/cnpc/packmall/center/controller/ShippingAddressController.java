@@ -13,6 +13,7 @@ import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.center.service.ShippingAddressService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -110,11 +111,11 @@ public class ShippingAddressController {
      * @param id
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/getEdit/${id}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/getEdit",method = RequestMethod.POST)
     @ResponseBody
-    public  Result getEdit(@PathVariable("id")String id){
-        ShippingAddress shippingAddress =  shippingaddressService.get(ShippingAddress.class,id);
-        return new Result(true,shippingAddress);
+    public  Result getEdit(String id){
+        ShippingAddress shippingAddress = shippingaddressService.get(ShippingAddress.class,id);
+        return  new Result(true,shippingAddress);
     }
 
     /**
@@ -122,12 +123,15 @@ public class ShippingAddressController {
      * @param conData
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/saveOrUpdate/${conData}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/saveOrUpdate",method = RequestMethod.POST)
     @ResponseBody
-    public  Result saveOrUpdate(@PathVariable("conData")String conData){
+    public  Result saveOrUpdate(String conData){
+        if(StringUtils.isEmpty(conData)){
+            return new Result(false);
+        }
         try{
             ShippingAddress shippingAddress =  JSON.parseObject(conData,ShippingAddress.class);
-            shippingaddressService.saveOrUpdate(shippingAddress);
+            shippingaddressService.saveOrUpdateData(shippingAddress);
         }catch (Exception e){
             return new Result(false,"错误："+e.getMessage());
         }
@@ -140,13 +144,34 @@ public class ShippingAddressController {
      * @param openId
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/getByOpenId/${openId}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/getByOpenId",method = RequestMethod.POST)
     @ResponseBody
-    public Result getByOpenId(@PathVariable("openId")  String openId){
-        return  shippingaddressService.findByOpenId(openId);
+    public Result getByOpenId(String openId){
+         return  shippingaddressService.findByOpenId(openId);
     }
 
 
+    /**
+     * 根据客户openId查询默认收货地址
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getDefaultByOpenId",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getDefaultByOpenId(String openId){
+        return  new Result(true,shippingaddressService.findDefaultByOpenId(openId));
+    }
 
 
+    /**
+     * 根据客户openId查询收货地址列表
+     * @param id
+     * @param shippingDefault
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/updateDefaultAddress",method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateDefaultAddress(String id,Integer shippingDefault ){
+        return  shippingaddressService.updateDefaultAddress(id,shippingDefault);
+    }
 }
