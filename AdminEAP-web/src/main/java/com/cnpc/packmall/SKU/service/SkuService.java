@@ -2,6 +2,7 @@ package com.cnpc.packmall.SKU.service;
 
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.BaseService;
+import com.cnpc.packmall.SKU.dto.SkuIdDTO;
 import com.cnpc.packmall.SKU.entity.Sku;
 import com.cnpc.packmall.SKU.entity.SkuDetail;
 
@@ -69,4 +70,9 @@ public interface SkuService extends BaseService {
     Map<String,Sku> findSkuBySkuIds(Set<String> skuIdList);
 
     Integer findSkuNumByProductId(String productId);
+
+    /**
+     * 查询具体sku  是否可用 若不可用则返回 不可用的sku信息
+     */
+    public List<SkuIdDTO> findNotEffectiveBySkuIdDTOList(List<SkuIdDTO> dtoList );
 }

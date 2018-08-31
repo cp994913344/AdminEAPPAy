@@ -222,7 +222,7 @@
                 //价格
                 var divHtml ="";
                 for(var i=0;i<priceList.length;i++) {
-                    divHtml +="<div class='priceclass'><span class='priceSpan'>"+priceList[i].detailName+"：</span>" +
+                    divHtml +="<div class='priceclass'><span class='priceSpan'>"+priceList[i].detailName+"</span>" +
                         "<input type='text' name='"+priceList[i].detailId+"' class='typeInput' value='"+priceList[i].detailVal+"' autocomplete='off' '/></div> ";
                 }
                 $("#priceAdd") .append(divHtml);
@@ -320,7 +320,7 @@
     
     //选中质量价格添加  div
     function addPriceDiv(detailId,detailName){
-        var divHtml ="<div class='priceclass'><span class='priceSpan'>"+detailName+"：</span>" +
+        var divHtml ="<div class='priceclass'><span class='priceSpan'>"+detailName+"</span>" +
             "<input type='text' name='"+detailId+"' class='typeInput' autocomplete='off' '/></div> ";
         $("#priceAdd") .append(divHtml);
     }
@@ -442,11 +442,12 @@
 
         //价格
         var priceI =1;
+        debugger;
         $.each($("#priceAdd input "),function(){
             if(!$(this).val()||$(this).val().trim().length==0){
                 modals.info("请将价格信息填写完整！");
-                return;
                 flag = false;
+                return;
             }else{
                 var skuDetail = new SkuDetail();
                 skuDetail.detailType="PRICE";

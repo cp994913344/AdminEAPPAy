@@ -1,6 +1,7 @@
 package com.cnpc.packmall.SKU.service.impl;
 
 import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.packmall.SKU.dto.SkuIdDTO;
 import com.cnpc.packmall.SKU.entity.Sku;
 import com.cnpc.packmall.SKU.entity.SkuDetail;
 import com.cnpc.packmall.center.entity.Client;
@@ -107,11 +108,13 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             }else{
                 sku.setSkuStatus(1);
             }
+            sku.setUpdateDateTime(new Date());
             this.baseDao.update(sku);
             return true;
         }
         return false;
     }
+
     /**
      * 通过 skuId 查询 详情
      * @param skuId
@@ -120,7 +123,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
     @Override
     public Map<String, Object> findDetailBySkuId(String skuId) {
         Map<String, Object> result = new HashMap<>(16);
-        String hql = "from SkuDetail where skuId='"+skuId+"'";
+        String hql = "from SkuDetail where deleted=0 and skuId='"+skuId+"'";
         List<SkuDetail> detailsList = this.baseDao.find(hql);
         if(detailsList!=null&&detailsList.size()>0){
             // PRICE 价格
@@ -157,17 +160,23 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             oldSku.setSkuSizeWide(sku.getSkuSizeWide());
             oldSku.setSkuSizeHigh(sku.getSkuSizeHigh());
             this.baseDao.update(oldSku);
-            String hql = "delete SkuDetail sd where sd.skuId='"+oldSku.getId()+"'";
+            String hql = "update SkuDetail sd set sd.deleted=1 where sd.skuId='"+oldSku.getId()+"'";
             this.baseDao.executeHql(hql);
             for(SkuDetail pd: list){
                 pd.setSkuId(sku.getId());
+                pd.setCreateDateTime(new Date());
+                pd.setVersion(0);
+                pd.setDeleted(0);
             }
             this.batchSave(list);
         }else{
-            String hql = "delete Sku s where s.id='"+oldSku.getId()+"'";
+            String hql = "update Sku s set s.deleted=1 where s.id='"+oldSku.getId()+"'";
             this.baseDao.executeHql(hql);
-            String Detailhql = "delete SkuDetail sd where sd.skuId='"+oldSku.getId()+"'";
+            String Detailhql = "update SkuDetail sd set sd.deleted=1 where sd.skuId='"+oldSku.getId()+"'";
             this.baseDao.executeHql(Detailhql);
+            sku.setDeleted(0);
+            sku.setVersion(0);
+            sku.setCreateDateTime(new Date());
             savedata(list,sku);
         }
         return new Result(true);
@@ -203,7 +212,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
                 params2.put("skuIds", skuIds);
                 String hql2 = "select sd.skuId as skuId,sd.detailVal as detailVal " +
                         " from SkuDetail as sd" +
-                        " where  sd.detailType='PRICE' and sd.skuId in (:skuIds)";
+                        " where sd.deleted=0 and  sd.detailType='PRICE' and sd.skuId in (:skuIds)";
                 List<SkuDetail> skuDetails = this.baseDao.find(hql2,params2,SkuDetail.class);
                 for(Sku s :list){
                     for(SkuDetail sd :skuDetails){
@@ -233,7 +242,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
         if(skuDetailIds!=null&skuDetailIds.size()>0){
             Map<String,Object> params = new HashMap<>();
             params.put("skuDetailIds",skuDetailIds);
-            String hql = "from SkuDetail where id in(:skuDetailIds)";
+            String hql = "from SkuDetail where deleted=0 and id in(:skuDetailIds)";
             List<SkuDetail> skuDetailList = this.baseDao.find(hql, params);
             Map<String,List<SkuDetail>> skuDetailMap = skuDetailList.stream().collect(Collectors.groupingBy(SkuDetail::getSkuId));
             Map<String,Map<String, SkuDetail>> skuDMap = new HashMap<>();
@@ -271,6 +280,65 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
 	    String hql = "SELECT count(*)  from Sku s where s.deleted=0 and s.productId = '"+productId+"'";
 	    Long num = this.baseDao.count(hql);
         return num.intValue();
+    }
+
+    /**
+     * 查询具体sku  是否可用 若不可用则返回 不可用的sku信息
+     */
+    @Override
+    public List<SkuIdDTO> findNotEffectiveBySkuIdDTOList(List<SkuIdDTO> dtoList ){
+        if(dtoList!=null&&dtoList.size()>0){
+            List<SkuIdDTO> result = new ArrayList<>(dtoList.size());
+            //根据skuid  list 获取 skuDetailid list
+            Set<String> skuIdList = new HashSet<>(dtoList.size());
+            dtoList.forEach(dto->{ skuIdList.add(dto.getSkuId()); });
+            Map<String,Object> params = new HashMap<>(4);
+            params.put("skuIdList",skuIdList);
+            String hql = "select sd.id as id ,sd.skuId as skuId,sd.detailType as detailType,sd.deleted as deleted, " +
+                    " sd.detailId as detailId  from SkuDetail sd,Sku s where s.deleted=0 and sd.detailType!='PRICE' and sd.skuId in(:skuIdList) group by sd.id";
+            List<SkuDetail> detailsList = this.baseDao.find(hql,params,SkuDetail.class);
+            if(detailsList!=null&&detailsList.size()>0){
+                //转换成 skuId  skudetailList  map 形式
+                Map<String,List<SkuDetail>> skuDetailMap  =  detailsList.stream().collect(Collectors.groupingBy(SkuDetail::getSkuId));
+                if(skuDetailMap!=null&&skuDetailMap.size()>0){
+                    for(SkuIdDTO dto:dtoList) {
+                        boolean flag = true;
+                        for(Map.Entry<String,List<SkuDetail>> map:skuDetailMap.entrySet()){
+                             if (map.getKey().equals(dto.getSkuId())) {
+                                 List<SkuDetail> findDetailList = map.getValue();
+                                int num = 3;
+                                 for(SkuDetail detail:findDetailList){
+                                     if(detail.getId().equals(dto.getColorId())
+                                             || detail.getId().equals(dto.getQualityId())
+                                             || detail.getId().equals(dto.getTypeId())){
+                                         //因为修改是新增了 详情表  所以判断同种类目的 有没有
+                                         if(detail.getDeleted().equals(0)){
+                                             num--;
+                                         }else{
+                                              for(SkuDetail detail2:findDetailList){
+                                                    if(detail.getDetailId().equals(detail2.getDetailId())&&detail2.getDeleted().equals(0)){
+                                                     num--;
+                                                 }
+                                              }
+                                         }
+                                    }
+                                 }
+                                if(num>0){
+                                    result.add(dto);
+                                }
+                                flag=false;
+                            }
+                        }
+                        if(flag){
+                            result.add(dto);
+                        }
+                    }
+                }
+                return result;
+            }
+            return dtoList;
+        }
+        return null;
     }
 
 }

@@ -119,7 +119,7 @@ public class SkuController {
     //————————————————————小程序接口start——————————————————————————
 
     /**
-     * 获取 sku尺寸信息
+     * 根据商品 id 获取 sku尺寸信息
      * @param productId
      * @return
      */
@@ -131,7 +131,7 @@ public class SkuController {
     }
 
     /**
-     * 获取 sku尺寸信息
+     * 根据 skuId 获取 sku详情信息
      * @param skuId
      * @return
      */

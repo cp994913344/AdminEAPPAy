@@ -47,7 +47,6 @@ public class SkuDetail extends BaseEntity{
     @Column(name="detail_seq")
     private Integer detailSeq;
 
-
     public void setDetailType(String detailType) {
         this.detailType = detailType;
     }
@@ -55,7 +54,6 @@ public class SkuDetail extends BaseEntity{
     public void setDetailId(String detailId) {
         this.detailId = detailId;
     }
-
 
     public void setDetailSeq(Integer detailSeq) {
         this.detailSeq = detailSeq;
@@ -68,7 +66,6 @@ public class SkuDetail extends BaseEntity{
     public String getDetailId() {
         return detailId;
     }
-
 
     public Integer getDetailSeq() {
         return detailSeq;

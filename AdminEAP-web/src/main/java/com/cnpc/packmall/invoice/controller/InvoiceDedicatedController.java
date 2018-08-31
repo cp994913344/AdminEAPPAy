@@ -1,6 +1,9 @@
 package com.cnpc.packmall.invoice.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.packmall.invoice.entity.InvoiceNormal;
+import com.cnpc.packmall.order.pojo.dto.OrderDTO;
+import com.cnpc.packmall.order.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +37,9 @@ public class InvoiceDedicatedController {
 
     @Resource
     private InvoiceDedicatedService invoicededicatedService;
+
+    @Resource
+    private OrderService orderService;
 
     @RequestMapping(value="/list",method = RequestMethod.GET)
     public String list(){
@@ -102,6 +110,20 @@ public class InvoiceDedicatedController {
     }
 
     //————————————————————小程序接口start——————————————————————————
+
+    /**
+     * 保存发票信息
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getOrderNotInvoice/",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getOrderNotInvoice(String openId){
+        Map<String,String> params = new HashMap<>(2);
+        params.put("whetherState","0");
+        List<OrderDTO> orderDTOList=orderService.packMallgetList(openId,params);
+        return  new Result(true);
+    }
 
     /**
      * 保存发票信息

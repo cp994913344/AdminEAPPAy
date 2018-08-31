@@ -43,7 +43,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		params.put("openid", openid);
 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			params.put(entry.getKey(), entry.getValue());
-			hql +=" and "+entry.getKey() +":"+entry.getKey();
+			hql +=" and "+entry.getKey() +"=:"+entry.getKey();
 		}
 		List<OrderDTO> orderDTOs = this.find(hql, params,OrderDTO.class);
 		writeOrderDetailDTO(orderDTOs);

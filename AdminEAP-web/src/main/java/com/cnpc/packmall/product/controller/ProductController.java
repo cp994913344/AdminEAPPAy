@@ -186,7 +186,7 @@ public class ProductController {
      */
     @RequestMapping(value="/pack_mall_api/getList")
     @ResponseBody
-    public  Result getList(HttpServletRequest request){
+    public  Result getList(){
         Map<String,Object> result = new HashMap<>(8);
         List<Product> productList = productService.findList();
         result.put("productList", productList);
