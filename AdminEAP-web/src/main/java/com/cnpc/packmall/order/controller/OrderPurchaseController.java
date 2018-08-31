@@ -26,7 +26,7 @@ public class OrderPurchaseController {
 	OrderPurchaseService orderPurchaseService;
 	
 	
-    @RequestMapping(value="/delete/{id}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/delete/{id}",method = RequestMethod.POST)
     @ResponseBody
     public Result delete(@PathVariable("id") String id){
     	OrderPurchase orderPurchase = orderPurchaseService.get(id);

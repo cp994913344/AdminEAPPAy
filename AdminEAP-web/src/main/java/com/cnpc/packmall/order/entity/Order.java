@@ -60,6 +60,14 @@ public class Order extends BaseEntity {
     @Column(name = "address_id", length = 100)
     private String addressId;
     
+    @Header(name="城市name")
+    @Column(name = "AREA_ADDRESS", length = 20)
+    private String areaAddress;
+
+    @Header(name="收货地址")
+    @Column(name="shipping_addresss", length = 100)
+    private String shippingAddress;
+	
     @Header(name="联系方式")
     @Column(name = "phone", length = 100)
     private String phone;
@@ -137,7 +145,7 @@ public class Order extends BaseEntity {
     private String payId;
 
     /**
-     * 状态1 未支付 2 待送货 3 待签收 4 已完结 -1 订单关闭
+     * 状态:1 未支付 2 已支付 3 待送货 4 待签收 5已完成 -1 订单关闭
      */
     @Header(name="状态")
     @Column(name = "state", length = 100)
@@ -200,6 +208,22 @@ public class Order extends BaseEntity {
 
 	public void setDeliverytime(String deliverytime) {
 		this.deliverytime = deliverytime;
+	}
+
+	public String getAreaAddress() {
+		return areaAddress;
+	}
+
+	public void setAreaAddress(String areaAddress) {
+		this.areaAddress = areaAddress;
+	}
+
+	public String getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(String shippingAddress) {
+		this.shippingAddress = shippingAddress;
 	}
 
 	public Boolean getWeekend() {

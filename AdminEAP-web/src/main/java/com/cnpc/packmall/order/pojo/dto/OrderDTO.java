@@ -278,6 +278,8 @@ public class OrderDTO extends BaseDTO {
 		order.setWeekend(orderDTO.getWeekend());
 		order.setRemarks(orderDTO.getRemarks());
 		order.setFreight(orderDTO.getFreight());
+		order.setState("1");//未支付
+		order.setWhetherState("0");//未开票
 		order.setWhetherState(orderDTO.getWhetherState());
 		order.setWhetherId(orderDTO.getWhetherId());
 		order.setId(orderDTO.getId());
