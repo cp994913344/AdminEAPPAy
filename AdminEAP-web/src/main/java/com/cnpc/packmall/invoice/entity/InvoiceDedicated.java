@@ -56,22 +56,9 @@ public class InvoiceDedicated extends BaseEntity {
     @Column(name = "invoice_price")
     private BigDecimal invoicePrice;
 
-    @Header(name="收件人")
-    @Column(name = "recipient",length = 16)
-    private String recipient;
-
-    @Header(name="联系人电话")
-    @Column(name = "recipient_phone",length = 11)
-    private String recipientPhone;
-
-    @Header(name = "城市")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sys_area")
-    private SysArea sysArea;
-
-    @Header(name="收货地址")
-    @Column(name="shipping_addresss",length = 100)
-    private String shippingAddress;
+    @Header(name="收货地址id")
+    @Column(name = "shipping_address_id",length = 36)
+    private String shippingAddressId;
 
     /**
      *  1 商品明细 2 商品类别
@@ -135,18 +122,6 @@ public class InvoiceDedicated extends BaseEntity {
         this.invoicePrice = invoicePrice;
     }
 
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
-    }
-
-    public void setRecipientPhone(String recipientPhone) {
-        this.recipientPhone = recipientPhone;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
     public void setInvoiceContent(Integer invoiceContent) {
         this.invoiceContent = invoiceContent;
     }
@@ -192,18 +167,6 @@ public class InvoiceDedicated extends BaseEntity {
         return invoicePrice;
     }
 
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public String getRecipientPhone() {
-        return recipientPhone;
-    }
-
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
     public Integer getInvoiceContent() {
         return invoiceContent;
     }
@@ -244,14 +207,6 @@ public class InvoiceDedicated extends BaseEntity {
 
         return invoiceNo;
     }
-    public void setSysArea(SysArea sysArea) {
-        this.sysArea = sysArea;
-    }
-
-    public SysArea getSysArea() {
-
-        return sysArea;
-    }
 
     public void setOpenId(String openId) {
         this.openId = openId;
@@ -260,5 +215,14 @@ public class InvoiceDedicated extends BaseEntity {
     public String getOpenId() {
 
         return openId;
+    }
+
+    public void setShippingAddressId(String shippingAddressId) {
+        this.shippingAddressId = shippingAddressId;
+    }
+
+    public String getShippingAddressId() {
+
+        return shippingAddressId;
     }
 }

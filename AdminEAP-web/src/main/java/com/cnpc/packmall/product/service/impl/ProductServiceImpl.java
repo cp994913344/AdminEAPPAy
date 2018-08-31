@@ -98,10 +98,14 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
         product.setProductName(productName);
         product.setUpdateDateTime(new Date());
         this.baseDao.update(product);
-        String hql = "delete ProductDetail pd where pd.productId='"+id+"'";
+        String hql = "update ProductDetail pd set pd.deleted=1 where pd.productId='"+id+"'";
         this.baseDao.executeHql(hql);
         for(ProductDetail pd: list){
             pd.setProductId(product.getId());
+            pd.setCreateDateTime(new Date());
+            pd.setUpdateDateTime(new Date());
+            pd.setVersion(0);
+            pd.setDeleted(0);
         }
         this.batchSave(list);
         return new Result(true);
@@ -115,7 +119,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
     @Override
     public Map<String, Object> findDetailByProducid(String productId) {
         Map<String, Object> result = new HashMap<>(16);
-        String hql = "from ProductDetail where productId='"+productId+"'";
+        String hql = "from ProductDetail where deleted=0 and productId='"+productId+"'";
         List<ProductDetail> detailsList = this.baseDao.find(hql);
         if(detailsList!=null&&detailsList.size()>0){
             // BANNERIMG banner图片
@@ -202,7 +206,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
         Map<String,Object> params = new HashMap<>(2);
         String hql  = " select p.id as id,p.productId as productId,p.detailId as detailId " +
                 " from ProductDetail as p" +
-                " where p.detailType = 'BANNERIMG' and p.detailSeq =1  and p.productId in (:productIds)";
+                " where p.deleted=0 and  p.detailType = 'BANNERIMG' and p.detailSeq =1  and p.productId in (:productIds)";
         params.put("productIds",productIds);
         return this.baseDao.find(hql,params,ProductDetail.class);
     }
@@ -218,7 +222,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
         Map<String,Object> params = new HashMap<>(2);
         String hql  = " select s.id as id,s.productId as productId " +
                 " from Sku as s" +
-                " where s.skuStatus = 1 and s.productId in (:productIds)";
+                " where s.deleted=0 and s.skuStatus = 1 and s.productId in (:productIds)";
         params.put("productIds",productIds);
         List<Sku> list = this.baseDao.find(hql,params,Sku.class);
         if(list!=null&&list.size()>0){
@@ -231,7 +235,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
             params2.put("skuIds", skuIds);
             String hql2 = "select sd.skuId as skuId,sd.detailVal as detailVal " +
                     " from SkuDetail as sd" +
-                    " where  sd.detailType='PRICE' and sd.skuId in (:skuIds)";
+                    " where sd.deleted=0 and  sd.detailType='PRICE' and sd.skuId in (:skuIds)";
             List<SkuDetail> skuDetails = this.baseDao.find(hql2,params2,SkuDetail.class);
             for(Sku s :list){
                 for(SkuDetail sd :skuDetails){
@@ -253,7 +257,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 	@Override
 	public Map<String, List<ProductDetail>> findProductDetailByProductIdAndType(Set<String> productIds, String type) {
 		Map<String, Object> params = new HashMap<>();
-		String hql = "select detailType as detailType,detailVal as detailVal,productId as productId,detailId as detailId,id as id from ProductDetail where productId in(:productId) and detailType =:type";
+		String hql = "select detailType as detailType,detailVal as detailVal,productId as productId,detailId as detailId,id as id from ProductDetail where deleted=0 and productId in(:productId) and detailType =:type";
 		params.put("productId", productIds);
 		params.put("type", type);
 		List<ProductDetail> productDetails = this.find(hql, params,ProductDetail.class);
@@ -276,6 +280,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
             }else{
                 product.setProductStatus(1);
             }
+            product.setUpdateDateTime(new Date());
             this.baseDao.update(product);
             return true;
         }
