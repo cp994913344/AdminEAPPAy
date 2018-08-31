@@ -8,7 +8,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
+import javax.persistence.Column;
 
+import com.cnpc.framework.annotation.Header;
+import com.cnpc.framework.base.entity.Dict;
 import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
@@ -39,7 +42,13 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 	@Override
 	public List<OrderDTO> packMallgetList(String openid, Map<String, String> param) {
 		Map<String, Object> params = new HashMap<>();
-		String hql = "from Order where 1=1 and openId=:openid";
+
+		String hql = "select o.id as id,o.code as code,o.openId as openId,o.userName as userName," +
+				"o.addressId as addressId,o.phone as phone,o.contacts as contacts,o.deliverytime as deliverytime," +
+				"o.weekend as weekend,o.sku as sku,o.remarks as remarks,o.freight as freight,o.totalPrice as totalPrice," +
+				"o.payMethod as payMethod,o.state as state,o.productCategory as productCategory,o.productImgId as productImgId," +
+				"o.productMsg as productMsg,o.whetherState as whetherState,o.whetherId as whetherId,o.createDateTime as createDateTime " +
+				"from Order as o where 1=1 and openId=:openid";
 		params.put("openid", openid);
 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			params.put(entry.getKey(), entry.getValue());

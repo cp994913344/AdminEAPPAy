@@ -41,7 +41,13 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 	@Override
 	public List<OrderDetailDTO> findPackMallgetDetailList(List<String> ids) {
 		Map<String, Object> params = new HashMap<>();
-		String hql = "from OrderDetail where 1=1 and ids in (:ids)";
+		String hql = "select od.orderId as orderId,od.productId as productId,od.productImgId as productImgId," +
+				" od.skuId as skuId, od.skumsg as skumsg, od.size as size," +
+				" od.specification as specification, od.specificationId as specificationId, od.color as color," +
+				" od.colorId as colorId, od.quality as quality, od.qualityId as qualityId," +
+				" od.productName as productName, od.number as number, od.price as price," +
+				" od.priceId as priceId, od.totalPrice as totalPrice" +
+				" from OrderDetail as od where 1=1 and od.id in (:ids)";
 		params.put("ids",ids);
 		List<OrderDetailDTO> orderDetailDTOs = this.find(hql, params,OrderDetailDTO.class);
 		return orderDetailDTOs;

@@ -152,8 +152,6 @@ public class Order extends BaseEntity {
     @Header(name="开票ID")
     @Column(name = "whether_id", length = 100)
     private String whetherId;
-    
-    
 
 	public String getCode() {
 		return code;

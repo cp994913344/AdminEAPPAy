@@ -18,6 +18,7 @@ import com.cnpc.packmall.order.entity.Order;
 public class OrderDTO extends BaseDTO {
 
 
+   private String id;
 
 	/**
      * 编号
@@ -83,9 +84,9 @@ public class OrderDTO extends BaseDTO {
     private BigDecimal totalPrice;
     
     /**
-     * 总价格
+     * 支付方式
      */
-    private BigDecimal payMethod;
+    private String payMethod;
 
     /**
      * 状态
@@ -107,9 +108,13 @@ public class OrderDTO extends BaseDTO {
      * 商品信息概述
      */
     private String productMsg;
-    
-    
-    
+
+
+	private String whetherState;
+	/**
+	 * 0未开票 1已开票
+	 */
+	private String whetherId;
     
     private List<OrderDetailDTO> orderDetailDTOs;
     
@@ -224,7 +229,7 @@ public class OrderDTO extends BaseDTO {
 		this.state = state;
 	}
 
-	public BigDecimal getPayMethod() {
+	public String getPayMethod() {
 		return payMethod;
 	}
 
@@ -244,7 +249,7 @@ public class OrderDTO extends BaseDTO {
 		this.productMsg = productMsg;
 	}
 
-	public void setPayMethod(BigDecimal payMethod) {
+	public void setPayMethod(String payMethod) {
 		this.payMethod = payMethod;
 	}
 
@@ -273,6 +278,9 @@ public class OrderDTO extends BaseDTO {
 		order.setWeekend(orderDTO.getWeekend());
 		order.setRemarks(orderDTO.getRemarks());
 		order.setFreight(orderDTO.getFreight());
+		order.setWhetherState(orderDTO.getWhetherState());
+		order.setWhetherId(orderDTO.getWhetherId());
+		order.setId(orderDTO.getId());
 		order.setPayMethod("微信支付");
 		return order;
 	}
@@ -282,5 +290,32 @@ public class OrderDTO extends BaseDTO {
 	}
 
 
+	public void setWhetherState(String whetherState) {
+		this.whetherState = whetherState;
+	}
+
+	public void setWhetherId(String whetherId) {
+		this.whetherId = whetherId;
+	}
+
+	public String getWhetherState() {
+
+		return whetherState;
+	}
+
+	public String getWhetherId() {
+		return whetherId;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public String getId() {
+
+		return id;
+	}
 }
 
