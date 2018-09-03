@@ -1,9 +1,6 @@
 package com.cnpc.packmall.invoice.controller;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.packmall.invoice.entity.InvoiceNormal;
+import com.cnpc.packmall.order.entity.OrderDetail;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
+import com.cnpc.packmall.order.pojo.dto.OrderDetailDTO;
+import com.cnpc.packmall.order.service.OrderDetailService;
 import com.cnpc.packmall.order.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -40,6 +40,10 @@ public class InvoiceDedicatedController {
 
     @Resource
     private OrderService orderService;
+
+    @Resource
+    private OrderDetailService orderDetailService;
+
 
     @RequestMapping(value="/list",method = RequestMethod.GET)
     public String list(){
@@ -116,13 +120,22 @@ public class InvoiceDedicatedController {
      * @param openId
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/getOrderNotInvoice/",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/getOrderNotInvoice",method = RequestMethod.POST)
     @ResponseBody
     public Result getOrderNotInvoice(String openId){
+        Map<String,Object> result = new HashMap<>(4);
         Map<String,String> params = new HashMap<>(2);
         params.put("whetherState","0");
+        params.put("state","4");
         List<OrderDTO> orderDTOList=orderService.packMallgetList(openId,params);
-        return  new Result(true);
+        result.put("orderDTOList",orderDTOList);
+        if(orderDTOList!=null&&orderDTOList.size()>0){
+            Set<String> orderIds = new HashSet<>(orderDTOList.size());
+            orderDTOList.forEach(dto->{orderIds.add(dto.getId());});
+            Map<String,OrderDetailDTO> detailDTOMap = orderDetailService.findMapByOrderIds(orderIds);
+            result.put("detailDTOMap",detailDTOMap);
+        }
+        return  new Result(true,result);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.cnpc.packmall.order.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.packmall.order.pojo.dto.OrderDetailDTO;
@@ -17,4 +18,5 @@ public interface OrderDetailService extends BaseService {
 
 	Map<String, Object> savePackMallOrder(List<OrderDetailDTO> orderDetailDTOs,String orderId);
 
+    Map<String,OrderDetailDTO> findMapByOrderIds(Set<String> orderIds);
 }

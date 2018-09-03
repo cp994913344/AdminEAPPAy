@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -40,17 +41,20 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 	
 	@Override
 	public List<OrderDetailDTO> findPackMallgetDetailList(List<String> ids) {
-		Map<String, Object> params = new HashMap<>();
-		String hql = "select od.orderId as orderId,od.productId as productId,od.productImgId as productImgId," +
-				" od.skuId as skuId, od.skumsg as skumsg, od.size as size," +
-				" od.specification as specification, od.specificationId as specificationId, od.color as color," +
-				" od.colorId as colorId, od.quality as quality, od.qualityId as qualityId," +
-				" od.productName as productName, od.number as number, od.price as price," +
-				" od.priceId as priceId, od.totalPrice as totalPrice" +
-				" from OrderDetail as od where 1=1 and od.id in (:ids)";
-		params.put("ids",ids);
-		List<OrderDetailDTO> orderDetailDTOs = this.find(hql, params,OrderDetailDTO.class);
-		return orderDetailDTOs;
+		if(ids!=null&&ids.size()>0){
+			Map<String, Object> params = new HashMap<>();
+			String hql = "select od.orderId as orderId,od.productId as productId,od.productImgId as productImgId," +
+					" od.skuId as skuId, od.skumsg as skumsg, od.size as size," +
+					" od.specification as specification, od.specificationId as specificationId, od.color as color," +
+					" od.colorId as colorId, od.quality as quality, od.qualityId as qualityId," +
+					" od.productName as productName, od.number as number, od.price as price," +
+					" od.priceId as priceId, od.totalPrice as totalPrice" +
+					" from OrderDetail as od where 1=1 and od.id in (:ids)";
+			params.put("ids",ids);
+			List<OrderDetailDTO> orderDetailDTOs = this.find(hql, params,OrderDetailDTO.class);
+			return orderDetailDTOs;
+		}
+		return null;
 	}
 
 	@Override
@@ -109,5 +113,20 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 		return result;
 	}
 
+	/**
+	 * 通过 order ids  查询  字表 的 map
+	 * @param orderIds
+	 * @return
+	 * @autor cp
+	 */
+     @Override
+	public Map<String,OrderDetailDTO> findMapByOrderIds(Set<String> orderIds){
+		Map<String,Object> params = new HashMap<>(2);
+		params.put("orderIds", orderIds);
+		String hql = "select od.orderId as orderId ,od.productImgId as productImgId from OrderDetail od where od.deleted=0 and orderId in (:orderIds)";
+		List<OrderDetailDTO> details = this.baseDao.find(hql,params,OrderDetailDTO.class);
+		Map<String,OrderDetailDTO> result = details.stream().collect(Collectors.toMap(OrderDetailDTO::getOrderId,Function.identity()));
+		return result;
+	}
 
 }

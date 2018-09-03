@@ -60,6 +60,9 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 	}
 
 	public List<OrderDTO> writeOrderDetailDTO(List<OrderDTO> orderDTOs){
+		if(orderDTOs==null||orderDTOs.size()==0){
+			return null;
+		}
 		List<OrderDetailDTO> orderDetailDTOs = orderDetailService.findPackMallgetDetailList(orderDTOs.stream().map(OrderDTO::getId).collect(Collectors.toList()));
 		//根据orderId分组
 		Map<String, List<OrderDetailDTO>> orderDetailDTOMap = orderDetailDTOs.stream().collect(Collectors.groupingBy(OrderDetailDTO::getOrderId));
