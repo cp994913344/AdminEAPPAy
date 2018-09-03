@@ -88,6 +88,11 @@
                     })
                     break;
             }
-        })
-    })
+        });
+          
+    });
+    function fnRenderAddress(value,type,rowObj){
+        return rowObj.areaAddress+rowObj.shippingAddress;
+    }
+  
 </script>

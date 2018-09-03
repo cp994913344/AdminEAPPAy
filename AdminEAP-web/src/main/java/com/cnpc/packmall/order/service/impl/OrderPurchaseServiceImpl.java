@@ -42,7 +42,7 @@ public class OrderPurchaseServiceImpl extends BaseServiceImpl implements OrderPu
 	@Override
 	public Map<String, List<OrderPurchaseDTO>> findPackMallgetPurchaseList(String openId) {
 		Map<String, Object> params = new HashMap<>();
-		String hql = "from OrderPurchase where 1=1 and openId = :openId";
+		String hql = "select productImgId as productImgId,skuId as skuId,size as size,specification as specification,specificationId as specificationId,color as color,colorId as colorId,quality as quality,qualityId as qualityId,productName as productName,id as id,number as number,price as price,priceId as priceId,productId as productId from OrderPurchase where 1=1 and openId = :openId";
 		params.put("openId",openId);
 		List<OrderPurchaseDTO> orderPurchaseDTOs = this.find(hql, params,OrderPurchaseDTO.class);
 		if(orderPurchaseDTOs!=null){

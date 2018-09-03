@@ -24,6 +24,7 @@ import com.cnpc.framework.annotation.RefreshCSRFToken;
 import com.cnpc.framework.annotation.VerifyCSRFToken;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.packmall.order.entity.Order;
+import com.cnpc.packmall.order.entity.OrderStateChange;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
 
 /**
@@ -116,13 +117,24 @@ public class OrderController {
     
     @RequestMapping(value="/pack_mall_api/update_state/{openid}",method = RequestMethod.POST)
     @ResponseBody
-    public Result packMallgetUpdateState(@PathVariable("openid") String openid,String orderId){
+    public Result packMallgetUpdateState(@PathVariable("openid") String openid,String orderId,String type){
     	//确认收货
-        Order order = this.get(orderId);
-        order.setState("4");
-        order.setUpdateDateTime(new Date());
-        orderService.update(order);
+        orderService.doConfirm(openid,orderId,type);
         return new Result(true);
+    }
+    
+    /**
+     * 查询订单流转信息
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/find_order_change",method = RequestMethod.POST)
+    @ResponseBody
+    public Result packMallgetUpdateState(String orderId){
+    	
+    	List<OrderStateChange> orderStateChanges = orderService.findOrderChangeByOrderId(orderId);
+    	
+    	return new Result(true,orderStateChanges);
     }
 
 }

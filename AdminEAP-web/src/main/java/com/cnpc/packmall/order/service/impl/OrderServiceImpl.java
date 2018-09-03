@@ -17,8 +17,12 @@ import org.springframework.stereotype.Service;
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.framework.util.wxpay.MyConfig;
 import com.cnpc.framework.util.wxpay.WXPay;
+import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.center.service.ClientService;
+import com.cnpc.packmall.center.service.ShippingAddressService;
+import com.cnpc.packmall.order.constant.OrderEnum;
 import com.cnpc.packmall.order.entity.Order;
+import com.cnpc.packmall.order.entity.OrderStateChange;
 import com.cnpc.packmall.order.entity.OrderWXPay;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
 import com.cnpc.packmall.order.pojo.dto.OrderDetailDTO;
@@ -38,6 +42,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 	
 	@Resource
 	ClientService clientService;
+	
 	
 	@Override
 	public List<OrderDTO> packMallgetList(String openid, Map<String, String> param) {
@@ -80,8 +85,11 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		order.setCode("PM"+new Date().getTime());
 		order.setOpenId(openid);
 		order.setUserName(clientService.getByOpenId(openid).getClientName());
-		order.setState("1");//未支付
-		order.setWhetherState("0");//未开票
+		ShippingAddress shippingAddress = this.get(ShippingAddress.class, orderDTO.getAddressId());
+		order.setAreaAddress(shippingAddress.getAreaAddress());
+		order.setShippingAddress(shippingAddress.getShippingAddress());
+		order.setPhone(shippingAddress.getShippingPhone());
+		order.setContacts(shippingAddress.getShippingName());
 		//保存详情
 		this.save(order);
 		Map<String, Object> detailResult= orderDetailService.savePackMallOrder(orderDTO.getOrderDetailDTOs(),order.getId());
@@ -93,6 +101,8 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		order.setProductImgId(detailResult.get("productImgId").toString());
 		order.setProductMsg(detailResult.get("productMsg").toString());
 		this.update(order);
+		//保存订单流转状态
+		saveOrderChange(order.getId(), null, order.getState());
 		//TODO 微信统一下单  保存微信下单信息
 //		Map<String, String> wxResult = doWXPay(order.getId(),openid,order.getProductMsg(),order.getTotalPrice().toString());
 		Map<String, String> wxResult = new HashMap<>();
@@ -133,5 +143,38 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
         }
 		return new HashMap<>();
 	}
+
+	@Override
+	public void doConfirm(String openId, String orderId,String state) {
+		
+        Order order = new Order();
+        if(!openId.equals("admin")){
+        	order.setId(orderId);
+        }
+        order.setOpenId(openId);
+        order = (Order) findByExample(order).get(0);
+        String oldState = order.getState();
+        order.setState("4");
+        order.setUpdateDateTime(new Date());
+        this.update(order);
+        saveOrderChange(orderId, oldState, state);
+	}
 	
+	public void saveOrderChange(String orderId,String oldState,String state) {
+		//保存订单流转状态
+		OrderStateChange orderStateChange = new OrderStateChange();
+		orderStateChange.setOrderId(orderId);
+		 orderStateChange.setHistoryState(oldState);
+		orderStateChange.setState(state);
+        orderStateChange.setRemark(OrderEnum.codeOf(state).getMsg());
+        this.save(orderStateChange);
+	}
+	
+	@Override
+	public List<OrderStateChange> findOrderChangeByOrderId(String orderId) {
+		Map<String,Object> params = new HashMap<>();
+		String hql = "from OrderStateChange where orderId =:orderId order by createDateTime desc";
+		params.put("orderId", orderId);
+		return this.find(hql, params);
+	}
 }

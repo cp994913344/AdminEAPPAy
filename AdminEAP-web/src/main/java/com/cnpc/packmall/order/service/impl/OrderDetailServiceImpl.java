@@ -101,7 +101,7 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 			orderDetail.setSkumsg(sku.getSkuCode()+"*"+orderDetail.getNumber()+"("+orderDetail.getSpecification()+";"+orderDetail.getColor()+";"+orderDetail.getQuality()+")");
 			orderDetails.add(orderDetail);
 			orderPrice = orderPrice.add(orderDetail.getTotalPrice());
-			orderSku += orderDetail.getSkumsg(); 
+			orderSku += orderDetail.getSkumsg()+"</br>"; 
 		};
 		this.batchSave(orderDetails);
 		result.put("SKU", orderSku);

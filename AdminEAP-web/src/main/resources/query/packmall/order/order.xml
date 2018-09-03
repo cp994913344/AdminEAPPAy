@@ -4,16 +4,15 @@
 <query id="order_order" key="id" tableName="订单管理列表" className="com.cnpc.packmall.order.entity.Order" widthType="px">
         <column key="rowIndex" header="序号" width="80"/>
         <column key="code" header="CODE" classType="String" allowSort="true" width="150"/>
-        <column key="userName" header="用户姓名" classType="String" allowSort="true" width="150"/>
-        <column key="addressId" header="收货地址" classType="String" allowSort="true" width="150"/>
-        <column key="phone" header="联系方式" classType="String" allowSort="true" width="150"/>
+        <column key="createDateTime" header="下单时间" classType="Date" dateFormat="yyyy-mm-dd" allowSort="true" width="150"/>
+        <column key="userName" header="姓名/公司名称" classType="String" allowSort="true" width="150"/>
         <column key="contacts" header="收货人" classType="String" allowSort="true" width="150"/>
+        <column key="shippingAddress" header="收货地址" classType="String" allowSort="true" width="150" fnRender="fnRenderAddress"/>
+        <column key="phone" header="联系方式" classType="String" allowSort="true" width="150"/>
         <column key="deliverytime" header="送货时间" classType="String" allowSort="true" width="150"/>
-        <column key="weekend" header="是否周末送货" classType="Boolean" allowSort="true" width="150"/>
         <column key="sku" header="SKU" classType="Boolean" allowSort="true" width="150"/>
+        <column key="totalPrice" header="金额(元)" classType="BigDecimal" allowSort="true" width="150"/>
         <column key="remarks" header="备注" classType="String" allowSort="true" width="150"/>
-        <column key="freight" header="运费" classType="BigDecimal" allowSort="true" width="150"/>
-        <column key="totalPrice" header="总价格" classType="BigDecimal" allowSort="true" width="150"/>
-        <column key="state" header="状态" classType="String" allowSort="true" width="150"/>
+        <column key="state" header="状态" classType="String" allowSort="true" width="150" render="type=eq,1=未支付 ,2=已支付,3=待送货,4=待签收,5=已完成,-1=订单关闭"/>
 </query>
 </queryContext>
