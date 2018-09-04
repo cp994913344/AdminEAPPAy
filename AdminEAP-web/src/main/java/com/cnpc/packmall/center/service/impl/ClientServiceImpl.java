@@ -81,7 +81,8 @@ public class ClientServiceImpl extends BaseServiceImpl implements ClientService 
                 return new Result(false, "已注册");
             }
             Calendar calendar = Calendar.getInstance();
-            String clientCode = "C"+calendar.get(Calendar.YEAR)+(calendar.get(Calendar.MONTH)+1)+calendar.get(Calendar.DATE);
+            String clientCode =String.valueOf(calendar.get(Calendar.YEAR)).substring(2,4);
+            clientCode = "C"+clientCode+(calendar.get(Calendar.MONTH)+1)+calendar.get(Calendar.DATE);
             String hql = "from Client where clientCode like  '"+ clientCode+"%' order by clientCode desc";
             List<Client> lastClientList = this.baseDao.find(hql,1,1);
             if(lastClientList!=null&&lastClientList.size()>0){

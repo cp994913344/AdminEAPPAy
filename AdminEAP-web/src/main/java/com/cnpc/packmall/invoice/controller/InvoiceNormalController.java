@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
+import com.cnpc.packmall.invoice.entity.InvoiceDedicated;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -105,5 +106,25 @@ public class InvoiceNormalController {
     }
 
 
+    //————————————————————小程序接口start——————————————————————————
+
+
+    /**
+     * 保存发票信息
+     * @param invoiceNormal
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/save",method = RequestMethod.POST)
+    @ResponseBody
+    public Result save(InvoiceNormal invoiceNormal, String orderIds){
+        try{
+            if(invoiceNormal!=null&&StringUtils.isNotEmpty(orderIds)){
+                return invoicenormalService.insertData(invoiceNormal,orderIds);
+            }
+        }catch (Exception e){
+            return  new Result(false,e.getMessage());
+        }
+        return  new Result(false);
+    }
 
 }

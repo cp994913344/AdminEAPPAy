@@ -2,10 +2,12 @@ package com.cnpc.packmall.order.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.cnpc.framework.base.service.BaseService;
 import com.cnpc.packmall.order.entity.OrderStateChange;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
+import com.cnpc.packmall.order.pojo.dto.OrderDetailDTO;
 
 /**
 * 订单管理服务接口
@@ -42,5 +44,18 @@ public interface OrderService extends BaseService {
 	 */
 	List<OrderStateChange> findOrderChangeByOrderId(String orderId);
 
+	/**
+	 * 发票   用 openId查询 订单
+	 * @param openId
+	 * @param param
+	 * @return
+	 */
+    List<OrderDTO> findByParams(String openId, Map<String, String> param);
 
+	/**
+	 * 发票 详情 展示商品信息
+	 * @param id
+	 * @return
+	 */
+	Set<String> findOrderProductById(String id);
 }

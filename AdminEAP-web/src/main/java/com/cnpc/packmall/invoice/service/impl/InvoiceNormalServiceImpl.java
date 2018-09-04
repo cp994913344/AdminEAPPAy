@@ -1,11 +1,17 @@
 package com.cnpc.packmall.invoice.service.impl;
 
+import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.packmall.invoice.entity.InvoiceDedicated;
 import com.cnpc.packmall.invoice.entity.InvoiceNormal;
+import com.cnpc.packmall.order.entity.Order;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.packmall.invoice.service.InvoiceNormalService;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
 * 发票管理（增普）服务实现
@@ -35,5 +41,80 @@ public class InvoiceNormalServiceImpl extends BaseServiceImpl implements Invoice
             return true;
         }
         return false;
+    }
+
+    /**
+     * 保存
+     * @param invoiceNormal
+     * @param orderIds
+     * @return
+     */
+    @Override
+    public Result insertData(InvoiceNormal invoiceNormal,String orderIds) {
+        Calendar calendar = Calendar.getInstance();
+        String invoiceCode =String.valueOf(calendar.get(Calendar.YEAR)).substring(2,4);
+        invoiceCode = "RL"+invoiceCode+(calendar.get(Calendar.MONTH)+1)+calendar.get(Calendar.DATE);
+        String hql = "from InvoiceNormal where invoiceCode like  '"+ invoiceCode+"%' order by invoiceCode desc";
+        List<InvoiceNormal> lastInvoiceClientList = this.baseDao.find(hql,1,1);
+        if(lastInvoiceClientList!=null&&lastInvoiceClientList.size()>0){
+            InvoiceNormal lastInvoice = lastInvoiceClientList.get(0);
+            String lastCode = lastInvoice.getInvoiceCode();
+            Integer lastN = Integer.parseInt(lastCode.replace(invoiceCode,"0"))+1;
+            try{
+                if(lastN>0&&lastN<10){
+                    invoiceCode=invoiceCode+"000"+lastN;
+                }else if(lastN<100&&lastN>=10){
+                    invoiceCode=invoiceCode+"00"+lastN;
+                }else if(lastN<1000&&lastN>=100){
+                    invoiceCode=invoiceCode+"0"+lastN;
+                }else if(lastN>=1000){
+                    invoiceCode=invoiceCode+lastN;
+                }
+            }catch (ClassCastException e){
+                return new Result(false);
+            }catch (NumberFormatException exception){
+                return new Result(false);
+            }
+        }else{
+            invoiceCode = invoiceCode+"0001";
+        }
+        if(StringUtils.isEmpty(invoiceCode)){
+            return new Result(false);
+        }
+        invoiceNormal.setInvoiceStatus(1);
+        invoiceNormal.setDeleted(0);
+        invoiceNormal.setCreateDateTime(new Date());
+        invoiceNormal.setVersion(0);
+        List<String> orderIdList = new ArrayList<>();
+        String[] orderIdsArray = orderIds.split(",");
+        if(orderIdsArray!=null&&orderIdsArray.length>0) {
+            try{
+                orderIdList =  Arrays.asList(orderIdsArray);
+                this.baseDao.save(invoiceNormal);
+                Map<String, Object> orderParams = new HashMap<>(4);
+                orderParams.put("orderParams", orderIdList);
+                String orderHql = "from  Order as o where o.id in (:orderIdList)";
+                List<Order> orderList = this.baseDao.find(orderHql, orderParams, Order.class);
+                BigDecimal price = new BigDecimal(0);
+                if(orderList!=null&&orderList.size()>0){
+                    for (Order order:orderList){
+                        order.setWhetherId(invoiceNormal.getId());
+                        order.setWhetherState("2");
+                        order.setUpdateDateTime(new Date());
+                        price = price.add(order.getTotalPrice());
+                    };
+                    if(price.compareTo(new BigDecimal(0))>0){
+                        invoiceNormal.setInvoicePrice(price);
+                        this.baseDao.update(invoiceNormal);
+                        this.batchUpdate(orderList);
+                        return new Result(true);
+                    }
+                }
+            }catch (Exception e){
+                return new Result(false,"保存错误："+e.getMessage());
+            }
+        }
+        //修改订单状态
+        return new Result(false);
     }
 }

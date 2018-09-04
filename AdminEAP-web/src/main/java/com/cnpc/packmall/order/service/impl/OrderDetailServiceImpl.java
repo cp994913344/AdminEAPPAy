@@ -123,9 +123,9 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 	public Map<String,OrderDetailDTO> findMapByOrderIds(Set<String> orderIds){
 		Map<String,Object> params = new HashMap<>(2);
 		params.put("orderIds", orderIds);
-		String hql = "select od.orderId as orderId ,od.productImgId as productImgId from OrderDetail od where od.deleted=0 and orderId in (:orderIds)";
+		String hql = "select od.orderId as orderId,od.productId as productId ,od.productImgId as productImgId from OrderDetail od where od.deleted=0 and orderId in (:orderIds)";
 		List<OrderDetailDTO> details = this.baseDao.find(hql,params,OrderDetailDTO.class);
-		Map<String,OrderDetailDTO> result = details.stream().collect(Collectors.toMap(OrderDetailDTO::getOrderId,Function.identity()));
+		Map<String,OrderDetailDTO> result = details.stream().collect(Collectors.toMap(OrderDetailDTO::getProductId,Function.identity()));
 		return result;
 	}
 

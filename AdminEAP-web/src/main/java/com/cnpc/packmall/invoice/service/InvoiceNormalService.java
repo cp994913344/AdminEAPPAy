@@ -1,6 +1,8 @@
 package com.cnpc.packmall.invoice.service;
 
+import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.BaseService;
+import com.cnpc.packmall.invoice.entity.InvoiceNormal;
 
 /**
 * 发票管理（增普）服务接口
@@ -18,4 +20,11 @@ public interface InvoiceNormalService extends BaseService {
      * @return
      */
     boolean saveInvoiceStatusChangeData(String invoiceId,String invoiceMark,String invoiceNo,String courierNo);
+
+    /**
+     * 保存
+     * @param invoiceNormal
+     * @return
+     */
+    Result insertData(InvoiceNormal invoiceNormal, String orderIds);
 }

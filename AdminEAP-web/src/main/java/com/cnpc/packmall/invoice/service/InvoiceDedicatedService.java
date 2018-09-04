@@ -21,7 +21,12 @@ public interface InvoiceDedicatedService extends BaseService {
      */
     boolean saveInvoiceStatusChangeData(String invoiceId,String invoiceMark,String invoiceNo,String courierNo);
 
-    void insertData(InvoiceDedicated invoiceDedicated);
+    /**
+     * 保存
+     * @param invoiceDedicated
+     * @return
+     */
+    Result insertData(InvoiceDedicated invoiceDedicated,String orderIds);
 
 
     /**
@@ -32,9 +37,9 @@ public interface InvoiceDedicatedService extends BaseService {
     Result findByOpenId(String openId);
 
     /**
-     * 通过id 查询详情 及商品信息
+     * 通过id 查询详情
      * @param id
      * @return
      */
-    Result getDetailById(String id);
+    Result getById(String id);
 }

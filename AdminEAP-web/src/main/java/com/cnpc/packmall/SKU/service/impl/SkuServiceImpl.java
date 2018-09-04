@@ -85,6 +85,9 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
                  if(StringUtils.isNotEmpty(sku.getId())){
                     for(SkuDetail pd: list){
                         pd.setSkuId(sku.getId());
+                        pd.setDeleted(0);
+                        pd.setVersion(0);
+                        pd.setCreateDateTime(new Date());
                     }
                     this.batchSave(list);
                     return new Result(true);

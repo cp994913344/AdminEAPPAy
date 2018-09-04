@@ -1,10 +1,7 @@
 package com.cnpc.packmall.order.service.impl;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -12,6 +9,7 @@ import javax.persistence.Column;
 
 import com.cnpc.framework.annotation.Header;
 import com.cnpc.framework.base.entity.Dict;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
@@ -176,5 +174,97 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		String hql = "from OrderStateChange where orderId =:orderId order by createDateTime desc";
 		params.put("orderId", orderId);
 		return this.find(hql, params);
+	}
+
+	/**
+	 * 发票使用 openId查询订单中商品的图片  小程序 展示
+	 * @param openId
+	 * @param param
+	 * @return
+	 */
+	@Override
+	public List<OrderDTO> findByParams(String openId, Map<String, String> param){
+		Map<String,Object> params = new HashMap<>();
+		params.put("openId",openId);
+		if(StringUtils.isEmpty(openId)){
+			return null;
+		}
+		String hql = "select o.id as id,o.code as code,o.totalPrice as totalPrice," +
+				"o.whetherState as whetherState,o.whetherId as whetherId,o.createDateTime as createDateTime " +
+				"from Order as o where deleted = 0 and openId = :openId";
+		for (Map.Entry<String, String> entry : param.entrySet()) {
+			params.put(entry.getKey(), entry.getValue());
+			hql +=" and "+entry.getKey() +"=:"+entry.getKey();
+		}
+		List<OrderDTO> orderDTOs = this.find(hql, params,OrderDTO.class);
+		//获取详情表信息
+		if(orderDTOs!=null&&orderDTOs.size()>0){
+			List<String> orderIds = new ArrayList<>(orderDTOs.size());
+			orderDTOs.forEach(orderDto->{
+				orderIds.add(orderDto.getId());
+			});
+			Map<String, Object> detailParams = new HashMap<>();
+			String detailHql = "select od.orderId as orderId,od.productId as productId,od.productImgId as productImgId," +
+					" od.priceId as priceId, od.totalPrice as totalPrice" +
+					" from OrderDetail as od where 1=1 and od.orderId in (:orderIds)";
+			detailParams.put("orderIds",orderIds);
+			List<OrderDetailDTO> orderDetailDTOs = this.find(detailHql, detailParams,OrderDetailDTO.class);
+			Map<String,List<OrderDetailDTO>> detailMap= orderDetailDTOs.stream().collect(Collectors.groupingBy(OrderDetailDTO::getOrderId));
+			orderDTOs.forEach(orderDto->{
+				for(Map.Entry<String,List<OrderDetailDTO>> mp:detailMap.entrySet()){
+					if(orderDto.getId().equals(mp.getKey())){
+						orderDto.setOrderDetailDTOs(mp.getValue());
+					}
+				}
+			});
+		}
+		//处理重复商品
+		for(OrderDTO dto:orderDTOs){
+			if(dto.getOrderDetailDTOs()!=null&&dto.getOrderDetailDTOs().size()>0){
+				List<OrderDetailDTO> dtoDtoList=dto.getOrderDetailDTOs();
+				List<OrderDetailDTO> newList = new ArrayList<>(dtoDtoList.size());
+				Set<String> productSet = dtoDtoList.stream().map(OrderDetailDTO::getProductId).collect(Collectors.toSet());
+				for(OrderDetailDTO ddto :dtoDtoList){
+					if(productSet.size()>0){
+						for(String s:productSet){
+							if(ddto.getProductId().equals(s)){
+								newList.add(ddto);
+								productSet.remove(s);
+								break;
+							}
+						}
+					}
+				}
+				dto.setOrderDetailDTOs(newList);
+				//dtoDtoList.stream().collect(Collectors.toSet())
+			}
+		}
+		return orderDTOs;
+	}
+
+	/**
+	 * 发票 详情 展示商品信息
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public Set<String> findOrderProductById(String id){
+		//先获取所有的 订单id
+		String orderHql = "select o.id as id from Order as o where o.whetherId='"+id+"'";
+		List<OrderDTO> orderDTOs = this.find(orderHql,OrderDTO.class);
+		//获取详情表信息
+		if(orderDTOs!=null&&orderDTOs.size()>0){
+			List<String> orderIds= orderDTOs.stream().map(OrderDTO::getId).collect(Collectors.toList());
+			Map<String, Object> detailParams = new HashMap<>(2);
+			String detailHql = "select od.productId as productId,od.productImgId as productImgId " +
+					" from OrderDetail as od where 1=1 and od.orderId in (:orderIds)";
+			detailParams.put("orderIds",orderIds);
+			List<OrderDetailDTO> orderDetailDTOs = this.find(detailHql, detailParams,OrderDetailDTO.class);
+			//处理重复商品图片   合成一个set  存放图片id
+			Set<String> orderDtailImgIds = orderDetailDTOs.stream().map(OrderDetailDTO::getProductImgId).collect(Collectors.toSet());
+			//Map<String,List<OrderDetailDTO>> result = orderDetailDTOs.stream().collect(Collectors.groupingBy(OrderDetailDTO::getProductId));
+			return orderDtailImgIds;
+		}
+		return null;
 	}
 }

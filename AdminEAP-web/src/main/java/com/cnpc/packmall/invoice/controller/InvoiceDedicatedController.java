@@ -116,7 +116,7 @@ public class InvoiceDedicatedController {
     //————————————————————小程序接口start——————————————————————————
 
     /**
-     * 保存发票信息
+     * 获取可以开发票的订单信息
      * @param openId
      * @return
      */
@@ -127,14 +127,8 @@ public class InvoiceDedicatedController {
         Map<String,String> params = new HashMap<>(2);
         params.put("whetherState","0");
         params.put("state","4");
-        List<OrderDTO> orderDTOList=orderService.packMallgetList(openId,params);
+        List<OrderDTO> orderDTOList=orderService.findByParams(openId,params);
         result.put("orderDTOList",orderDTOList);
-        if(orderDTOList!=null&&orderDTOList.size()>0){
-            Set<String> orderIds = new HashSet<>(orderDTOList.size());
-            orderDTOList.forEach(dto->{orderIds.add(dto.getId());});
-            Map<String,OrderDetailDTO> detailDTOMap = orderDetailService.findMapByOrderIds(orderIds);
-            result.put("detailDTOMap",detailDTOMap);
-        }
         return  new Result(true,result);
     }
 
@@ -143,40 +137,61 @@ public class InvoiceDedicatedController {
      * @param invoiceDedicated
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/save/${invoiceDedicated}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/save",method = RequestMethod.POST)
     @ResponseBody
-    public Result save(@PathVariable("invoiceDedicated")  String invoiceDedicated){
+    public Result save(InvoiceDedicated invoiceDedicated,String orderIds){
         try{
-            InvoiceDedicated invoiceDedicated1 = JSON.parseObject(invoiceDedicated,InvoiceDedicated.class);
-            if(invoiceDedicated!=null){
-                invoicededicatedService.save(invoiceDedicated);
+            if(invoiceDedicated!=null&&StringUtils.isNotEmpty(orderIds)){
+                return invoicededicatedService.insertData(invoiceDedicated,orderIds);
             }
         }catch (Exception e){
             return  new Result(false,e.getMessage());
         }
-        return  new Result(true);
+        return  new Result(false);
     }
 
     /**
-     * 根据客户openId查询收货地址列表
+     * 根据客户openId查询发票列表
      * @param openId
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/getByOpenId/${openId}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/getByOpenId",method = RequestMethod.POST)
     @ResponseBody
-    public Result getByOpenId(@PathVariable("openId")  String openId){
+    public Result getByOpenId(String openId){
         return  invoicededicatedService.findByOpenId(openId);
     }
 
+
     /**
-     * 根据客户openId查询收货地址列表
-     * @param id
+     * 根据客户openId查询发票列表
      * @return
      */
-    @RequestMapping(value="/pack_mall_api/getDetailById/${id}",method = RequestMethod.POST)
+    @RequestMapping(value="/pack_mall_api/getById",method = RequestMethod.POST)
     @ResponseBody
-    public Result getDetailById(@PathVariable("id")  String id){
-        return  invoicededicatedService.getDetailById(id);
+    public Result getById(String id){
+       if(StringUtils.isNotEmpty(id)){
+           Map<String,Object> result = new HashMap<>(4);
+           result.put("invoice",invoicededicatedService.get(InvoiceDedicated.class,id));
+           return new Result(true,result);
+       }
+        return new Result(false);
     }
+
+    /**
+     * 根据客户openId查询发票列表
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getDetailById",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getDetailById(String id){
+        if(StringUtils.isNotEmpty(id)){
+            Map<String,Object> result = new HashMap<>(4);
+            result.put("invoice",invoicededicatedService.get(InvoiceDedicated.class,id));
+            result.put("imgIds",orderService.findOrderProductById(id));
+            return new Result(true,result);
+        }
+        return new Result(false);
+    }
+
 
 }
