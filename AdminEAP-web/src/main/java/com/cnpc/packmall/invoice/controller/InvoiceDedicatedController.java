@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.utils.StrUtil;
+import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.invoice.entity.InvoiceNormal;
 import com.cnpc.packmall.order.entity.OrderDetail;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
@@ -142,7 +143,7 @@ public class InvoiceDedicatedController {
     public Result save(InvoiceDedicated invoiceDedicated,String orderIds){
         try{
             if(invoiceDedicated!=null&&StringUtils.isNotEmpty(orderIds)){
-                return invoicededicatedService.insertData(invoiceDedicated,orderIds);
+                return  invoicededicatedService.insertData(invoiceDedicated,orderIds);
             }
         }catch (Exception e){
             return  new Result(false,e.getMessage());
@@ -161,22 +162,6 @@ public class InvoiceDedicatedController {
         return  invoicededicatedService.findByOpenId(openId);
     }
 
-
-    /**
-     * 根据客户openId查询发票列表
-     * @return
-     */
-    @RequestMapping(value="/pack_mall_api/getById",method = RequestMethod.POST)
-    @ResponseBody
-    public Result getById(String id){
-       if(StringUtils.isNotEmpty(id)){
-           Map<String,Object> result = new HashMap<>(4);
-           result.put("invoice",invoicededicatedService.get(InvoiceDedicated.class,id));
-           return new Result(true,result);
-       }
-        return new Result(false);
-    }
-
     /**
      * 根据客户openId查询发票列表
      * @return
@@ -186,8 +171,12 @@ public class InvoiceDedicatedController {
     public Result getDetailById(String id){
         if(StringUtils.isNotEmpty(id)){
             Map<String,Object> result = new HashMap<>(4);
-            result.put("invoice",invoicededicatedService.get(InvoiceDedicated.class,id));
+            InvoiceDedicated invoiceDedicated =   invoicededicatedService.get(InvoiceDedicated.class,id);
+            result.put("invoice",invoiceDedicated);
             result.put("imgIds",orderService.findOrderProductById(id));
+            if(invoiceDedicated!=null&&StringUtils.isNotEmpty( invoiceDedicated.getShippingAddressId())){
+                result.put("address",invoicededicatedService.get(ShippingAddress.class, invoiceDedicated.getShippingAddressId()));
+            }
             return new Result(true,result);
         }
         return new Result(false);

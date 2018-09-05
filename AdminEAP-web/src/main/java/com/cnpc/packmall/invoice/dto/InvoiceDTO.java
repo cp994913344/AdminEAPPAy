@@ -6,6 +6,7 @@ package com.cnpc.packmall.invoice.dto;/**
 import com.cnpc.framework.base.pojo.BaseDTO;
 
 import javax.persistence.Entity;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -18,6 +19,7 @@ public class InvoiceDTO extends BaseDTO {
     private String  type;
     private Integer invoiceStatus;
 
+    private BigDecimal invoicePrice;
     public void setType(String type) {
         this.type = type;
     }
@@ -35,4 +37,12 @@ public class InvoiceDTO extends BaseDTO {
         return invoiceStatus;
     }
 
+    public void setInvoicePrice(BigDecimal invoicePrice) {
+        this.invoicePrice = invoicePrice;
+    }
+
+    public BigDecimal getInvoicePrice() {
+
+        return invoicePrice;
+    }
 }

@@ -77,6 +77,7 @@ public class InvoiceDedicatedServiceImpl extends BaseServiceImpl implements Invo
         if(StringUtils.isEmpty(invoiceCode)){
             return new Result(false);
         }
+        invoiceDedicated.setInvoiceCode(invoiceCode);
         invoiceDedicated.setInvoiceStatus(1);
         invoiceDedicated.setDeleted(0);
         invoiceDedicated.setCreateDateTime(new Date());
@@ -84,30 +85,28 @@ public class InvoiceDedicatedServiceImpl extends BaseServiceImpl implements Invo
         List<String> orderIdList = new ArrayList<>();
         String[] orderIdsArray = orderIds.split(",");
         if(orderIdsArray!=null&&orderIdsArray.length>0) {
-            try{
-                orderIdList =  Arrays.asList(orderIdsArray);
-                this.baseDao.save(invoiceDedicated);
-                Map<String, Object> orderParams = new HashMap<>(4);
-                orderParams.put("orderParams", orderIdList);
-                String orderHql = "from  Order as o where o.id in (:orderIdList)";
-                List<Order> orderList = this.baseDao.find(orderHql, orderParams, Order.class);
-                BigDecimal price = new BigDecimal(0);
-                if(orderList!=null&&orderList.size()>0){
-                    for (Order order:orderList){
-                        order.setWhetherId(invoiceDedicated.getId());
-                        order.setWhetherState("2");
-                        order.setUpdateDateTime(new Date());
-                        price = price.add(order.getTotalPrice());
-                    };
-                    if(price.compareTo(new BigDecimal(0))>0){
-                        invoiceDedicated.setInvoicePrice(price);
-                        this.baseDao.update(invoiceDedicated);
-                        this.batchUpdate(orderList);
-                        return new Result(true);
-                    }
+            orderIdList =  Arrays.asList(orderIdsArray);
+            this.baseDao.save(invoiceDedicated);
+            Map<String, Object> orderParams = new HashMap<>(2);
+            orderParams.put("orderIdList", orderIdList);
+            String orderHql = "select o from  Order as o where o.id in (:orderIdList)";
+            List<Order> orderList = this.baseDao.find(orderHql, orderParams);
+            BigDecimal price = new BigDecimal(0);
+            if(orderList!=null&&orderList.size()>0){
+                for (Order order:orderList){
+                    order.setWhetherId(invoiceDedicated.getId());
+                    order.setWhetherState("1");
+                    order.setUpdateDateTime(new Date());
+                    price = price.add(order.getTotalPrice());
+                };
+                if(price.compareTo(new BigDecimal(0))>0&&price.equals(invoiceDedicated.getInvoicePrice())){
+                    invoiceDedicated.setInvoicePrice(price);
+                    this.baseDao.update(invoiceDedicated);
+                    this.batchUpdate(orderList);
+                    return new Result(true);
+                }else{
+                    return new Result(false,"保存错误：发票金额错误");
                 }
-            }catch (Exception e){
-                return new Result(false,"保存错误："+e.getMessage());
             }
         }
         //修改订单状态
@@ -132,16 +131,17 @@ public class InvoiceDedicatedServiceImpl extends BaseServiceImpl implements Invo
 //                    " normal.create_date_time AS createDateTime,normal.update_date_time AS updateDateTime" +
 //                    " FROM tb_packmall_invoice_normal AS normal WHERE normal.open_id = '123') invoice " +
 //                    " order by invoice.createDateTime desc";
-        String hql ="SELECT dedicated.id AS id,dedicated.invoiceStatus AS invoiceStatus," +
+
+        String hql = "SELECT dedicated.id AS id,dedicated.invoiceStatus AS invoiceStatus,dedicated.invoicePrice as invoicePrice," +
                 " '1' AS type,dedicated.createDateTime AS createDateTime,dedicated.updateDateTime AS updateDateTime " +
-                " FROM InvoiceDedicated AS dedicated WHERE dedicated.openId = '123'";
-        String hql2  = " SELECT normal.id AS id,normal.invoiceStatus AS invoiceStatus,'2' AS type," +
+                " FROM InvoiceDedicated AS dedicated WHERE dedicated.openId = '"+openId+"'";
+        String hql2  = " SELECT normal.id AS id,normal.invoiceStatus AS invoiceStatus,'2' AS type,normal.invoicePrice as invoicePrice," +
                 " normal.createDateTime AS createDateTime,normal.updateDateTime AS updateDateTime" +
-                " FROM InvoiceNormal AS normal WHERE normal.openId = '123'";
+                " FROM InvoiceNormal AS normal WHERE normal.openId = '"+openId+"'";
         List<InvoiceDTO> list = this.baseDao.find(hql,InvoiceDTO.class);
         List<InvoiceDTO> list2 = this.baseDao.find(hql2,InvoiceDTO.class);
+        list.addAll(list2);
         if(list!=null&&list.size()>0) {
-            list.addAll(list2);
             list.sort(new Comparator<InvoiceDTO>() {
                 @Override
                 public int compare(InvoiceDTO o1, InvoiceDTO o2) {

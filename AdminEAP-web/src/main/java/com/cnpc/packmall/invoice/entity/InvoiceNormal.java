@@ -100,6 +100,7 @@ public class InvoiceNormal extends BaseEntity{
         this.invoicePrice = invoicePrice;
     }
 
+
     public void setInvoiceContent(Integer invoiceContent) {
         this.invoiceContent = invoiceContent;
     }
@@ -176,11 +177,6 @@ public class InvoiceNormal extends BaseEntity{
         this.openId = openId;
     }
 
-    public String getOpenId() {
-
-        return openId;
-    }
-
     public void setShippingAddressId(String shippingAddressId) {
         this.shippingAddressId = shippingAddressId;
     }
@@ -188,5 +184,10 @@ public class InvoiceNormal extends BaseEntity{
     public String getShippingAddressId() {
 
         return shippingAddressId;
+    }
+
+    public String getOpenId() {
+
+        return openId;
     }
 }

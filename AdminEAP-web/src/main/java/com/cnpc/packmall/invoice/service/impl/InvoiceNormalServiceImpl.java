@@ -81,6 +81,7 @@ public class InvoiceNormalServiceImpl extends BaseServiceImpl implements Invoice
         if(StringUtils.isEmpty(invoiceCode)){
             return new Result(false);
         }
+        invoiceNormal.setInvoiceCode(invoiceCode);
         invoiceNormal.setInvoiceStatus(1);
         invoiceNormal.setDeleted(0);
         invoiceNormal.setCreateDateTime(new Date());
@@ -88,30 +89,26 @@ public class InvoiceNormalServiceImpl extends BaseServiceImpl implements Invoice
         List<String> orderIdList = new ArrayList<>();
         String[] orderIdsArray = orderIds.split(",");
         if(orderIdsArray!=null&&orderIdsArray.length>0) {
-            try{
-                orderIdList =  Arrays.asList(orderIdsArray);
-                this.baseDao.save(invoiceNormal);
-                Map<String, Object> orderParams = new HashMap<>(4);
-                orderParams.put("orderParams", orderIdList);
-                String orderHql = "from  Order as o where o.id in (:orderIdList)";
-                List<Order> orderList = this.baseDao.find(orderHql, orderParams, Order.class);
-                BigDecimal price = new BigDecimal(0);
-                if(orderList!=null&&orderList.size()>0){
-                    for (Order order:orderList){
-                        order.setWhetherId(invoiceNormal.getId());
-                        order.setWhetherState("2");
-                        order.setUpdateDateTime(new Date());
-                        price = price.add(order.getTotalPrice());
-                    };
-                    if(price.compareTo(new BigDecimal(0))>0){
-                        invoiceNormal.setInvoicePrice(price);
-                        this.baseDao.update(invoiceNormal);
-                        this.batchUpdate(orderList);
-                        return new Result(true);
-                    }
+            orderIdList =  Arrays.asList(orderIdsArray);
+            this.baseDao.save(invoiceNormal);
+            Map<String, Object> orderParams = new HashMap<>(4);
+            orderParams.put("orderIdList", orderIdList);
+            String orderHql = "select o from Order as o where o.id in (:orderIdList)";
+            List<Order> orderList = this.baseDao.find(orderHql, orderParams);
+            BigDecimal price = new BigDecimal(0);
+            if(orderList!=null&&orderList.size()>0){
+                 for (Order order:orderList){
+                     order.setWhetherId(invoiceNormal.getId());
+                     order.setWhetherState("1");
+                     order.setUpdateDateTime(new Date());
+                     price = price.add(order.getTotalPrice());
                 }
-            }catch (Exception e){
-                return new Result(false,"保存错误："+e.getMessage());
+                if(price.compareTo(new BigDecimal(0))>0&&price.equals(invoiceNormal.getInvoicePrice())){
+                    invoiceNormal.setInvoicePrice(price);
+                    this.baseDao.update(invoiceNormal);
+                    this.batchUpdate(orderList);
+                    return new Result(true);
+                }
             }
         }
         //修改订单状态

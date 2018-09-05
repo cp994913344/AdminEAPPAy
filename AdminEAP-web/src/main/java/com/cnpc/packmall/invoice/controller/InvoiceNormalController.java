@@ -1,6 +1,8 @@
 package com.cnpc.packmall.invoice.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
+import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.invoice.entity.InvoiceDedicated;
+import com.cnpc.packmall.order.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -34,6 +38,9 @@ public class InvoiceNormalController {
 
     @Resource
     private InvoiceNormalService invoicenormalService;
+
+    @Resource
+    private OrderService orderService;
 
     @RequestMapping(value="/list",method = RequestMethod.GET)
     public String list(){
@@ -127,4 +134,24 @@ public class InvoiceNormalController {
         return  new Result(false);
     }
 
+
+    /**
+     * 根据客Id查询发票详情
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getDetailById",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getDetailById(String id){
+        if(StringUtils.isNotEmpty(id)){
+            Map<String,Object> result = new HashMap<>(4);
+            InvoiceNormal invoiceNormal = invoicenormalService.get(InvoiceNormal.class,id);
+            result.put("invoice",invoiceNormal);
+            result.put("imgIds",orderService.findOrderProductById(id));
+            if(invoiceNormal!=null&&StringUtils.isNotEmpty( invoiceNormal.getShippingAddressId())){
+                result.put("address",invoicenormalService.get(ShippingAddress.class, invoiceNormal.getShippingAddressId()));
+            }
+            return new Result(true,result);
+        }
+        return new Result(false);
+    }
 }
