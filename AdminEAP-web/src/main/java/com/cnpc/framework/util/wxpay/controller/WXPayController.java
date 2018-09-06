@@ -92,6 +92,42 @@ public class WXPayController {
 		return setXml("SUCCESS", "Y");
 
     }
+    @RequestMapping(value="/pack_mall_api/invoiceNotify")
+    @ResponseBody
+    public Map<String, String> invoiceNotify(HttpServletResponse response,HttpServletRequest request){
+        // 将返回的输入流转换成字符串
+        InputStream is = null;
+        try {
+            is = request.getInputStream();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // 使用dom4j解析xml字符串
+        SAXReader reader = new SAXReader();
+        Document document = null;
+        try {
+            document = reader.read(is);
+        } catch (DocumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // 得到xml根元素
+        Element root = document.getRootElement();
+
+        String out_trade_no = root.element("out_trade_no").getText();    //订单号
+        String count2 = root.element("total_fee").getText();    //金额
+        String count3 = root.element("result_code").getText();  //支付状态
+        if("SUCCESS".equals(count3)){
+            System.out.println("订单处理成功");
+//        	if (StringUtils.isNotBlank(out_trade_no)) {
+//			}
+        }
+        Map<String, String> result = new HashMap<>();
+        result.put("return_code", "SUCCESS");
+        result.put("return_msg", "");
+        return result;
+    }
     //通过xml 发给微信消息
   	public static String setXml(String return_code, String return_msg) {
   		SortedMap<String, String> parameters = new TreeMap<String, String>();
