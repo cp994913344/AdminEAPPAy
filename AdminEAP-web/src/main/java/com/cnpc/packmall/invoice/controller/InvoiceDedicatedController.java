@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.cnpc.framework.utils.StrUtil;
 import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.invoice.entity.InvoiceNormal;
+import com.cnpc.packmall.invoice.service.InvoiceWXPayService;
 import com.cnpc.packmall.order.entity.OrderDetail;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
 import com.cnpc.packmall.order.pojo.dto.OrderDetailDTO;
@@ -44,6 +45,9 @@ public class InvoiceDedicatedController {
 
     @Resource
     private OrderDetailService orderDetailService;
+
+    @Resource
+    private InvoiceWXPayService invoiceWXPayService;
 
 
     @RequestMapping(value="/list",method = RequestMethod.GET)
@@ -182,5 +186,17 @@ public class InvoiceDedicatedController {
         return new Result(false);
     }
 
-
+    /**
+     * 根据订单id查询支付id并签名
+     * @param invoiceId id
+     * @param invoiceType 发票类型
+     * @param price 运费
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/get_Invoice_payid/{openId}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getOrderPayid(String invoiceId, String invoiceType, String price, @PathVariable("openId") String openId){
+        Map<String, String> result = invoiceWXPayService.doInvoicePay(invoiceId,invoiceType,price,openId);
+        return new Result(true,result);
+    }
 }

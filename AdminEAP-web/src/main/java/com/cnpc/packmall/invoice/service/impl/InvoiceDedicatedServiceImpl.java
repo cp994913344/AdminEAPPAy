@@ -85,25 +85,39 @@ public class InvoiceDedicatedServiceImpl extends BaseServiceImpl implements Invo
         List<String> orderIdList = new ArrayList<>();
         String[] orderIdsArray = orderIds.split(",");
         if(orderIdsArray!=null&&orderIdsArray.length>0) {
+            //判断订单是否已经开过票了
             orderIdList =  Arrays.asList(orderIdsArray);
-            this.baseDao.save(invoiceDedicated);
             Map<String, Object> orderParams = new HashMap<>(2);
             orderParams.put("orderIdList", orderIdList);
             String orderHql = "select o from  Order as o where o.id in (:orderIdList)";
             List<Order> orderList = this.baseDao.find(orderHql, orderParams);
+            for(Order o:orderList){
+                if((o.getWhetherId()==null||StringUtils.isEmpty(o.getWhetherId()))&&(o.getWhetherState()==null||o.getWhetherState().equals("0"))){
+                    continue;
+                }else {
+                    return new Result(false,o.getCode()+"：该订单已开票");
+               }
+            }
             BigDecimal price = new BigDecimal(0);
             if(orderList!=null&&orderList.size()>0){
                 for (Order order:orderList){
-                    order.setWhetherId(invoiceDedicated.getId());
-                    order.setWhetherState("1");
-                    order.setUpdateDateTime(new Date());
                     price = price.add(order.getTotalPrice());
                 };
-                if(price.compareTo(new BigDecimal(0))>0&&price.equals(invoiceDedicated.getInvoicePrice())){
+                if(price.compareTo(new BigDecimal(0))>0&&(price.compareTo(invoiceDedicated.getInvoicePrice())==0)){
+                    this.baseDao.save(invoiceDedicated);
+                    for (Order order:orderList){
+                        order.setWhetherId(invoiceDedicated.getId());
+                        order.setWhetherState("1");
+                        order.setUpdateDateTime(new Date());
+                    };
+                    invoiceDedicated.setPayStatus("1");
                     invoiceDedicated.setInvoicePrice(price);
                     this.baseDao.update(invoiceDedicated);
                     this.batchUpdate(orderList);
-                    return new Result(true);
+                    Map<String,Object> result = new HashMap<>(4);
+                    result.put("invoiceId",invoiceDedicated.getId());
+                    result.put("invoiceType","1");
+                    return new Result(true,result);
                 }else{
                     return new Result(false,"保存错误：发票金额错误");
                 }

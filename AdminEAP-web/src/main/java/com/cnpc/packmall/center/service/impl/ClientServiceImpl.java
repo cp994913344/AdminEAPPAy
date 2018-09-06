@@ -74,6 +74,9 @@ public class ClientServiceImpl extends BaseServiceImpl implements ClientService 
      */
     @Override
     public Result saveClient(Client client) {
+        if(client==null||StringUtils.isEmpty(client.getOpenId())){
+            return new Result(false, "请先用微信登陆");
+        }
         if(client!=null&&StringUtils.isNotEmpty(client.getClientName())
                 &&StringUtils.isNotEmpty(client.getClientPhone())&&StringUtils.isNotEmpty(client.getOpenId())&&StringUtils.isNotEmpty(client.getClientType())){
             Client hasClient =  getByOpenId(client.getOpenId());
@@ -122,6 +125,6 @@ public class ClientServiceImpl extends BaseServiceImpl implements ClientService 
                 }
             }
         }
-        return new Result(false);
+        return new Result(true);
     }
 }

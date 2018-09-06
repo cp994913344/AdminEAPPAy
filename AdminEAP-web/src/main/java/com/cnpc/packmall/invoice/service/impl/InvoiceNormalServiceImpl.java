@@ -90,24 +90,36 @@ public class InvoiceNormalServiceImpl extends BaseServiceImpl implements Invoice
         String[] orderIdsArray = orderIds.split(",");
         if(orderIdsArray!=null&&orderIdsArray.length>0) {
             orderIdList =  Arrays.asList(orderIdsArray);
-            this.baseDao.save(invoiceNormal);
             Map<String, Object> orderParams = new HashMap<>(4);
             orderParams.put("orderIdList", orderIdList);
             String orderHql = "select o from Order as o where o.id in (:orderIdList)";
             List<Order> orderList = this.baseDao.find(orderHql, orderParams);
+            for(Order o:orderList){
+                if(StringUtils.isNotEmpty(o.getWhetherId())||o.getWhetherId().trim().length()>0||o.getWeekend().equals("1")){
+                    return new Result(false,o.getCode()+"：该订单已开票");
+                }
+            }
+
             BigDecimal price = new BigDecimal(0);
             if(orderList!=null&&orderList.size()>0){
                  for (Order order:orderList){
-                     order.setWhetherId(invoiceNormal.getId());
-                     order.setWhetherState("1");
-                     order.setUpdateDateTime(new Date());
                      price = price.add(order.getTotalPrice());
-                }
-                if(price.compareTo(new BigDecimal(0))>0&&price.equals(invoiceNormal.getInvoicePrice())){
+                  }
+                if(price.compareTo(new BigDecimal(0))>0&&(price.compareTo(invoiceNormal.getInvoicePrice())==0)){
+                    this.baseDao.save(invoiceNormal);
+                    for (Order order:orderList){
+                        order.setWhetherId(invoiceNormal.getId());
+                        order.setWhetherState("1");
+                        order.setUpdateDateTime(new Date());
+                    }
                     invoiceNormal.setInvoicePrice(price);
+                    invoiceNormal.setPayStatus("1");
                     this.baseDao.update(invoiceNormal);
                     this.batchUpdate(orderList);
-                    return new Result(true);
+                    Map<String,Object> result = new HashMap<>(4);
+                    result.put("invoiceId",invoiceNormal.getId());
+                    result.put("invoiceType","2");
+                    return new Result(true,result);
                 }
             }
         }

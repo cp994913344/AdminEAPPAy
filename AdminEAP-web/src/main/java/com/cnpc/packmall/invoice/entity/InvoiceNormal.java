@@ -80,6 +80,13 @@ public class InvoiceNormal extends BaseEntity{
     @Column(name="invoice_status",length = 4 )
     private Integer invoiceStatus;
 
+    /**
+     *  1 未付款 2 已付款
+     */
+    @Header(name="付款状态")
+    @Column(name="pay_status",length = 4 )
+    private String  payStatus;
+
     public void setInvoiceCode(String invoiceCode) {
         this.invoiceCode = invoiceCode;
     }
@@ -189,5 +196,13 @@ public class InvoiceNormal extends BaseEntity{
     public String getOpenId() {
 
         return openId;
+    }
+
+    public String getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus;
     }
 }

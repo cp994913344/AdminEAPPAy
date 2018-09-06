@@ -6,7 +6,7 @@ import com.cnpc.packmall.invoice.entity.InvoiceNormal;
 
 /**
 * 发票管理（增普）服务接口
-* @author WY
+* @author cp
 * 2018-08-16 14:37:42由代码生成器自动生成
 */
 public interface InvoiceNormalService extends BaseService {

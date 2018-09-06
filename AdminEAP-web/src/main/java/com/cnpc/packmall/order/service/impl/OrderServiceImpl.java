@@ -53,21 +53,21 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 				"o.weekend as weekend,o.sku as sku,o.remarks as remarks,o.freight as freight,o.totalPrice as totalPrice," +
 				"o.payMethod as payMethod,o.state as state,o.productCategory as productCategory,o.productImgId as productImgId," +
 				"o.productMsg as productMsg,o.whetherState as whetherState,o.whetherId as whetherId,o.createDateTime as createDateTime " +
-				"from Order as o where 1=1 and openId=:openid";
+				"from Order as o where 1=1 and o.openId=:openid";
 		params.put("openid", openid);
 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			if(entry.getKey().equals("today")){//今日订单
-				hql +=" and createDateTime >=:"+entry.getKey();
-				params.put("createDateTime", DateUtil.getNextDay(new Date(), -1));
+				hql +=" and o.createDateTime >=:"+entry.getKey();
+				params.put(entry.getKey(), DateUtil.getNextDay(new Date(), -1));
 			}else if(entry.getKey().equals("history")){//历史订单
-				hql +=" and createDateTime <:"+entry.getKey();
-				params.put("createDateTime", new Date(entry.getValue()));
+				hql +=" and o.createDateTime <:"+entry.getKey();
+				params.put(entry.getKey(), new Date(entry.getValue()));
 			}else{
 				params.put(entry.getKey(), entry.getValue());
-				hql +=" and "+entry.getKey() +"=:"+entry.getKey();
+				hql +=" and o."+entry.getKey() +"=:"+entry.getKey();
 			}
 		}
-		hql+=" order by createDateTime desc";
+		hql+=" order by o.createDateTime desc";
 		List<OrderDTO> orderDTOs = this.find(hql, params,OrderDTO.class);
 		if(orderDTOs.size()>0){
 			writeOrderDetailDTO(orderDTOs);
@@ -318,13 +318,13 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Map<String, String> findStatisticsByOpenId(String openId) {
-		String sql = "select count(id) as total from tbl_packmall_order_order where openId=:openId";
+	public Map<String, String>  findStatisticsByOpenId(String openId) {
+		String sql = "select count(id) as total from tbl_packmall_order_order where open_id =:openId";
 		Map<String, Object> params = new HashMap<>();
 		params.put("openId", openId);
 		Map<String, Object> map= this.findMapBySql(sql,params).get(0);
-		String hql = "select state as state,createDateTime as createDateTime from Order where state in ('1','2','3') and openId=:openId";
-		List<Order> orders = this.find(hql,params);
+		String hql = "select o.id as id, o.state as state, o.createDateTime as createDateTime from Order as o where o.state in ('1','2','3') and o.openId=:openId";
+		List<Order> orders = this.find(hql,params,Order.class);
 		Integer today = 0;
 		Integer unPay = 0;
 		Integer alreadyPaid = 0;

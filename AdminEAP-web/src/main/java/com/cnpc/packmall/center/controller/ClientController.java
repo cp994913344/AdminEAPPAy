@@ -122,7 +122,12 @@ public class ClientController {
     @RequestMapping(value="/pack_mall_api/saveClient",method = RequestMethod.POST)
     @ResponseBody
     public  Result saveClient(HttpServletRequest request,Client client){
-        return clientService.saveClient(client);
+        try{
+            Result result = clientService.saveClient(client);
+            return result;
+        }catch (Exception e){
+            return new Result(false,"错误信息:"+e.getMessage());
+        }
     }
 
     /**
