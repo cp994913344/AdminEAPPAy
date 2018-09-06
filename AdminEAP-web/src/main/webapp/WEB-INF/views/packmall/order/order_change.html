@@ -1,8 +1,54 @@
+<style>
+        body{position:relative;}
+        body,div,h2,span,p,ul,li,i{margin:0px; padding:0px; font-weight: normal; font-size:14px; color:#555;}
+        .mask{position:fixed; top:0px; left: 0px; right:0px; width:100%; height:100%; z-index:1; background:rgba(0,0,0,0.2);}
+        .modal_wrap{position:fixed; top: 50%; left: 50%; z-index:2; padding:0px 0px 20px; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%);
+            width:400px; background:#fff;}
+        .title{position:relative; display: block; padding:0px 0px 0px 10px; height:40px; line-height: 40px; font-size: 18px; background:#f2f2f2;}
+        .title .close{float:right; width:40px; height:40px; text-align: center; font-size: 16px;}
+        .content{padding:10px; text-align: center;}
+        .content ul{display: inline-block; padding:20px 0px;}
+        .content .step{position:relative; margin-bottom:20px; padding:0px 20px 20px; border-left: 1px solid #e5e5e5; list-style: none; text-align: left; color:#868686}
+        .content .step:last-child{margin-bottom:0px; }
+        .step .circle{position:absolute; top:0px; left: -14px; width:26px; height:26px; line-height: 26px; background: #fff; text-align: center; }
+        .step .circle i{display: inline-block; width: 15px; height: 15px; border-radius: 50%; -webkit-border-radius: 50%; background:#e5e5e5; font-style:normal;}
+        .step .circle.cur i{background:#169bd5; }
+        .cont h2{padding-bottom: 5px;}
+        .cont p{color:#999}
+        .footer{padding:10px 0px; width:100%; text-align: center;}
+        .footer .btn{display: inline-block; margin:0px; padding:5px 8px; background:#169bd5; border:none; box-shadow: 0;
+            -webkit-appearance: inherit; color:#fff; border-radius: 3px; -webkit-border-radius: 3px;}
+    </style>
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
     <h5 class="modal-title"></h5>
 </div>
-
+<div class="content">
+    <ul class="js_change">
+        
+<!--         <li class="step"> -->
+<!--             <span class="circle"><i></i></span> -->
+<!--             <div class="cont"> -->
+<!--                 <h2>客户订单已签收2</h2> -->
+<!--                 <p>2018-12-16</p> -->
+<!--             </div> -->
+<!--         </li> -->
+<!--         <li class="step"> -->
+<!--             <span class="circle"><i></i></span> -->
+<!--             <div class="cont"> -->
+<!--                 <h2>客户订单已签收3</h2> -->
+<!--                 <p>2018-12-16</p> -->
+<!--             </div> -->
+<!--         </li> -->
+<!--         <li class="step"> -->
+<!--             <span class="circle"><i></i></span> -->
+<!--             <div class="cont"> -->
+<!--                 <h2>客户订单已签收4</h2> -->
+<!--                 <p>2018-12-16</p> -->
+<!--             </div> -->
+<!--         </li> -->
+    </ul>
+</div>
 <div class="modal-body">
     <div class="box-footer text-right">
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确定</button>
@@ -12,9 +58,23 @@
     var form;
     var id="${id?default(0)}";
     $(function(){
+    	var changeJson={
+    			"1":"订单提交，等待客户付款",
+    			"2":"客户付款成功",
+    			"3":"货物已出库,正在运往目的地",
+    			"4":"客户订单已签收",
+    			"-1":"订单已关闭"
+    	}
     	ajaxPost(basePath + "/order/pack_mall_api/find_order_change", {orderId:id}, function (data) {
             if (data.success) {
-                console.log(data.data);
+            	if(data.data.length){
+                    $.each(data.data,function(k,v){
+                        var $li = $('<li class="step"><span class="circle"><i></i></span></li>');
+                        $li.append('<div class="cont"><h2>'+changeJson[v.state]+'</h2><p>2018-12-16</p></div>');
+                        $(".js_change").append($li);
+                    });
+                    $(".step:first-child .circle").addClass("cur");
+                }
             } else {
                 modals.info("查看失败！");
             }

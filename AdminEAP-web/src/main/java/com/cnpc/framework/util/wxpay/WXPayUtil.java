@@ -1,10 +1,11 @@
 package com.cnpc.framework.util.wxpay;
 
-import com.github.wxpay.sdk.WXPayConstants.SignType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.cnpc.framework.util.wxpay.WXPayConstants.SignType;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -143,6 +144,22 @@ public class WXPayUtil {
         }
         String sign = data.get(WXPayConstants.FIELD_SIGN);
         return generateSignature(data, key).equals(sign);
+    }
+    /**
+     * 判断签名是否正确
+     *
+     * @param xmlStr XML格式数据
+     * @param key API密钥
+     * @return 签名是否正确
+     * @throws Exception
+     */
+    public static boolean isSignatureValid(String xmlStr, String key,SignType signType) throws Exception {
+    	Map<String, String> data = xmlToMap(xmlStr);
+    	if (!data.containsKey(WXPayConstants.FIELD_SIGN) ) {
+    		return false;
+    	}
+    	String sign = data.get(WXPayConstants.FIELD_SIGN);
+    	return generateSignature(data, key, signType).equals(sign);
     }
 
     /**

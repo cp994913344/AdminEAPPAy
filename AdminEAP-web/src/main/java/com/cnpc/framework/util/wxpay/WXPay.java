@@ -1,9 +1,10 @@
 package com.cnpc.framework.util.wxpay;
 
-import com.github.wxpay.sdk.WXPayConstants.SignType;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.cnpc.framework.util.wxpay.WXPayConstants.SignType;
 
 public class WXPay {
 

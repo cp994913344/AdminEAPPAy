@@ -58,7 +58,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			if(entry.getKey().equals("today")){//今日订单
 				hql +=" and o.createDateTime >=:"+entry.getKey();
-				params.put(entry.getKey(), DateUtil.getNextDay(new Date(), -1));
+				params.put(entry.getKey(), DateUtil.getNextDay(new Date(), 0));
 			}else if(entry.getKey().equals("history")){//历史订单
 				hql +=" and o.createDateTime <:"+entry.getKey();
 				params.put(entry.getKey(), new Date(entry.getValue()));
@@ -177,7 +177,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 	        data.put("fee_type", "CNY");
 	        //TODO 上线修改为正常金额 以及回调地址修改
 	        data.put("total_fee", "1");
-	        data.put("notify_url", "https://weixin.yiside.cn/wxpay/notify");
+	        data.put("notify_url", "https://weixin.yiside.cn/wxpay/pack_mall_api/notify");
 	        data.put("trade_type", "JSAPI");  // 此处指定为小程序支付
 	        data.put("openid", openId);
 	        Map<String, String> resp = wxpay.unifiedOrder(data);
@@ -319,20 +319,19 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 
 	@Override
 	public Map<String, String>  findStatisticsByOpenId(String openId) {
-		String sql = "select count(id) as total from tbl_packmall_order_order where open_id =:openId";
 		Map<String, Object> params = new HashMap<>();
 		params.put("openId", openId);
+		String sql = "select count(id) as total from tbl_packmall_order_order where open_id =:openId";
 		Map<String, Object> map= this.findMapBySql(sql,params).get(0);
+		String sql1 = "select count(id) as today from tbl_packmall_order_order where open_id =:openId and create_date_time>='"+DateUtil.getCurrDateStr()+"'";
+		Map<String, Object> map1= this.findMapBySql(sql1,params).get(0);
 		String hql = "select o.id as id, o.state as state, o.createDateTime as createDateTime from Order as o where o.state in ('1','2','3') and o.openId=:openId";
 		List<Order> orders = this.find(hql,params,Order.class);
-		Integer today = 0;
+		Integer today = Integer.valueOf(map1.get("today").toString());
 		Integer unPay = 0;
 		Integer alreadyPaid = 0;
 		Integer unSign = 0;
 		for (Order order : orders) {
-			if(DateUtil.getCurrDateStr().equals(DateUtil.getyyyyMMddDateStr(order.getCreateDateTime()))){
-				today++;
-			}
 			switch (order.getState()) {
 			case "1":
 				unPay++;
@@ -347,7 +346,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 			}
 		}
 		Map<String, String> result = new HashMap<>();
-		result.put("today",today.toString());
+		result.put("today",map1.get("today").toString());
 		Integer history = Integer.valueOf(map.get("total").toString())-today;
 		result.put("history",history.toString());
 		result.put("unPay",unPay.toString());

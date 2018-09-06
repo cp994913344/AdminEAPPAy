@@ -252,12 +252,6 @@
             <artifactId>aliyun-java-sdk-green</artifactId>
             <version>3.1.0</version>
         </dependency>
-		<!-- 		微信支付 -->
-		<dependency>
-		    <groupId>com.github.wxpay</groupId>
-		    <artifactId>wxpay-sdk</artifactId>
-		    <version>0.0.3</version>
-		</dependency>
 		<dependency>
 		  <groupId>aliyun.alipay.sdk</groupId>
 		  <artifactId>alipay-sdk-java</artifactId>
