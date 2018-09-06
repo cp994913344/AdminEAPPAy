@@ -43,9 +43,13 @@ public class OrderStateChange extends BaseEntity {
     @Column(name = "history_state", length = 100)
     private String historyState;
     
-	@Header(name="描述")
+	@Header(name="备注")
     @Column(name = "remark", length = 100)
     private String remark;
+	
+	@Header(name="流转描述")
+    @Column(name = "order_describe", length = 100)
+    private String describe;
 
 	public String getOrderId() {
 		return orderId;
@@ -78,7 +82,15 @@ public class OrderStateChange extends BaseEntity {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-    
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
+
 
 }
 

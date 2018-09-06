@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.cnpc.framework.base.service.impl.BaseServiceImpl;
 import com.cnpc.framework.util.wxpay.MyConfig;
 import com.cnpc.framework.util.wxpay.WXPay;
+import com.cnpc.framework.util.wxpay.WXPayUtil;
+import com.cnpc.framework.utils.DateUtil;
 import com.cnpc.packmall.center.entity.ShippingAddress;
 import com.cnpc.packmall.center.service.ClientService;
 import com.cnpc.packmall.center.service.ShippingAddressService;
@@ -47,18 +49,29 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		Map<String, Object> params = new HashMap<>();
 
 		String hql = "select o.id as id,o.code as code,o.openId as openId,o.userName as userName," +
-				"o.addressId as addressId,o.phone as phone,o.contacts as contacts,o.deliverytime as deliverytime," +
+				"o.addressId as addressId,o.areaAddress as areaAddress,o.shippingAddress as shippingAddress,o.phone as phone,o.contacts as contacts,o.deliverytime as deliverytime," +
 				"o.weekend as weekend,o.sku as sku,o.remarks as remarks,o.freight as freight,o.totalPrice as totalPrice," +
 				"o.payMethod as payMethod,o.state as state,o.productCategory as productCategory,o.productImgId as productImgId," +
 				"o.productMsg as productMsg,o.whetherState as whetherState,o.whetherId as whetherId,o.createDateTime as createDateTime " +
 				"from Order as o where 1=1 and openId=:openid";
 		params.put("openid", openid);
 		for (Map.Entry<String, String> entry : param.entrySet()) {
-			params.put(entry.getKey(), entry.getValue());
-			hql +=" and "+entry.getKey() +"=:"+entry.getKey();
+			if(entry.getKey().equals("today")){//今日订单
+				hql +=" and createDateTime >=:"+entry.getKey();
+				params.put("createDateTime", DateUtil.getNextDay(new Date(), -1));
+			}else if(entry.getKey().equals("history")){//历史订单
+				hql +=" and createDateTime <:"+entry.getKey();
+				params.put("createDateTime", new Date(entry.getValue()));
+			}else{
+				params.put(entry.getKey(), entry.getValue());
+				hql +=" and "+entry.getKey() +"=:"+entry.getKey();
+			}
 		}
+		hql+=" order by createDateTime desc";
 		List<OrderDTO> orderDTOs = this.find(hql, params,OrderDTO.class);
-		writeOrderDetailDTO(orderDTOs);
+		if(orderDTOs.size()>0){
+			writeOrderDetailDTO(orderDTOs);
+		}
 		return orderDTOs;
 	}
 
@@ -88,6 +101,8 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		order.setShippingAddress(shippingAddress.getShippingAddress());
 		order.setPhone(shippingAddress.getShippingPhone());
 		order.setContacts(shippingAddress.getShippingName());
+		order.setDeleted(0);
+		order.setWhetherState("0");
 		//保存详情
 		this.save(order);
 		Map<String, Object> detailResult= orderDetailService.savePackMallOrder(orderDTO.getOrderDetailDTOs(),order.getId());
@@ -100,32 +115,70 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		order.setProductMsg(detailResult.get("productMsg").toString());
 		this.update(order);
 		//保存订单流转状态
-		saveOrderChange(order.getId(), null, order.getState());
-		//TODO 微信统一下单  保存微信下单信息
-//		Map<String, String> wxResult = doWXPay(order.getId(),openid,order.getProductMsg(),order.getTotalPrice().toString());
-		Map<String, String> wxResult = new HashMap<>();
+		saveOrderChange(order.getId(), null, order.getState(),null);
+
 		Map<String, String> result = new HashMap<>();
-		result.put("sign", wxResult.get("sign"));
-		result.put("prepayId", wxResult.get("prepay_id"));
 		result.put("orderId", order.getId());
 		return result;
 	}
 	
+	@Override
+	public Map<String, String> doOrderPay(String orderId,String openId){
+		//查询是否存在支付id
+		String prepayId = getPrepayIdByOrderId(orderId);
+		if(prepayId!=null){
+			return paySign(prepayId);
+		}
+		Order order = this.get(Order.class, orderId);
+		Map<String, String> wxResult = doWXPay(orderId,openId,order.getProductMsg(),order.getTotalPrice().toString());
+		return paySign(wxResult.get("prepay_id"));
+	}
+	
+	@Override
+	public String getPrepayIdByOrderId(String orderId){
+		Map<String,Object> params = new HashMap<>();
+		String hql = "from OrderWXPay where orderId =:orderId";
+		params.put("orderId", orderId);
+		OrderWXPay orderWXPay = this.get(hql,params);
+		if(orderWXPay!=null){
+			return orderWXPay.getPrepayId();
+		}
+		return null;
+	}
+	public Map<String, String> paySign(String prepayId){
+		MyConfig config = new MyConfig();
+    	String timeStamp = new Date().getTime()+"";
+    	String nonceStr = WXPayUtil.generateNonceStr();
+    	String paySignString = "appId="+config.getAppID()+"&nonceStr="+ nonceStr +"&package=prepay_id="+prepayId+"&signType=HMAC-SHA256&timeStamp=" + timeStamp + "&key="+config.getKey();
+        String paySign = null;
+    	try {
+    		paySign=WXPayUtil.HMACSHA256(paySignString, config.getKey());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        Map<String, String> result = new HashMap<>();
+        result.put("timeStamp", timeStamp);
+        result.put("nonceStr", nonceStr);
+        result.put("signType", "HMAC-SHA256");
+        result.put("package", "prepay_id="+prepayId);
+        result.put("paySign", paySign);
+        return result;
+	}
 	public Map<String, String> doWXPay(String orderId,String openId,String body,String price){
 		MyConfig config = new MyConfig();
 		try {
 			WXPay wxpay = new WXPay(config);
 	        Map<String, String> data = new HashMap<String, String>();
 	        //商品描述
-	        data.put("body", "一撕得纸箱订单");
+	        data.put("body", body);
 	        //商户订单号
 	        data.put("out_trade_no", orderId);
-	//        data.put("device_info", "");
 	        data.put("fee_type", "CNY");
+	        //TODO 上线修改为正常金额 以及回调地址修改
 	        data.put("total_fee", "1");
-	        data.put("notify_url", "http://www.example.com/wxpay/notify");
+	        data.put("notify_url", "https://weixin.yiside.cn/wxpay/notify");
 	        data.put("trade_type", "JSAPI");  // 此处指定为小程序支付
-	//        data.put("openid", "oOb_W5aVK-8PdOcg092PwnHoqos8");
 	        data.put("openid", openId);
 	        Map<String, String> resp = wxpay.unifiedOrder(data);
 	        //保存签名等待回调验证
@@ -143,28 +196,24 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void doConfirm(String openId, String orderId,String state) {
+	public void doConfirm(String openId, String orderId,String state,String remark) {
 		
-        Order order = new Order();
-        if(!openId.equals("admin")){
-        	order.setId(orderId);
-        }
-        order.setOpenId(openId);
-        order = (Order) findByExample(order).get(0);
+        Order order =  this.get(Order.class, orderId);
         String oldState = order.getState();
-        order.setState("4");
+        order.setState(state);
         order.setUpdateDateTime(new Date());
         this.update(order);
-        saveOrderChange(orderId, oldState, state);
+        saveOrderChange(orderId, oldState, state,remark);
 	}
 	
-	public void saveOrderChange(String orderId,String oldState,String state) {
+	public void saveOrderChange(String orderId,String oldState,String state,String remark) {
 		//保存订单流转状态
 		OrderStateChange orderStateChange = new OrderStateChange();
 		orderStateChange.setOrderId(orderId);
-		 orderStateChange.setHistoryState(oldState);
+		orderStateChange.setHistoryState(oldState);
 		orderStateChange.setState(state);
-        orderStateChange.setRemark(OrderEnum.codeOf(state).getMsg());
+		orderStateChange.setDescribe(OrderEnum.codeOf(state).getMsg());
+        orderStateChange.setRemark(remark);
         this.save(orderStateChange);
 	}
 	
@@ -267,4 +316,46 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		}
 		return null;
 	}
+
+	@Override
+	public Map<String, String> findStatisticsByOpenId(String openId) {
+		String sql = "select count(id) as total from tbl_packmall_order_order where openId=:openId";
+		Map<String, Object> params = new HashMap<>();
+		params.put("openId", openId);
+		Map<String, Object> map= this.findMapBySql(sql,params).get(0);
+		String hql = "select state as state,createDateTime as createDateTime from Order where state in ('1','2','3') and openId=:openId";
+		List<Order> orders = this.find(hql,params);
+		Integer today = 0;
+		Integer unPay = 0;
+		Integer alreadyPaid = 0;
+		Integer unSign = 0;
+		for (Order order : orders) {
+			if(DateUtil.getCurrDateStr().equals(DateUtil.getyyyyMMddDateStr(order.getCreateDateTime()))){
+				today++;
+			}
+			switch (order.getState()) {
+			case "1":
+				unPay++;
+				break;
+
+			case "2":
+				alreadyPaid++;
+				break;
+			case "3":
+				unSign++;
+				break;
+			}
+		}
+		Map<String, String> result = new HashMap<>();
+		result.put("today",today.toString());
+		Integer history = Integer.valueOf(map.get("total").toString())-today;
+		result.put("history",history.toString());
+		result.put("unPay",unPay.toString());
+		result.put("alreadyPaid",alreadyPaid.toString());
+		result.put("unSign",unSign.toString());
+		return result;
+	}
+	/**
+	 * 
+	 */
 }

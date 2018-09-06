@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
+
 import com.cnpc.framework.annotation.Header;
 import com.cnpc.framework.base.entity.BaseEntity;
 import com.cnpc.framework.base.entity.Dict;
@@ -90,8 +92,9 @@ public class Order extends BaseEntity {
     @Column(name = "weekend", length = 100)
     private Boolean weekend;
     
+    @Type(type="text")
     @Header(name="SKU")
-    @Column(name = "SKU", length = 100)
+    @Column(name = "SKU")
     private String sku;
 
     /**
@@ -145,18 +148,18 @@ public class Order extends BaseEntity {
     private String payId;
 
     /**
-     * 状态:1 未支付 2 已支付 3 待送货 4 待签收 5已完成 -1 订单关闭
+     * 状态:1 未支付 2 已支付 （待送货 ）3 待签收 4已完成 -1 订单关闭
      */
     @Header(name="状态")
     @Column(name = "state", length = 100)
     private String state;
     
-    @Header(name="开票状态")
-    @Column(name = "whether_state", length = 100)
-    private String whetherState;
     /**
      * 0未开票 1已开票
      */
+    @Header(name="开票状态")
+    @Column(name = "whether_state", length = 100)
+    private String whetherState;
     @Header(name="开票ID")
     @Column(name = "whether_id", length = 100)
     private String whetherId;

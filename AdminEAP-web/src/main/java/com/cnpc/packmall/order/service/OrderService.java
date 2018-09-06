@@ -36,13 +36,32 @@ public interface OrderService extends BaseService {
 	 * @param orderId
 	 * @param state
 	 */
-	void doConfirm(String openid, String orderId,String state);
+	void doConfirm(String openid, String orderId,String state,String remark);
 	/**
 	 * 根据订单编号查询订单流转信息
 	 * @param orderId
 	 * @return
 	 */
 	List<OrderStateChange> findOrderChangeByOrderId(String orderId);
+	/**
+	 * 首页订单数据统计
+	 * @param openId
+	 * @return
+	 */
+	Map<String, String> findStatisticsByOpenId(String openId);
+	/**
+	 * 订单支付获取wx支付id
+	 * @param orderId
+	 * @param openId
+	 * @return
+	 */
+	Map<String, String> doOrderPay(String orderId, String openId);
+	/**
+	 * 根据订单id获取支付id
+	 * @param orderId
+	 * @return
+	 */
+	String getPrepayIdByOrderId(String orderId);
 
 	/**
 	 * 发票   用 openId查询 订单

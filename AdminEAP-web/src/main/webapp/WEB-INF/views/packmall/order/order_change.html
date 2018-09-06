@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+    <h5 class="modal-title"></h5>
+</div>
+
+<div class="modal-body">
+    <div class="box-footer text-right">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确定</button>
+    </div>
+</div>
+<script>
+    var form;
+    var id="${id?default(0)}";
+    $(function(){
+    	ajaxPost(basePath + "/order/pack_mall_api/find_order_change", {orderId:id}, function (data) {
+            if (data.success) {
+                console.log(data.data);
+            } else {
+                modals.info("查看失败！");
+            }
+        });
+    });
+
+</script>

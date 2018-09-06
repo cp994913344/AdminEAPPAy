@@ -17,5 +17,12 @@ public interface OrderPurchaseService extends BaseService {
 	Map<String, List<OrderPurchaseDTO>> findPackMallgetPurchaseList(String openId);
 
 	Map<String, Object> savePackMallOrder(List<OrderPurchaseDTO> orderPurchaseDTOs,String openId);
+	
+	/**
+	 * 根据id集合删除
+	 * @param openId
+	 * @param idStrings
+	 */
+	void deleteByIds(String openId, List<String> idStrings);
 
 }

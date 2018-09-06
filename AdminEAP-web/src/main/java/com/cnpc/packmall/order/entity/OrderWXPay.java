@@ -9,7 +9,7 @@ import com.cnpc.framework.base.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * 订单状态流转记录
+ * 订单支付信息表
  * @author 16692
  *
  */

@@ -245,7 +245,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
         if(skuDetailIds!=null&skuDetailIds.size()>0){
             Map<String,Object> params = new HashMap<>();
             params.put("skuDetailIds",skuDetailIds);
-            String hql = "from SkuDetail where deleted=0 and id in(:skuDetailIds)";
+            String hql = "from SkuDetail where id in(:skuDetailIds)";
             List<SkuDetail> skuDetailList = this.baseDao.find(hql, params);
             Map<String,List<SkuDetail>> skuDetailMap = skuDetailList.stream().collect(Collectors.groupingBy(SkuDetail::getSkuId));
             Map<String,Map<String, SkuDetail>> skuDMap = new HashMap<>();

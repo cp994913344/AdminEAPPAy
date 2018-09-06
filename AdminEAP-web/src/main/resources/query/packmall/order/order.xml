@@ -13,6 +13,8 @@
         <column key="sku" header="SKU" classType="Boolean" allowSort="true" width="150"/>
         <column key="totalPrice" header="金额(元)" classType="BigDecimal" allowSort="true" width="150"/>
         <column key="remarks" header="备注" classType="String" allowSort="true" width="150"/>
-        <column key="state" header="状态" classType="String" allowSort="true" width="150" render="type=eq,1=未支付 ,2=已支付,3=待送货,4=待签收,5=已完成,-1=订单关闭"/>
+        <column key="id" header="跟踪" classType="String" allowSort="true" width="150" fnRender="fnRenderOrderChange"/>
+        <column key="state" header="状态" classType="String" allowSort="true" width="150" render="1=未支付,2=待送货,3=待签收,4=已完成,-1=订单关闭"/>
+        <column key="state" header="状态变更" classType="String" allowSort="true" width="150" fnRender="fnRenderState"/>
 </query>
 </queryContext>

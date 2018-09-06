@@ -44,6 +44,16 @@ public class OrderDTO extends BaseDTO {
     private String addressId;
     
     /**
+     * 城市name
+     */
+    private String areaAddress;
+
+    /**
+     * 收货地址
+     */
+    private String shippingAddress;
+    
+    /**
      * 联系方式
      */
     private String phone;
@@ -318,6 +328,22 @@ public class OrderDTO extends BaseDTO {
 	public String getId() {
 
 		return id;
+	}
+
+	public String getAreaAddress() {
+		return areaAddress;
+	}
+
+	public void setAreaAddress(String areaAddress) {
+		this.areaAddress = areaAddress;
+	}
+
+	public String getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(String shippingAddress) {
+		this.shippingAddress = shippingAddress;
 	}
 }
 

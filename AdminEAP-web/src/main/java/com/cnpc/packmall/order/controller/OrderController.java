@@ -1,5 +1,7 @@
 package com.cnpc.packmall.order.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyuncs.http.HttpRequest;
+import com.aliyuncs.http.HttpResponse;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.utils.StrUtil;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +27,8 @@ import com.cnpc.packmall.order.service.OrderService;
 import com.cnpc.framework.annotation.RefreshCSRFToken;
 import com.cnpc.framework.annotation.VerifyCSRFToken;
 import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.framework.util.wxpay.MyConfig;
+import com.cnpc.framework.util.wxpay.WXPayUtil;
 import com.cnpc.packmall.order.entity.Order;
 import com.cnpc.packmall.order.entity.OrderStateChange;
 import com.cnpc.packmall.order.pojo.dto.OrderDTO;
@@ -94,6 +100,17 @@ public class OrderController {
         }
     }
 
+    @RequestMapping(value="/change",method = RequestMethod.GET)
+    public String change(String id,HttpServletRequest request){
+    	request.setAttribute("id", id);
+        return "packmall/order/order_change";
+    }
+    /**
+     * 获取订单列表
+     * @param openid
+     * @param param
+     * @return
+     */
     @RequestMapping(value="/pack_mall_api/getlist/{openid}",method = RequestMethod.POST)
     @ResponseBody
     public Result packMallgetList(@PathVariable("openid") String openid,@RequestParam Map<String, String> param){
@@ -103,7 +120,12 @@ public class OrderController {
         result.setData(orders);
         return result;
     }
-    
+    /**
+     * 小程序下单
+     * @param openid
+     * @param con
+     * @return
+     */
     @RequestMapping(value="/pack_mall_api/save/{openid}",method = RequestMethod.POST)
     @ResponseBody
     public Result packMallgetSave(@PathVariable("openid") String openid,String con){
@@ -114,12 +136,18 @@ public class OrderController {
         result.setData(orderMap);
         return result;
     }
-    
+    /**
+     * 订单状态变更
+     * @param openid
+     * @param orderId
+     * @param type
+     * @param remark
+     * @return
+     */
     @RequestMapping(value="/pack_mall_api/update_state/{openid}",method = RequestMethod.POST)
     @ResponseBody
-    public Result packMallgetUpdateState(@PathVariable("openid") String openid,String orderId,String type){
-    	//确认收货
-        orderService.doConfirm(openid,orderId,type);
+    public Result packMallgetUpdateState(@PathVariable("openid") String openid,String orderId,String type,String remark){
+        orderService.doConfirm(openid,orderId,type,remark);
         return new Result(true);
     }
     
@@ -136,5 +164,31 @@ public class OrderController {
     	
     	return new Result(true,orderStateChanges);
     }
-
+    /**
+     * 订单信息统计
+     * @param openid
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/order_statistics/{openId}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result orderStatistics(@PathVariable("openId") String openId){
+    	
+    	Map<String, String> orderStatistics = orderService.findStatisticsByOpenId(openId);
+    	
+    	return new Result(true,orderStatistics);
+    }
+    
+    /**
+     * 根据订单id查询支付id并签名
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/get_order_payid/{openId}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getOrderPayid(String orderId,@PathVariable("openId") String openId){
+    	
+    	Map<String, String> result = orderService.doOrderPay(orderId,openId);
+    	
+    	return new Result(true,result);
+    }
 }

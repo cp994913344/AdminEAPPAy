@@ -129,7 +129,7 @@
                             "jobGroup": rowData.jobGroup
                         }, function (data) {
                             if (data.success) {
-                                jobTable.reloadRowData(rowId);
+                            	modals.info('执行成功'); 
                             }
                         });
                     });

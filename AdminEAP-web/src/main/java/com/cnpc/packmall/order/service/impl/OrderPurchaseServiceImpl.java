@@ -127,5 +127,15 @@ public class OrderPurchaseServiceImpl extends BaseServiceImpl implements OrderPu
 		return result;
 	}
 
+	@Override
+	public void deleteByIds(String openId, List<String> idStrings) {
+		String hql = "delete from OrderPurchase where id in(:ids) and openId =:openId";
+		Map<String, Object> params = new HashMap<>();
+		params.put("ids", idStrings);
+		params.put("openId", openId);
+		this.executeHql(hql, params);
+		
+	}
+
 
 }

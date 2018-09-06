@@ -94,5 +94,33 @@
     function fnRenderAddress(value,type,rowObj){
         return rowObj.areaAddress+rowObj.shippingAddress;
     }
-  
+    function fnRenderState(value,type,rowObj){
+    	if(value=="待送货"){
+    		console.log(111);
+    		return "<a  data-btn-type='confirm' onclick='confirm()'>变更</a>";
+    	}
+        return "变更";
+    }
+    function fnRenderOrderChange(value){
+    	return "<a  data-btn-type='confirm' onclick='openWin(\""+value+"\")'>查看</a>";
+    }
+    function confirm(){
+        modals.confirm('将订单状态变为已发货',function(){
+        	ajaxPost(basePath + "/order/pack_mall_api/update_state/admin", {orderId:orderTable.getSelectedRowId(),type:3}, function (data) {
+                if (data.success) {
+                    orderTable.reloadRowData();
+                } else {
+                    modals.info("更改失败！");
+                }
+            });
+        });
+     }
+   	  function openWin(id){
+  		     modals.openWin({
+  		        winId:'orderChange',
+  		        title:'状态跟踪',
+  		        width:'900px',
+  		        url:basePath+"/order/change?id="+id
+  		     });
+  		  }
 </script>

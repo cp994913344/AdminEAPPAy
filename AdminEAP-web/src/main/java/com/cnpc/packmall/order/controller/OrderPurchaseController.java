@@ -1,5 +1,6 @@
 package com.cnpc.packmall.order.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class OrderPurchaseController {
     @RequestMapping(value="/pack_mall_api/delete/{id}",method = RequestMethod.POST)
     @ResponseBody
     public Result delete(@PathVariable("id") String id){
-    	OrderPurchase orderPurchase = orderPurchaseService.get(id);
+    	OrderPurchase orderPurchase = orderPurchaseService.get(OrderPurchase.class,id);
         try{
         	orderPurchaseService.delete(orderPurchase);
             return new Result();
@@ -56,5 +57,20 @@ public class OrderPurchaseController {
         Result result = new Result();
         result.setData(re);
         return result;
+    }
+    
+    /**
+     * 根据id集合删除
+     * @param openId
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/delete_ids/{openId}",method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteIds(@PathVariable("openId") String openId,String[] ids){
+    	List<String> idStrings = Arrays.asList(ids);
+    	orderPurchaseService.deleteByIds(openId,idStrings);
+    	
+    	return new Result(true);
     }
 }

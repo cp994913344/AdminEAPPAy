@@ -1,15 +1,12 @@
 package com.cnpc.packmall.order.constant;
 
-import com.cnpc.packmall.order.entity.Order;
-
 public enum OrderEnum {
 	
 	UNPAID("1","订单已提交，等待付款"),
-	ALREADY_PAID("2","订单付款成功"),
-	WAIT_FOR_DELIVERY("",""),
-	UNSIGN("",""),
-	COMPLETED("",""),
-	ORDER_CLOSURE("","");
+	ALREADY_PAID("2","订单付款成功,货物待出库"),
+	UNSIGN("3","货物已出库,正在运往目的地"),
+	COMPLETED("4","订单已签收，期待再次为您服务"),
+	ORDER_CLOSURE("-1","订单已关闭");
 	/*两个属性*/
     private String code;
     private String msg;
