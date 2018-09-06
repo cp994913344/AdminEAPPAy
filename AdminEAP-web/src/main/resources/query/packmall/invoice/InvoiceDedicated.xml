@@ -22,6 +22,7 @@
         <column key="invoiceMark" header="发票代码" classType="String" allowSort="true" width="150"/>
         <column key="invoiceNo" header="发票号" classType="String" allowSort="true" width="150"/>
         <column key="courierNo" header="快递单号" classType="String" allowSort="true" width="150"/>
+        <column key="payStatus" header="邮费状态" classType="String" allowSort="true" width="150" render="1=未支付,2=已支付"/>
         <column key="invoiceStatus" header="状态" classType="Integer" allowSort="true" width="150" render="1=未邮寄,2=已邮寄"/>
         <column key="deleted" header="状态变更" classType="Integer" allowSort="true" width="150" fnRender="changeLook" render="type=link,method=clickChange,params='[id]';this"/>
 </query>

@@ -95,7 +95,7 @@ public class InvoiceNormalServiceImpl extends BaseServiceImpl implements Invoice
             String orderHql = "select o from Order as o where o.id in (:orderIdList)";
             List<Order> orderList = this.baseDao.find(orderHql, orderParams);
             for(Order o:orderList){
-                if(StringUtils.isNotEmpty(o.getWhetherId())||o.getWhetherId().trim().length()>0||o.getWeekend().equals("1")){
+                if(StringUtils.isNotEmpty(o.getWhetherId())||o.getWhetherId().trim().length()>0||StringUtils.isEmpty(o.getWhetherState())||o.getWhetherState().equals("1")){
                     return new Result(false,o.getCode()+"：该订单已开票");
                 }
             }

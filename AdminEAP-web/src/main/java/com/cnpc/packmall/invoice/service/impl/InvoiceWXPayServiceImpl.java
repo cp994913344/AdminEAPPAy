@@ -38,7 +38,7 @@ public class InvoiceWXPayServiceImpl extends BaseServiceImpl implements InvoiceW
         if("1".equals(invoiceType)){
             InvoiceDedicated invoiceDedicated = this.get(InvoiceDedicated.class,invoiceId);
             message = invoiceDedicated.getInvoiceTaxpayer();
-        }else if("2".equals(invoiceType)){
+         }else if("2".equals(invoiceType)){
             InvoiceNormal invoiceNormal= this.get(InvoiceNormal.class,invoiceId);
             message = invoiceNormal.getInvoiceTaxpayer();
         }
@@ -49,7 +49,7 @@ public class InvoiceWXPayServiceImpl extends BaseServiceImpl implements InvoiceW
     @Override
     public InvoiceWXPay getPrepayIdByInvoiceId(String invoiceId){
         Map<String,Object> params = new HashMap<>();
-        String hql = "from InvoiceWXPay where invoiceId =:invoiceId";
+        String hql = "from InvoiceWXPay where deleted=0 and invoiceId =:invoiceId";
         params.put("invoiceId", invoiceId);
         InvoiceWXPay invoiceWXPay = this.get(hql,params);
         if(invoiceWXPay!=null){
@@ -116,5 +116,4 @@ public class InvoiceWXPayServiceImpl extends BaseServiceImpl implements InvoiceW
         }
         return new HashMap<>();
     }
-
 }

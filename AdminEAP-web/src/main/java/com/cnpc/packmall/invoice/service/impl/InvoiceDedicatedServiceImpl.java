@@ -137,15 +137,6 @@ public class InvoiceDedicatedServiceImpl extends BaseServiceImpl implements Invo
         if(StringUtils.isEmpty(openId)){
             return new Result(false);
         }
-//        String sql ="select * from (SELECT dedicated.id AS id,dedicated.invoice_status AS invoiceStatus," +
-//                    " 1 AS type,dedicated.create_date_time AS createDateTime,dedicated." +
-//                    " update_date_time AS updateDateTime FROM TB_PACKMALL_INVOICE_DEDICATED AS dedicated " +
-//                    " WHERE dedicated.open_id = '123' UNION ALL " +
-//                    " SELECT normal.id AS id,normal.invoice_status AS invoiceStatus,2 AS type," +
-//                    " normal.create_date_time AS createDateTime,normal.update_date_time AS updateDateTime" +
-//                    " FROM tb_packmall_invoice_normal AS normal WHERE normal.open_id = '123') invoice " +
-//                    " order by invoice.createDateTime desc";
-
         String hql = "SELECT dedicated.id AS id,dedicated.invoiceStatus AS invoiceStatus,dedicated.invoicePrice as invoicePrice," +
                 " '1' AS type,dedicated.createDateTime AS createDateTime,dedicated.updateDateTime AS updateDateTime " +
                 " FROM InvoiceDedicated AS dedicated WHERE dedicated.openId = '"+openId+"'";
