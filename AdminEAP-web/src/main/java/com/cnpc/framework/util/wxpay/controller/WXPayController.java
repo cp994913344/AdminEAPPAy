@@ -119,15 +119,22 @@ public class WXPayController {
 			if(data.get(WXPayConstants.FIELD_SIGN).equals(sign)&&"SUCCESS".equals(data.get("result_code"))){
 				InvoiceDedicated invoiceDedicated = invoiceDedicatedService.get(InvoiceDedicated.class, data.get("out_trade_no"));
 				if(invoiceDedicated!=null){
-					invoiceDedicated.setPayStatus("2");
-					invoiceDedicated.setUpdateDateTime(new Date());
-					invoiceDedicatedService.update(invoiceDedicated);
+					//判断订单 状态 及金额
+					if(invoiceDedicated!=null&&invoiceDedicated.getPayStatus().equals("1")&&(invoiceDedicated.getInvoicePrice().multiply(new BigDecimal(100))).compareTo(new BigDecimal(data.get("total_fee")))==0){
+						//改变订单状态 并保存流转信息
+						invoiceDedicated.setPayStatus("2");
+						invoiceDedicated.setUpdateDateTime(new Date());
+						invoiceDedicatedService.update(invoiceDedicated);
+						System.out.println("发票处理成功");
+					}
 				}else{
 					InvoiceNormal invoiceNormal = invoiceDedicatedService.get(InvoiceNormal.class, data.get("out_trade_no"));
-					if(invoiceNormal!=null){
+						//判断订单 状态 及金额
+					if(invoiceNormal!=null&&invoiceNormal.getPayStatus().equals("1")&&(invoiceNormal.getInvoicePrice().multiply(new BigDecimal(100))).compareTo(new BigDecimal(data.get("total_fee")))==0){
 						invoiceNormal.setPayStatus("2");
 						invoiceNormal.setUpdateDateTime(new Date());
 						invoiceDedicatedService.update(invoiceNormal);
+						System.out.println("发票处理成功");
 					}
 				}
 			}
