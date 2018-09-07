@@ -22,7 +22,8 @@ public class CloseInvoiceJob implements Job {
 
 	InvoiceWXPayService invoiceWXPayService=(InvoiceWXPayService)SpringContextUtil.getBean("invoiceWXPayService");
 	
-	public void execute(JobExecutionContext context) throws JobExecutionException {
+	@Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
 		//查询未支付订单超过1小时的
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR, -1);// 日期减1
@@ -67,12 +68,24 @@ public class CloseInvoiceJob implements Job {
             wxList2 = invoiceWXPayService.find(wxHql2,normalMap,InvoiceWXPay.class);
             wxList2.forEach(w->{w.setDeleted(1);});
         }
-        invoiceWXPayService.batchSaveOrUpdate(list);
-        invoiceWXPayService.batchSaveOrUpdate(list2);
-        invoiceWXPayService.batchSaveOrUpdate(orders);
-        invoiceWXPayService.batchSaveOrUpdate(orders2);
-        invoiceWXPayService.batchSaveOrUpdate(wxList);
-        invoiceWXPayService.batchSaveOrUpdate(wxList2);
+        if(list!=null&&list.size()>0){
+            invoiceWXPayService.batchSaveOrUpdate(list);
+        }
+        if(list2!=null&&list2.size()>0){
+            invoiceWXPayService.batchSaveOrUpdate(list2);
+        }
+        if(orders!=null&&orders.size()>0){
+            invoiceWXPayService.batchSaveOrUpdate(orders);
+        }
+        if(orders2!=null&&orders2.size()>0){
+            invoiceWXPayService.batchSaveOrUpdate(orders2);
+        }
+        if(wxList!=null&&wxList.size()>0){
+            invoiceWXPayService.batchSaveOrUpdate(wxList);
+        }
+        if(wxList2!=null&&wxList2.size()>0){
+            invoiceWXPayService.batchSaveOrUpdate(wxList2);
+        }
 	}
 
 }

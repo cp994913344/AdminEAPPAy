@@ -139,10 +139,10 @@ public class InvoiceDedicatedServiceImpl extends BaseServiceImpl implements Invo
         }
         String hql = "SELECT dedicated.id AS id,dedicated.invoiceStatus AS invoiceStatus,dedicated.invoicePrice as invoicePrice," +
                 " '1' AS type,dedicated.createDateTime AS createDateTime,dedicated.updateDateTime AS updateDateTime " +
-                " FROM InvoiceDedicated AS dedicated WHERE dedicated.openId = '"+openId+"'";
+                " FROM InvoiceDedicated AS dedicated WHERE dedicated.deleted=0 and dedicated.payStatus = 2 and dedicated.openId = '"+openId+"'";
         String hql2  = " SELECT normal.id AS id,normal.invoiceStatus AS invoiceStatus,'2' AS type,normal.invoicePrice as invoicePrice," +
                 " normal.createDateTime AS createDateTime,normal.updateDateTime AS updateDateTime" +
-                " FROM InvoiceNormal AS normal WHERE normal.openId = '"+openId+"'";
+                " FROM InvoiceNormal AS normal WHERE normal.deleted=0 and normal.payStatus = 2 and normal.openId = '"+openId+"'";
         List<InvoiceDTO> list = this.baseDao.find(hql,InvoiceDTO.class);
         List<InvoiceDTO> list2 = this.baseDao.find(hql2,InvoiceDTO.class);
         list.addAll(list2);

@@ -15,6 +15,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cnpc.packmall.invoice.entity.InvoiceDedicated;
+import com.cnpc.packmall.invoice.entity.InvoiceNormal;
+import com.cnpc.packmall.invoice.service.InvoiceDedicatedService;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -43,6 +46,9 @@ public class WXPayController {
 	
 	@Resource
 	OrderService orderService;
+
+	@Resource
+	private InvoiceDedicatedService invoiceDedicatedService;
 	
     @RequestMapping(value="/pack_mall_api/getOpenId/{code}")
     @ResponseBody
@@ -94,39 +100,42 @@ public class WXPayController {
     }
     @RequestMapping(value="/pack_mall_api/invoiceNotify")
     @ResponseBody
-    public Map<String, String> invoiceNotify(HttpServletResponse response,HttpServletRequest request){
-        // 将返回的输入流转换成字符串
-        InputStream is = null;
-        try {
-            is = request.getInputStream();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // 使用dom4j解析xml字符串
-        SAXReader reader = new SAXReader();
-        Document document = null;
-        try {
-            document = reader.read(is);
-        } catch (DocumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // 得到xml根元素
-        Element root = document.getRootElement();
-
-        String out_trade_no = root.element("out_trade_no").getText();    //订单号
-        String count2 = root.element("total_fee").getText();    //金额
-        String count3 = root.element("result_code").getText();  //支付状态
-        if("SUCCESS".equals(count3)){
-            System.out.println("订单处理成功");
-//        	if (StringUtils.isNotBlank(out_trade_no)) {
-//			}
-        }
-        Map<String, String> result = new HashMap<>();
-        result.put("return_code", "SUCCESS");
-        result.put("return_msg", "");
-        return result;
+    public String invoiceNotify(HttpServletResponse response,HttpServletRequest request){
+		// 将返回的输入流转换成字符串
+		InputStream is = null;
+		try {
+			is = request.getInputStream();
+			// 使用dom4j解析xml字符串
+			SAXReader reader = new SAXReader();
+			Document document = null;
+			document = reader.read(is);
+			// 得到xml根元素
+			Element root = document.getRootElement();
+			//xml 转map
+			Map<String, String> data = WXPayUtil.xmlToMap(root.asXML());
+			//签名
+			MyConfig config = new MyConfig();
+			String sign = WXPayUtil.generateSignature(data, config.getKey(), SignType.HMACSHA256);
+			if(data.get(WXPayConstants.FIELD_SIGN).equals(sign)&&"SUCCESS".equals(data.get("result_code"))){
+				InvoiceDedicated invoiceDedicated = invoiceDedicatedService.get(InvoiceDedicated.class, data.get("out_trade_no"));
+				if(invoiceDedicated!=null){
+					invoiceDedicated.setPayStatus("2");
+					invoiceDedicated.setUpdateDateTime(new Date());
+					invoiceDedicatedService.update(invoiceDedicated);
+				}else{
+					InvoiceNormal invoiceNormal = invoiceDedicatedService.get(InvoiceNormal.class, data.get("out_trade_no"));
+					if(invoiceNormal!=null){
+						invoiceNormal.setPayStatus("2");
+						invoiceNormal.setUpdateDateTime(new Date());
+						invoiceDedicatedService.update(invoiceNormal);
+					}
+				}
+			}
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return setXml("SUCCESS", "Y");
     }
     //通过xml 发给微信消息
   	public static String setXml(String return_code, String return_msg) {
