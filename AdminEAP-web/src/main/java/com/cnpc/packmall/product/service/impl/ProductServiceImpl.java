@@ -35,7 +35,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
      * @return
      */
     @Override
-    public Result savedata(List<ProductDetail> list, String productName) {
+    public Result savedata(List<ProductDetail> list, String productName,String headImgId) {
         //Calendar calendar = Calendar.getInstance();
         //String productCode = ""+calendar.get(Calendar.YEAR)+calendar.get(Calendar.MONTH)+calendar.get(Calendar.DATE);
         String productCode = "";
@@ -69,6 +69,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
              if(StringUtils.isNotEmpty(productCode)){
             Product product = new Product();
             product.setProductName(productName);
+            product.setHeadImgId(headImgId);
             product.setProductCode(productCode);
             product.setCreateDateTime(new Date());
             product.setDeleted(0);
@@ -96,9 +97,10 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
      * @return
      */
     @Override
-    public Result updatedata(List<ProductDetail> list, String productName, String id) {
+    public Result updatedata(List<ProductDetail> list, String productName, String id,String headImgId) {
         Product product = this.baseDao.get(Product.class,id);
         product.setProductName(productName);
+        product.setHeadImgId(headImgId);
         product.setUpdateDateTime(new Date());
         //查询sku信息 如果 sku中 有存在 该类型的   颜色 质量等信息 的 sku在用 不允许 修改
 //        String skuHql = "select sd.* from SkuDetail as sd,Sku as s where sd.skuId = s.id and s.deleted=0 and sd.deleted = 0 and sd.detailType !='PRICE' and  s.productId = '"+id+"'";
@@ -179,16 +181,6 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
             List<String> productIds = new ArrayList<>(productList.size());
             for(Product p :productList){
                 productIds.add(p.getId());
-            }
-            List<ProductDetail> productDetailList=  getImagesListByProductIds(productIds);
-            if(productDetailList!=null&&productDetailList.size()>0){
-                for(Product p :productList){
-                    for( ProductDetail pd:productDetailList){
-                        if(p.getId().equals(pd.getProductId())){
-                            p.setHeadImgId(pd.getDetailId());
-                        }
-                    }
-                }
             }
             List<Sku> skuList  = getSkuMinPriceByProductIds(productIds);
             for(Product p :productList){

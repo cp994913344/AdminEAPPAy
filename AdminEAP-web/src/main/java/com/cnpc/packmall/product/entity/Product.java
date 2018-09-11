@@ -33,10 +33,8 @@ public class Product extends BaseEntity {
     @Column(name = "product_status", length = 50)
     private Integer productStatus;
 
-    /**
-     * 小程序 图片路径
-     */
-    @Transient
+    @Header(name = "头像图片id")
+    @Column(name = "head_img_id", length = 50)
     private String headImgId;
 
     /**

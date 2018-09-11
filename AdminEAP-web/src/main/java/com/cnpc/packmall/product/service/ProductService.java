@@ -23,7 +23,7 @@ public interface ProductService extends BaseService {
      * @param productName
      * @return
      */
-    Result savedata(List<ProductDetail> list, String productName);
+    Result savedata(List<ProductDetail> list, String productName,String headImgId);
 
     /**
      * 修改商品 和商品详情
@@ -31,7 +31,7 @@ public interface ProductService extends BaseService {
      * @param productName
      * @return
      */
-    Result updatedata(List<ProductDetail> list, String productName,String id);
+    Result updatedata(List<ProductDetail> list, String productName,String id,String headImgId);
 
     /**
      * 通过 productId 查询 详情

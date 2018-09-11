@@ -105,22 +105,22 @@ public class ProductController {
 
     @RequestMapping(value="/save",method = RequestMethod.POST)
     @ResponseBody
-    public Result save(String con,String productName ){
-        if(StringUtils.isEmpty(con)||StringUtils.isEmpty(productName)){
+    public Result save(String con,String productName,String headImgId ){
+        if(StringUtils.isEmpty(con)||StringUtils.isEmpty(productName)||StringUtils.isEmpty(headImgId)){
             return  new Result(false);
         }
         List<ProductDetail> productDetailList = JSON.parseArray(con,ProductDetail.class);
-        return  productService.savedata(productDetailList, productName);
+        return  productService.savedata(productDetailList, productName,headImgId);
     }
 
     @RequestMapping(value="/editProdcut",method = RequestMethod.POST)
     @ResponseBody
-    public Result editProdcut(String con,String productName,String id ){
-        if(StringUtils.isEmpty(con)||StringUtils.isEmpty(productName)){
+    public Result editProdcut(String con,String productName,String id, String headImgId ){
+        if(StringUtils.isEmpty(con)||StringUtils.isEmpty(productName)||StringUtils.isEmpty(headImgId)){
             return  new Result(false);
         }
         List<ProductDetail> productDetailList = JSON.parseArray(con,ProductDetail.class);
-        return  productService.updatedata(productDetailList, productName,id);
+        return  productService.updatedata(productDetailList, productName,id,headImgId);
     }
 
     @RequestMapping(value="/delete/{id}",method = RequestMethod.POST)
