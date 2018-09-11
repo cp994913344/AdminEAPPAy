@@ -101,13 +101,13 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
         product.setProductName(productName);
         product.setUpdateDateTime(new Date());
         //查询sku信息 如果 sku中 有存在 该类型的   颜色 质量等信息 的 sku在用 不允许 修改
-        String skuHql = "select sd.* from SkuDetail as sd,Sku as s where sd.skuId = s.id and s.deleted=0 and sd.deleted = 0 and sd.detailType !='PRICE' and  s.productId = '"+id+"'";
-        List<SkuDetail> skuDetailList = this.baseDao.find(skuHql,SkuDetail.class);
-
-        //查询商品原有的  颜色质量等信息
-        String oldProductHql = "from ProductDetail where deleted=0 and detailType!='BANNERIMG' " +
-                "and  detailType!='DETAILIMG' and detailType!='TYPEIMG' and productId='"+id+"'";
-        List<ProductDetail> oldDetailsList = this.baseDao.find(oldProductHql);
+//        String skuHql = "select sd.* from SkuDetail as sd,Sku as s where sd.skuId = s.id and s.deleted=0 and sd.deleted = 0 and sd.detailType !='PRICE' and  s.productId = '"+id+"'";
+//        List<SkuDetail> skuDetailList = this.baseDao.find(skuHql,SkuDetail.class);
+//
+//        //查询商品原有的  颜色质量等信息
+//        String oldProductHql = "from ProductDetail where deleted=0 and detailType!='BANNERIMG' " +
+//                "and  detailType!='DETAILIMG' and detailType!='TYPEIMG' and productId='"+id+"'";
+//        List<ProductDetail> oldDetailsList = this.baseDao.find(oldProductHql);
 
         this.baseDao.update(product);
         String hql = "update ProductDetail pd set pd.deleted=1 where pd.productId='"+id+"'";
