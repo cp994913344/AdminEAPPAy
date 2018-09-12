@@ -89,6 +89,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-3 control-label">sku排序<span style="color:red">*</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="inputText" autocomplete="off" name="skuSort" />
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-3 control-label">颜色<span style="color:red">*</span></label>
                     <div class="col-sm-8" id="colorAdd">
                         <div></div>
@@ -168,7 +174,8 @@
                     $("input[name='sizeWideInput']").val(Sku.skuSizeWide);
                     //高
                     $("input[name='sizeHighInput']").val(Sku.skuSizeHigh);
-
+                    //排序
+                    $("input[name='skuSort']").val(Sku.skuSort);
                     //商品下拉框 回显
                     themeSelect("prdouctSelect",productArray,Sku.productId, function ($this, theme) {
                         getDetailByProductId(theme);
@@ -368,6 +375,11 @@
             modals.info("请输入型号！");
             return;
         }
+        skuData.skuSort = $("input[name='skuSort']").val();
+        if(!skuData.skuSort||skuData.skuSort.trim().length==0){
+            modals.info("请输入排序号！");
+            return;
+        }
         //颜色
         var colorIds = "";
         var colorI=1;
@@ -480,7 +492,7 @@
         this.detailSeq=detailSeq;
     }
 
-    function SkuData(id,skuCode,skuModel,skuSizeLength,skuSizeWide,skuSizeHigh,skuStatus,productId,productName){
+    function SkuData(id,skuCode,skuModel,skuSizeLength,skuSizeWide,skuSizeHigh,skuStatus,productId,productName,skuSort){
         this.skuCode=skuCode;
         this.skuModel=skuModel;
         this.skuSizeLength=skuSizeLength;
@@ -490,6 +502,7 @@
         this.productId=productId;
         this.productName=productName;
         this.id=id;
+        this.skuSort=skuSort;
     }
 
 </script>

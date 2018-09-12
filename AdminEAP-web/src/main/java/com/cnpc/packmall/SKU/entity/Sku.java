@@ -39,15 +39,15 @@ public class Sku extends BaseEntity {
 
     @Header(name="sku尺寸长")
     @Column(name="sku_size_length",length = 50)
-    private BigDecimal skuSizeLength;
+    private String skuSizeLength;
 
     @Header(name="sku尺寸宽")
     @Column(name="sku_size_wide",length = 50)
-    private BigDecimal skuSizeWide;
+    private String skuSizeWide;
 
     @Header(name="sku尺寸高")
     @Column(name="sku_size_high",length = 50)
-    private BigDecimal skuSizeHigh;
+    private String skuSizeHigh;
 
     /**
      *  1 上架  2 下架
@@ -55,6 +55,10 @@ public class Sku extends BaseEntity {
     @Header(name="sku状态")
     @Column(name = "sku_status")
     private Integer skuStatus;
+
+    @Header(name="sku排序")
+    @Column(name = "sku_sort")
+    private Integer skuSort;
 
     @Transient
     private String skuSize;
@@ -108,31 +112,6 @@ public class Sku extends BaseEntity {
         return skuModel;
     }
 
-    public void setSkuSizeLength(BigDecimal skuSizeLength) {
-        this.skuSizeLength = skuSizeLength;
-    }
-
-    public void setSkuSizeWide(BigDecimal skuSizeWide) {
-        this.skuSizeWide = skuSizeWide;
-    }
-
-    public void setSkuSizeHigh(BigDecimal skuSizeHigh) {
-        this.skuSizeHigh = skuSizeHigh;
-    }
-
-    public BigDecimal getSkuSizeLength() {
-
-        return skuSizeLength;
-    }
-
-    public BigDecimal getSkuSizeWide() {
-        return skuSizeWide;
-    }
-
-    public BigDecimal getSkuSizeHigh() {
-        return skuSizeHigh;
-    }
-
     public void setProductId(String productId) {
         this.productId = productId;
     }
@@ -149,5 +128,39 @@ public class Sku extends BaseEntity {
     public String getProductName() {
 
         return productName;
+    }
+
+    public void setSkuSort(Integer skuSort) {
+        this.skuSort = skuSort;
+    }
+
+    public Integer getSkuSort() {
+
+        return skuSort;
+    }
+
+    public void setSkuSizeLength(String skuSizeLength) {
+        this.skuSizeLength = skuSizeLength;
+    }
+
+    public void setSkuSizeWide(String skuSizeWide) {
+        this.skuSizeWide = skuSizeWide;
+    }
+
+    public void setSkuSizeHigh(String skuSizeHigh) {
+        this.skuSizeHigh = skuSizeHigh;
+    }
+
+    public String getSkuSizeLength() {
+
+        return skuSizeLength;
+    }
+
+    public String getSkuSizeWide() {
+        return skuSizeWide;
+    }
+
+    public String getSkuSizeHigh() {
+        return skuSizeHigh;
     }
 }

@@ -20,6 +20,8 @@
                     <!--查询条件-->
                     <input type="search" placeholder="请输入sku编码" title="sku编码" name="skuCode"
                                            class="form-control" id="skuCode" operator="like" likeOption="true">
+                    <input type="hidden"  name="deleted"  value="0" likeOption="true" operator="eq"  >
+
                     <input type="search" placeholder="请输入sku型号" title="sku型号" name="skuModel"
                                            class="form-control" id="skuModel" operator="like" likeOption="true">
                     <div class="btn-group">
@@ -75,7 +77,7 @@
                         return false;
                     }
                     modals.confirm("是否要删除该行数据？", function () {
-                        ajaxPost(basePath + "/sku/delete/" + rowId, null, function (data) {
+                        ajaxPost(basePath + "/packmall/sku/delete/" ,{'id':rowId}, function (data) {
                             if (data.success) {
                                 skuTable.reloadRowData();
                             } else {

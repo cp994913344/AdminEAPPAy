@@ -37,9 +37,14 @@ public class Product extends BaseEntity {
     @Column(name = "head_img_id", length = 50)
     private String headImgId;
 
-    /**
-     * 小程序 图片路径
-     */
+    @Header(name = "商品周期")
+    @Column(name = "product_cycle", length = 50)
+    private Integer productCycle;
+
+    @Header(name = "商品排序")
+    @Column(name = "product_sort", length = 50)
+    private Integer productSort;
+
     @Transient
     private BigDecimal mixPrice;
 
@@ -59,7 +64,6 @@ public class Product extends BaseEntity {
     public String getProductName() {
         return productName;
     }
-
 
     public void setMixPrice(BigDecimal mixPrice) {
         this.mixPrice = mixPrice;
@@ -86,4 +90,23 @@ public class Product extends BaseEntity {
     public Integer getProductStatus() {
         return productStatus;
     }
+
+    public void setProductCycle(Integer productCycle) {
+        this.productCycle = productCycle;
+    }
+
+    public void setProductSort(Integer productSort) {
+        this.productSort = productSort;
+    }
+
+    public Integer getProductSort() {
+
+        return productSort;
+    }
+
+    public Integer getProductCycle() {
+
+        return productCycle;
+    }
+
 }

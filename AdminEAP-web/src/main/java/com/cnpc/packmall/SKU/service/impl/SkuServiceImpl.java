@@ -162,6 +162,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             oldSku.setSkuSizeHigh(sku.getSkuSizeHigh());
             oldSku.setSkuSizeWide(sku.getSkuSizeWide());
             oldSku.setSkuSizeHigh(sku.getSkuSizeHigh());
+            oldSku.setSkuSort(sku.getSkuSort());
             this.baseDao.update(oldSku);
             String hql = "update SkuDetail sd set sd.deleted=1 where sd.skuId='"+oldSku.getId()+"'";
             this.baseDao.executeHql(hql);
@@ -197,7 +198,7 @@ public class SkuServiceImpl extends BaseServiceImpl implements SkuService {
             return null;
         }
         String hql = "select s.id as id,s.skuSizeLength as skuSizeLength,s.skuSizeWide as skuSizeWide,s.skuSizeHigh as skuSizeHigh,s.productId as productId " +
-                " from Sku s where s.deleted=0 and s.skuStatus = 1 and  s.productId = :productId";
+                " from Sku s where s.deleted=0 and s.skuStatus = 1 and  s.productId = :productId order by s.skuSort";
         Map<String,Object> params = new HashMap<>(4);
         params.put("productId",productId);
         List<Sku> list =  this.baseDao.find(hql,params,Sku.class);

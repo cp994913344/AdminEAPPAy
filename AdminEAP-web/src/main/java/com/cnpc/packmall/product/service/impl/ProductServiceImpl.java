@@ -31,26 +31,26 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
     /**
      * 保存商品 和商品详情
      * @param list
-     * @param productName
+     * @param product
      * @return
      */
     @Override
-    public Result savedata(List<ProductDetail> list, String productName,String headImgId) {
+    public Result savedata(List<ProductDetail> list, Product product) {
         //Calendar calendar = Calendar.getInstance();
         //String productCode = ""+calendar.get(Calendar.YEAR)+calendar.get(Calendar.MONTH)+calendar.get(Calendar.DATE);
         String productCode = "";
         //设置商品编号  查询今日商品 最大编号
         String hql = "from Product p order by productCode desc";
         List<Product> lastProductList =  this.baseDao.find(hql,1,1); 
-        if(lastProductList!=null&&lastProductList.size()>0){
-             Product lastProduct = lastProductList.get(0);
-             String lastProductnCode = lastProduct.getProductCode();
-            if(StringUtils.isNotEmpty(lastProductnCode)&&lastProductnCode.length()>4){
+         if(lastProductList!=null&&lastProductList.size()>0){
+              Product lastProduct = lastProductList.get(0);
+              String lastProductnCode = lastProduct.getProductCode();
+             if(StringUtils.isNotEmpty(lastProductnCode)&&lastProductnCode.length()>4){
                 productCode = "M"+ (Integer.parseInt(lastProductnCode.substring(1,lastProductnCode.length()))+1);
             }else{
                 try{
-                    int productNum =  Integer.parseInt(lastProductnCode.substring(1,lastProductnCode.length()))+1;
-                    if(productNum>0&&productNum<10){
+                     int productNum =  Integer.parseInt(lastProductnCode.substring(1,lastProductnCode.length()))+1;
+                     if(productNum>0&&productNum<10){
                         productCode="M"+"00"+productNum;
                     }else if(productNum<100&&productNum>=10){
                         productCode="M"+"0"+productNum;
@@ -66,10 +66,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
           }else{
             productCode = "M001";
         }
-             if(StringUtils.isNotEmpty(productCode)){
-            Product product = new Product();
-            product.setProductName(productName);
-            product.setHeadImgId(headImgId);
+        if(StringUtils.isNotEmpty(productCode)){
             product.setProductCode(productCode);
             product.setCreateDateTime(new Date());
             product.setDeleted(0);
@@ -93,15 +90,17 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
     /**
      * 修改商品 和商品详情
      * @param list
-     * @param productName
+     * @param product
      * @return
      */
     @Override
-    public Result updatedata(List<ProductDetail> list, String productName, String id,String headImgId) {
-        Product product = this.baseDao.get(Product.class,id);
-        product.setProductName(productName);
-        product.setHeadImgId(headImgId);
-        product.setUpdateDateTime(new Date());
+    public Result updatedata(List<ProductDetail> list,Product product) {
+        Product Oldproduct = this.baseDao.get(Product.class,product.getId());
+        Oldproduct.setProductName(product.getProductName());
+        Oldproduct.setHeadImgId(product.getHeadImgId());
+        Oldproduct.setProductCycle(product.getProductCycle());
+        Oldproduct.setProductSort(product.getProductSort());
+        Oldproduct.setUpdateDateTime(new Date());
         //查询sku信息 如果 sku中 有存在 该类型的   颜色 质量等信息 的 sku在用 不允许 修改
 //        String skuHql = "select sd.* from SkuDetail as sd,Sku as s where sd.skuId = s.id and s.deleted=0 and sd.deleted = 0 and sd.detailType !='PRICE' and  s.productId = '"+id+"'";
 //        List<SkuDetail> skuDetailList = this.baseDao.find(skuHql,SkuDetail.class);
@@ -110,9 +109,8 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 //        String oldProductHql = "from ProductDetail where deleted=0 and detailType!='BANNERIMG' " +
 //                "and  detailType!='DETAILIMG' and detailType!='TYPEIMG' and productId='"+id+"'";
 //        List<ProductDetail> oldDetailsList = this.baseDao.find(oldProductHql);
-
-        this.baseDao.update(product);
-        String hql = "update ProductDetail pd set pd.deleted=1 where pd.productId='"+id+"'";
+        this.baseDao.update(Oldproduct);
+        String hql = "update ProductDetail pd set pd.deleted=1 where pd.productId='"+Oldproduct.getId()+"'";
         this.baseDao.executeHql(hql);
         for(ProductDetail pd: list){
             pd.setProductId(product.getId());
@@ -175,7 +173,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
      */
     @Override
     public List<Product> findList() {
-        String hql = "from Product where deleted = 0 and productStatus = 1  order by createDateTime desc";
+        String hql = "from Product where deleted = 0 and productStatus = 1  order by productSort asc,createDateTime desc";
         List<Product> productList = this.baseDao.find(hql);
         if(productList!=null&&productList.size()>0){
             List<String> productIds = new ArrayList<>(productList.size());

@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 public class CloseInvoiceJob implements Job {
 
-
 	InvoiceWXPayService invoiceWXPayService=(InvoiceWXPayService)SpringContextUtil.getBean("invoiceWXPayService");
 	
 	@Override

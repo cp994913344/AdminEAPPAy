@@ -20,18 +20,18 @@ public interface ProductService extends BaseService {
     /**
      * 保存商品 和商品详情
      * @param list
-     * @param productName
+     * @param product
      * @return
      */
-    Result savedata(List<ProductDetail> list, String productName,String headImgId);
+    Result savedata(List<ProductDetail> list,Product product);
 
     /**
      * 修改商品 和商品详情
      * @param list
-     * @param productName
+     * @param product
      * @return
      */
-    Result updatedata(List<ProductDetail> list, String productName,String id,String headImgId);
+    Result updatedata(List<ProductDetail> list, Product product);
 
     /**
      * 通过 productId 查询 详情

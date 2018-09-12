@@ -93,14 +93,15 @@ public class SkuController {
         return  skuService.updatedata(skuDetailList, sku);
     }
 
-    @RequestMapping(value="/delete/{id}",method = RequestMethod.POST)
+    @RequestMapping(value="/delete" ,method = RequestMethod.POST)
     @ResponseBody
-    public Result delete(@PathVariable("id") String id){
+    public Result delete(String id){
         Sku sku= skuService.get(Sku.class,id);
         try{
             sku.setDeleted(1);
+            sku.setUpdateDateTime(new Date());
         	skuService.update(sku);
-            return new Result();
+            return new Result(true);
         }
         catch(Exception e){
             return new Result(false,"该数据已经被引用，不可删除");

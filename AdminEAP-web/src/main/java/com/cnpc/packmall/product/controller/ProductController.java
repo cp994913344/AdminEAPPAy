@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cnpc.framework.base.entity.Dict;
 import com.cnpc.framework.base.service.DictService;
 import com.cnpc.framework.constant.RedisConstant;
@@ -105,22 +106,44 @@ public class ProductController {
 
     @RequestMapping(value="/save",method = RequestMethod.POST)
     @ResponseBody
-    public Result save(String con,String productName,String headImgId ){
-        if(StringUtils.isEmpty(con)||StringUtils.isEmpty(productName)||StringUtils.isEmpty(headImgId)){
+    public Result save(String con,String productCon){
+        if(StringUtils.isEmpty(con)||StringUtils.isEmpty(productCon)){
             return  new Result(false);
         }
-        List<ProductDetail> productDetailList = JSON.parseArray(con,ProductDetail.class);
-        return  productService.savedata(productDetailList, productName,headImgId);
+        try{
+            Product product =JSONObject.parseObject(productCon,Product.class);
+            if(product==null||StringUtils.isEmpty(product.getHeadImgId())
+                    ||StringUtils.isEmpty(product.getProductName())
+                    ||product.getProductCycle()==null||product.getProductCycle()<1
+                    ||product.getProductSort()==null||product.getProductSort()<1){
+                return new Result(false,"数据不完整");
+            }
+            List<ProductDetail> productDetailList = JSON.parseArray(con,ProductDetail.class);
+            return  productService.savedata(productDetailList,product);
+        }catch (Exception e) {
+            return new Result(false);
+        }
     }
 
     @RequestMapping(value="/editProdcut",method = RequestMethod.POST)
     @ResponseBody
-    public Result editProdcut(String con,String productName,String id, String headImgId ){
-        if(StringUtils.isEmpty(con)||StringUtils.isEmpty(productName)||StringUtils.isEmpty(headImgId)){
+    public Result editProdcut(String con,String productCon){
+        if(StringUtils.isEmpty(con)||StringUtils.isEmpty(productCon)){
             return  new Result(false);
         }
-        List<ProductDetail> productDetailList = JSON.parseArray(con,ProductDetail.class);
-        return  productService.updatedata(productDetailList, productName,id,headImgId);
+        try {
+            Product product =JSONObject.parseObject(productCon,Product.class);
+            if(product==null||StringUtils.isEmpty(product.getId())
+                      ||StringUtils.isEmpty(product.getProductName())||StringUtils.isEmpty(product.getHeadImgId())
+                    ||product.getProductCycle()==null||product.getProductCycle()<1
+                    ||product.getProductSort()==null||product.getProductSort()<1){
+                return new Result(false,"数据不完整");
+            }
+            List<ProductDetail> productDetailList = JSON.parseArray(con, ProductDetail.class);
+            return productService.updatedata(productDetailList, product);
+        }catch (Exception e) {
+            return new Result(false);
+        }
     }
 
     @RequestMapping(value="/delete/{id}",method = RequestMethod.POST)
