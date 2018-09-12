@@ -3,6 +3,7 @@
 <!--本xml片段为代码生成器生成，时间：2018-08-22 19:18:20-->
 <query id="packmall_sku" key="id" tableName="sku列表" className="com.cnpc.packmall.SKU.entity.Sku" widthType="px">
         <column key="rowIndex" header="序号" width="80"/>
+        <column key="deleted" classType="Integer" hidden="true" header="shanchu" />
         <column key="skuCode" header="sku编码" classType="String" allowSort="true" width="150"/>
         <column key="productName" header="商品名称" classType="String" allowSort="true" width="150"/>
         <column key="skuModel" header="sku型号" classType="String" allowSort="true" width="150"/>
