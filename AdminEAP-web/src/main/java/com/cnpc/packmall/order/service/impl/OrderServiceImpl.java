@@ -240,10 +240,10 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService {
 		}
 		String hql = "select o.id as id,o.code as code,o.totalPrice as totalPrice," +
 				"o.whetherState as whetherState,o.whetherId as whetherId,o.createDateTime as createDateTime " +
-				"from Order as o where deleted = 0 and openId = :openId";
-		for (Map.Entry<String, String> entry : param.entrySet()) {
+				"from Order as o where o.deleted = 0 and o.openId = :openId";
+ 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			params.put(entry.getKey(), entry.getValue());
-			hql +=" and "+entry.getKey() +"=:"+entry.getKey();
+			hql +=" and o."+entry.getKey() +"=:"+entry.getKey();
 		}
 		List<OrderDTO> orderDTOs = this.find(hql, params,OrderDTO.class);
 		//获取详情表信息
