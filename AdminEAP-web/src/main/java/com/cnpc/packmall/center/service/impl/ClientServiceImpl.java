@@ -77,7 +77,7 @@ public class ClientServiceImpl extends BaseServiceImpl implements ClientService 
         if(client==null||StringUtils.isEmpty(client.getOpenId())){
             return new Result(false, "请先用微信登陆");
         }
-        if(client!=null&&StringUtils.isNotEmpty(client.getClientName())
+        if(client!=null&&(StringUtils.isNotEmpty(client.getClientName())||StringUtils.isNotEmpty(client.getEnterpriseName()))
                 &&StringUtils.isNotEmpty(client.getClientPhone())&&StringUtils.isNotEmpty(client.getOpenId())&&StringUtils.isNotEmpty(client.getClientType())){
             Client hasClient =  getByOpenId(client.getOpenId());
             if(hasClient!=null){
