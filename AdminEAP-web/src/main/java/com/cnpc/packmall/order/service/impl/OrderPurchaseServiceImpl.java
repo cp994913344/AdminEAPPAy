@@ -85,7 +85,9 @@ public class OrderPurchaseServiceImpl extends BaseServiceImpl implements OrderPu
 		params.put("qualityId", qualityId);
 		params.put("priceId", priceId);
 		List<OrderPurchase> orderPurchases2 = this.find(hql, params);
+		//以商品id和属性id作为key处理数据
 		Map<String,OrderPurchaseDTO> orderPurchaseDTOMap = orderPurchaseDTOs.stream().collect(Collectors.toMap(OrderPurchaseDTO::getMapKey,Function.identity()));
+		//已加入的商品增加数量
 		if(orderPurchases2!=null&&orderPurchases2.size()>0){
 			Map<String,OrderPurchase> orderPurchaseMap = orderPurchases2.stream().collect(Collectors.toMap(OrderPurchase::getMapKey,Function.identity()));
 			
@@ -93,6 +95,7 @@ public class OrderPurchaseServiceImpl extends BaseServiceImpl implements OrderPu
 				v.setNumber(v.getNumber()+orderPurchaseDTOMap.get(k).getNumber());
 				v.setUpdateDateTime(new Date());
 				orderPurchases.add(v);
+				//移除已处理的商品
 				orderPurchaseDTOMap.remove(k);
 			});
 		}

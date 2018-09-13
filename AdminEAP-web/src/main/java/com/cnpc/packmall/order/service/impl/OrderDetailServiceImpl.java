@@ -72,8 +72,11 @@ public class OrderDetailServiceImpl extends BaseServiceImpl implements OrderDeta
 			skuDetails.add(orderDetailDTO.getQualityId());
 			skuDetails.add(orderDetailDTO.getPriceId());
 		});
+		//sku 集合
 		Map<String, Sku> skuMap = skuService.findSkuBySkuIds(skuIds);
+		//sku 详情集合
 		Map<String, Map<String, SkuDetail>> skuDetailMap = skuService.findSkuDetailBySkuDetailIds(skuDetails);
+		//商品缩略图集合
 		Map<String, List<ProductDetail>> productDetailMap = productService.findProductDetailByProductIdAndType(productIds,"BANNERIMG");
 		String orderSku = "";
 		BigDecimal orderPrice = new BigDecimal(0);
