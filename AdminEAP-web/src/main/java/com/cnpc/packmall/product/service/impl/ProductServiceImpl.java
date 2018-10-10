@@ -311,7 +311,7 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
     public Integer getProductCycleByIds(Set<String> idList) {
         Integer num=0;
         Map<String, Object> params = new HashMap<>();
-        String hql = "select id as id,productCycle as productCycle," +
+        String hql = "select id as id,productCycle as productCycle " +
                 "from Product where id in(:idList)";
         params.put("idList", idList);
         List<Product> productList = this.find(hql, params,Product.class);
