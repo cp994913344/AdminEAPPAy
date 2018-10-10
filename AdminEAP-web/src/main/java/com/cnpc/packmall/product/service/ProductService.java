@@ -6,6 +6,7 @@ import com.cnpc.packmall.SKU.entity.Sku;
 import com.cnpc.packmall.product.entity.Product;
 import com.cnpc.packmall.product.entity.ProductDetail;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -80,4 +81,11 @@ public interface ProductService extends BaseService {
      * @autor cp
      */
     public boolean updateStauts(String id);
+
+    /**
+     * 通过商品list 获取 商品 的送货周期
+     * @param idList
+     * @return
+     */
+    public Integer getProductCycleByIds(Set<String> idList);
 }

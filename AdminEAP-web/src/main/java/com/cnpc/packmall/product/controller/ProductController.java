@@ -1,9 +1,6 @@
 package com.cnpc.packmall.product.controller;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -244,5 +241,23 @@ public class ProductController {
         }
         result.put("product",product);
         return new Result(true,result);
+    }
+
+    /**
+     * 通过商品ids获取商品送后周期
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value="/pack_mall_api/getProductCycleByIds",method = RequestMethod.POST)
+    @ResponseBody
+    public  Result getProductCycleByIds(String ids[]){
+        if(ids==null||ids.length==0){
+            return new Result(false,"请传入商品id");
+        }
+        Set<String> idList =  new HashSet<>(Arrays.asList(ids));
+        if(idList!=null&&idList.size()>0){
+            return new Result(true,productService.getProductCycleByIds(idList));
+        }
+        return new Result(false,"查询错误");
     }
 }

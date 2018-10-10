@@ -270,11 +270,13 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 	@Override
 	public Map<String, List<ProductDetail>> findProductDetailByProductIdAndType(Set<String> productIds, String type) {
 		Map<String, Object> params = new HashMap<>();
-		String hql = "select detailType as detailType,detailVal as detailVal,productId as productId,detailId as detailId,id as id from ProductDetail where deleted=0 and productId in(:productId) and detailType =:type";
+		String hql = "select detailType as detailType,detailVal as detailVal," +
+                "productId as productId,detailId as detailId,id as id " +
+                "from ProductDetail" +
+                " where deleted=0 and productId in(:productId) and detailType =:type";
 		params.put("productId", productIds);
 		params.put("type", type);
 		List<ProductDetail> productDetails = this.find(hql, params,ProductDetail.class);
-		
 		return productDetails.stream().collect(Collectors.groupingBy(ProductDetail::getProductId));
 	}
 
@@ -298,5 +300,28 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
             return true;
         }
         return false;
+    }
+
+    /**
+     * 通过商品list 获取 商品 的送货周期
+     * @param idList
+     * @return
+     */
+    @Override
+    public Integer getProductCycleByIds(Set<String> idList) {
+        Integer num=0;
+        Map<String, Object> params = new HashMap<>();
+        String hql = "select id as id,productCycle as productCycle," +
+                "from Product where id in(:idList)";
+        params.put("idList", idList);
+        List<Product> productList = this.find(hql, params,Product.class);
+        if(productList!=null&&productList.size()>0){
+            for(Product product:productList){
+                if(product.getProductCycle()!=null&&product.getProductCycle()>num){
+                    num=product.getProductCycle();
+                }
+            }
+        }
+        return num;
     }
 }
